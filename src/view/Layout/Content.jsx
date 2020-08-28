@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { Redirect, withRouter, Route, Switch } from 'react-router-dom'
 import { Layout } from 'antd'
 import MeetList from '../MeetList'
+import NewMeet from '../NewMeet'
 const { Content } = Layout
 class name extends Component {
     constructor(props) {
@@ -27,6 +28,10 @@ class name extends Component {
                             component={MeetList}
                             path='/meetList'
                                     />
+                        <Route
+                            component={NewMeet}
+                            path='/newMeet'
+                        />
                         <Redirect
                             from='/'
                             to='/error/404'
