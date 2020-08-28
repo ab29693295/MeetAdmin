@@ -1,0 +1,153 @@
+html,
+body,
+div,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+dl,
+dt,
+dd,
+ol,
+form,
+input,
+textarea,
+th,
+td,
+select {
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    background: #f2f2f2;
+    font: 14px/150% arial, Microsoft YaHei, Hiragino Sans GB, "\u5b8b\u4f53", sans-serif;
+    color: #333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+ul,
+li,
+ol {
+    list-style: none;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: #333333;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+a:focus {
+    text-decoration: none;
+}
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+input,
+textarea {
+    outline: none;
+    border: none;
+}
+
+textarea {
+    resize: none;
+    overflow: auto;
+}
+
+::-webkit-input-placeholder {
+    color: #999;
+} /* 使用webkit内核的浏览器 */
+:-moz-placeholder {
+    color: #999;
+} /* Firefox版本4-18 */
+::-moz-placeholder {
+    color: #999;
+} /* Firefox版本19+ */
+:-ms-input-placeholder {
+    color: #999;
+} /* IE浏览器 */
+/*滚动条整体部分,必须要设置*/
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #333;
+}
+
+/*滚动条的轨道*/
+
+::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+}
+
+/*滚动条的滑块按钮*/
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #bfbfbf;
+}
+input:disabled {
+    background-color: #f5f5f5;
+}
+textarea:disabled {
+    background-color: #f5f5f5;
+}
+/*浮动*/
+:global(.float_left) {
+    float: left;
+}
+:global(.float_right) {
+    float: right;
+}
+/*清除浮动*/
+:global(.clear_box):after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+:root {
+    --background-color: rgba(114, 119, 143, 1.0);
+    --peer-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+    --peer-border: 1px solid rgba(255, 255, 255, 0.15);
+    --peer-bg-color: rgba(42, 75, 88, 0.9);
+    --peer-video-bg-color: rgba(0, 0, 0, 0.75);
+    --active-speaker-border-color: rgba(255, 255, 255, 1.0);
+    --selected-peer-border-color: rgba(55, 126, 255, 1.0);
+}
