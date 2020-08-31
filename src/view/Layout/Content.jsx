@@ -32,10 +32,10 @@ class name extends Component {
                             component={NewMeet}
                             path='/newMeet'
                         />
-                        <Redirect
-                            from='/'
-                            to='/error/404'
-                        />
+                        {/*<Redirect*/}
+                        {/*    from='/'*/}
+                        {/*    to='/error/404'*/}
+                        {/*/>*/}
 
                     </Switch>
                 </Content>
