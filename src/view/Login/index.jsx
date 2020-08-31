@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Input, Icon, Form, Checkbox, Spin} from 'antd'
+import {Button, Input, Form, Checkbox, Spin} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import styles from './css/index.module.css'
 
@@ -13,21 +13,16 @@ class Login extends Component {
     }
 
     componentDidMount() {
+        console.log('login')
     }
 
     //验证通过
     submitFinish(value) {
-        console.log(value)
-
+        localStorage.setItem('userId','123')
         this.props.history.push({
             pathname: '/'
         })
     }
-
-    handleRemember(value) {
-
-    }
-
     render() {
         return (
             <div className={styles.loginWrap}>

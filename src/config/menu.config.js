@@ -1,8 +1,8 @@
-export default {
-    1:[
-        {name:'会议列表',link:'/meetList'}
-    ],
-    2:[
-        {name:'会议统计',link:'/meetTJ'}
-    ]
-}
+export default [
+    {
+        title: '会议管理', icon: 'UserOutlined',
+        children: [
+            { path: '/meetList', title: '会议列表' }
+        ],
+    }
+]

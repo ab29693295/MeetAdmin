@@ -22,13 +22,10 @@ class SiderComponent extends Component {
         return (
             <Sider width={180} className={styles.sider} >
                 <div className={styles.logo} >视频会议管理系统</div>
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} onClick={this.handleMenu}>
+                <Menu theme="dark" mode="inline" defaultOpenKeys={['1']} defaultSelectedKeys={['1-1']} onClick={this.handleMenu}>
                     <SubMenu key="1" icon={<UserOutlined />} title="会议管理">
                         <Menu.Item key="1-1">
                             <Link to={'/meetList'}>会议列表</Link>
-                        </Menu.Item>
-                        <Menu.Item key="1-2">
-                            <Link to={'/newMeet'}>会议预定</Link>
                         </Menu.Item>
                     </SubMenu>
                     <Menu.Item key="2"  icon={<UserOutlined />}>统计管理</Menu.Item>

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import {Table} from 'antd';
-
+import {Table,Card,Button} from 'antd';
+import { Link } from 'react-router-dom'
 const columns = [{
     title: '开始时间',
     dataIndex: 'name',
@@ -39,10 +39,12 @@ class MeetList extends Component {
 
     render() {
         return (
+            <Card title="会议列表" extra={<Button type="primary"><Link to={'/newMeet'}>新建会议</Link></Button>} >
             <Table bordered
                    columns={columns}
                    pagination={{ position: ['none', 'bottomRight'] }}
             > </Table>
+            </Card>
         )
     }
 }
