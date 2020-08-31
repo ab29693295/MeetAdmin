@@ -26,32 +26,32 @@ class name extends Component {
     }
 
 
-render() {
-    return (
-        <Content
-            className="site-layout-background"
-            style={{
-                padding: 24,
-                margin: 0,
-                minHeight: 280,
-            }}
-        >
-            <Switch>
-                {
-                    routes.map(ele => {
-                        return this.handleFilter(ele.permission) && <Route
-                            component={ele.component}
-                            key={ele.path}
-                            path={ele.path}
-                            exact
-                        />
-                    })
-                }
-
-            </Switch>
-        </Content>
-    )
-}
+    render() {
+        return (
+            <Content
+                className="site-layout-background"
+                style={{
+                    padding: 24,
+                    margin: 0,
+                    minHeight: 280,
+                }}
+            >
+                <Switch>
+                    {
+                        routes.map(ele => {
+                            return this.handleFilter(ele.permission) && <Route
+                                component={ele.component}
+                                key={ele.path}
+                                path={ele.path}
+                                exact
+                            />
+                        })
+                    }
+                    <Redirect to='/error'/>
+                </Switch>
+            </Content>
+        )
+    }
 }
 
 

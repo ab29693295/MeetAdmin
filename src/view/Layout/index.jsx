@@ -11,13 +11,12 @@ class LayoutComponent extends Component {
     }
 
     componentDidMount() {
-
+        console.log(this.props)
     }
     render() {
         return (
             <Layout className={styles.layout}>
                 <Sider/>
-
             <Layout>
                 <Header />
                 <Content/>
