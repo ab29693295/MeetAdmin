@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
 import AsyncComponent from "../AsyncComponent";
-
+import Comp from './login'
 /*路由配置*/
 const Login = AsyncComponent(() => import("../view/Login")); //登录
 const Layout = AsyncComponent(() => import("../view/Layout")); //
@@ -9,29 +9,19 @@ const Layout = AsyncComponent(() => import("../view/Layout")); //
 class RoutesIndex extends Component {
     constructor() {
         super();
-        this.state = {
-            login: false
-        };
+
     }
     componentDidMount() {
 
     }
+
     render() {
-        console.log()
         return (
             <div>
-                {
-                    !localStorage.getItem('userId') ?
-                        <Switch>
-                            <Route exact path="/login" component={Login}/>
-                            <Redirect to='/login'/>
-                        </Switch> :
-                        <Switch>
-                            <Route exact path="/login" component={Login}/>
-                            <Route path="/" component={Layout} />
-                        </Switch>
-                }
-
+                <Switch>
+                    <Route exact path="/login" component={Login}/>
+                    <Route  path="/" component={Comp(Layout)}/>
+                </Switch>
             </div>
         );
     }

@@ -1,40 +1,32 @@
-    /*登录管理*/
-    import React, { Component } from "react";
-    import { Redirect,Route } from 'react-router-dom'
+/*登录管理*/
+import React, {Component} from "react";
+import {Redirect, Route} from 'react-router-dom'
 
-         class ConvertComp extends Component {
-             constructor() {
-                 super();
-                 this.state = {
-                     login: false
-                 };
-             }
+export default Comp => {
+  return  class ConvertComp extends Component {
+        constructor() {
+            super();
+            this.state = {
+                login: false
+            };
+        }
 
-             componentDidMount() {
+        componentDidMount() {
+            if (localStorage.getItem('userId')) {
+                this.setState({
+                    login: true
+                })
+            }
+        }
 
-                 if (localStorage.getItem('userId')) {
-                     this.setState({
-                         login: true
-                     })
-                 }
-             }
+        render() {
 
-             render() {
-                 console.log(this.props)
-                 console.log(localStorage.getItem('userId'))
-                 return (
-                     <Route
-                         render={props =>
-                             this.state.login ? (
-                                 <Component {...props} />
-                             ) : (
-                                 <Redirect
-                                     to='/login'
-                                 />
-                             )
-                         }
-                     />
-                 )
-             }
+            if (localStorage.getItem('userId')) {
+                return <Comp {...this.props} />;
+            } else  {
+                return <Redirect to='/login' from='/' />
+            }
+        }
 
-         }
+    }
+}

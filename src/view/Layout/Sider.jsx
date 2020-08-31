@@ -22,7 +22,7 @@ class SiderComponent extends Component {
         return (
             <Sider width={180} className={styles.sider} >
                 <div className={styles.logo} >视频会议管理系统</div>
-                <Menu theme="dark" mode="inline" defaultOpenKeys={['1']} defaultSelectedKeys={['1-1']} onClick={this.handleMenu}>
+                <Menu theme="dark" mode="inline" defaultOpenKeys={['1']} defaultSelectedKeys={['1-1']} >
                     <SubMenu key="1" icon={<UserOutlined />} title="会议管理">
                         <Menu.Item key="1-1">
                             <Link to={'/meetList'}>会议列表</Link>

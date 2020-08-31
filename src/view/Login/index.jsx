@@ -13,11 +13,12 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        console.log('login')
+        //localStorage.clear()
     }
 
     //验证通过
     submitFinish(value) {
+        console.log(value)
         localStorage.setItem('userId','123')
         this.props.history.push({
             pathname: '/'
