@@ -27,7 +27,7 @@ export default [
     {
         title: '账号管理', icon: 'UserOutlined',key:'4',
         children: [
-            { path: '/user', title: '个人信息' },
+            { path: '/userInfo', title: '个人信息' },
             { path: '/safeSetting', title: '安全设置' }
         ]
     }
