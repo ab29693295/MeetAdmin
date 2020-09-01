@@ -15,7 +15,7 @@ class SiderComponent extends Component {
     }
 
     componentDidMount() {
-        console.log()
+        console.log(123)
 
     }
 
@@ -25,7 +25,7 @@ class SiderComponent extends Component {
         return (
             <Sider width={180} className={styles.sider} >
                 <div className={styles.logo} >视频会议管理系统</div>
-                <Menu theme="dark" mode="inline" defaultOpenKeys={[state.key]} defaultSelectedKeys={[pathname]} >
+                <Menu theme="dark" mode="inline"  defaultSelectedKeys={[pathname]} >
                     {
                         menu.map((ele)=>{
                             return (

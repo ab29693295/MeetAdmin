@@ -39,7 +39,8 @@ class MeetList extends Component {
 
     render() {
         return (
-            <Card title="会议列表" extra={<Button type="primary"><Link to={'/newMeet'}>新建会议</Link></Button>} >
+            <Card title="会议列表" extra={<Button type="primary"><Link to={
+                {pathname:'/newMeet',state:1}}>新建会议</Link></Button>} >
             <Table bordered
                    columns={columns}
                    pagination={{ position: ['none', 'bottomRight'] }}
