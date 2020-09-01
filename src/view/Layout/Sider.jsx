@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { Layout,Menu} from 'antd'
-import { Link } from 'react-router-dom'
+import { Link,withRouter } from 'react-router-dom'
 
 import styles from './css/index.module.css'
 import {connect} from "react-redux";
@@ -15,15 +15,17 @@ class SiderComponent extends Component {
     }
 
     componentDidMount() {
+        console.log()
 
     }
 
     render() {
-        console.log(this.props)
+        let {pathname,state}=this.props.history.location;
+
         return (
             <Sider width={180} className={styles.sider} >
                 <div className={styles.logo} >视频会议管理系统</div>
-                <Menu theme="dark" mode="inline" defaultOpenKeys={['1']} defaultSelectedKeys={['1-1']} >
+                <Menu theme="dark" mode="inline" defaultOpenKeys={[state.key]} defaultSelectedKeys={[pathname]} >
                     {
                         menu.map((ele)=>{
                             return (
@@ -31,7 +33,10 @@ class SiderComponent extends Component {
                                     {ele.children.map((child)=>{
                                         return(
                                             <Menu.Item key={child.path}>
-                                                <Link to={child.path}>{child.title}</Link>
+                                                <Link to={{
+                                                    pathname:child.path,
+                                                    state:{key:ele.key},
+                                                }} >{child.title}</Link>
                                             </Menu.Item>
                                         )
                                     })}
@@ -43,13 +48,6 @@ class SiderComponent extends Component {
         </Sider> )
     }
 }
-const mapStateToProps = (state) =>//将state转到props
-{
-    return {
-        menu : state.menu,
-    };
-};
 
-export default connect(//关联store和组件
-    mapStateToProps
-)(SiderComponent)
+
+export default withRouter(SiderComponent)
