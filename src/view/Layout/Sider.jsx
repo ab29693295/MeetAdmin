@@ -1,7 +1,13 @@
 import React, {Component} from "react";
 import { Layout,Menu} from 'antd'
 import { Link,withRouter } from 'react-router-dom'
-
+import {
+    DesktopOutlined,
+    PieChartOutlined,
+    FileOutlined,
+    TeamOutlined,
+    UserOutlined,
+} from '@ant-design/icons';
 import styles from './css/index.module.css'
 import {connect} from "react-redux";
 import menu from '../../config/menu.config'
@@ -29,7 +35,7 @@ class SiderComponent extends Component {
                     {
                         menu.map((ele)=>{
                             return (
-                                <SubMenu title={ele.title} key={ele.key}>
+                                <SubMenu title={ele.title} key={ele.key} icon={ele.icon}>
                                     {ele.children.map((child)=>{
                                         return(
                                             <Menu.Item key={child.path}>

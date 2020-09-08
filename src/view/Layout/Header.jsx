@@ -31,7 +31,10 @@ class HeaderComponent extends Component {
                     <a href="http://www.alipay.com/">个人资料</a>
                 </Menu.Item>
                 <Menu.Item key="1">
-                    <a href="http://www.taobao.com/">系统管理</a>
+                    <a href="http://www.taobao.com/">系统消息</a>
+                </Menu.Item>
+                <Menu.Item key="2">
+                    <a href="http://www.taobao.com/">退出系统</a>
                 </Menu.Item>
             </Menu>
         )
