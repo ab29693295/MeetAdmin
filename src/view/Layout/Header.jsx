@@ -4,13 +4,7 @@ import styles from './css/index.module.css'
 import * as menu from "../../redux/actions/menu";
 import {connect} from "react-redux";
 import menuList from '../../config/menu.config'
-import {
-    DownOutlined,
-    MenuFoldOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-} from '@ant-design/icons';
+
 const {Header} = Layout;
 
 class HeaderComponent extends Component {
@@ -21,7 +15,7 @@ class HeaderComponent extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
+        // console.log(this.props)
     }
 
     dropMenu(){

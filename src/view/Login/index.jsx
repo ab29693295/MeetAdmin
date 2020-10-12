@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import {Button, Input, Form, Checkbox, Spin} from 'antd'
+import {message,Button, Input, Form, Checkbox, Spin} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import styles from './css/index.module.css'
-
+import axios from '../../axios'
+import {setStorage} from '../../common/js/tools'
 class Login extends Component {
     constructor(props) {
         super(props)
@@ -13,21 +14,27 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        //localStorage.clear()
+        localStorage.clear()
     }
 
     //验证通过
     submitFinish(value) {
         console.log(value)
-        localStorage.setItem('userId','123')
-        this.props.history.push({
-            pathname: '/'
+        axios.userLogin({userName:value.username,PassWord:value.password}).then((res)=>{
+            console.log(res)
+            if(res.success){
+                setStorage('isLogin','1',new Date().getTime()+30*60*1000);
+                this.props.history.push({
+                    pathname: '/'
+                })
+            }else{
+                message.error(res.msg);
+            }
         })
     }
     render() {
         return (
             <div className={styles.loginWrap}>
-
                 <Form
                     name="normal_login"
                     className={styles.loginForm}

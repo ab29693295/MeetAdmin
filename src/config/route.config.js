@@ -6,12 +6,12 @@ import SafeSetting from '../view/SafeSetting'
 import SystemMsg from '../view/SystemMsg'
 import Error from '../view/error'
 export const routes=[
-    { path: '/meetList', component: MeetList},
-    { path: '/newMeet', component: NewMeet},
-    { path: '/meetTj', component: MeetTj},
-    { path: '/userInfo', component: UserInfo},
-    { path: '/safeSetting', component: SafeSetting},
-    { path: '/message', component: SystemMsg},
+    { path: '/meet/meetList', component: MeetList},
+    { path: '/meet/newMeet', component: NewMeet},
+    { path: '/tj/meetTj', component: MeetTj},
+    { path: '/user/userInfo', component: UserInfo},
+    { path: '/user/safeSetting', component: SafeSetting},
+    { path: '/msg/message', component: SystemMsg},
     { path: '/error', component: Error}
 ]
 

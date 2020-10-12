@@ -8,15 +8,16 @@ import {
 } from '@ant-design/icons';
 export default [
     {
-        title: '会议管理', icon: <SnippetsOutlined />,key:'1',
+        title: '会议管理', icon: <SnippetsOutlined />,key:'meet',
         children: [
-            { path: '/meetList', title: '会议列表' }
+            { path: '/meet/meetList', title: '会议列表' },
+            { path: '/meet/newMeet', title: '新建会议' }
         ]
     },
     {
-        title: '统计管理', icon: <BarChartOutlined />,key:'2',
+        title: '统计管理', icon: <BarChartOutlined />,key:'tj',
         children: [
-            { path: '/meetTj', title: '会议统计' }
+            { path: '/tj/meetTj', title: '会议统计' }
         ]
     },
     {
@@ -27,16 +28,16 @@ export default [
     },
 
     {
-        title: '系统管理', icon: <AppstoreOutlined />,key:'5',
+        title: '系统管理', icon: <AppstoreOutlined />,key:'msg',
         children: [
-            { path: '/message', title: '系统消息' }
+            { path: '/msg/message', title: '系统消息' }
         ]
     },
     {
-        title: '账号管理', icon: <SettingOutlined />,key:'4',
+        title: '账号管理', icon: <SettingOutlined />,key:'user',
         children: [
-            { path: '/userInfo', title: '个人信息' },
-            { path: '/safeSetting', title: '安全设置' }
+            { path: '/user/userInfo', title: '个人信息' },
+            { path: '/user/safeSetting', title: '安全设置' }
         ]
     }
 ]

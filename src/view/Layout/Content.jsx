@@ -40,10 +40,10 @@ class name extends Component {
                     {
                         routes.map(ele => {
                             return this.handleFilter(ele.permission) && <Route
+                                exact
                                 component={ele.component}
                                 key={ele.path}
                                 path={ele.path}
-                                exact
                             />
                         })
                     }
