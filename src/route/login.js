@@ -22,9 +22,13 @@ export default Comp => {
         render() {
 
             if (getStorage('isLogin')) {
-                return <Comp {...this.props} />;
+                return <Comp {...this.props}   />;
             } else  {
-                return <Redirect to='/login' from='/' />
+                return <Redirect to={{
+                    pathname:'/login',
+                    search: "?returnUrl="+this.props.location.pathname,
+                    state: this.props.location.pathname,
+                }} from='/' />
             }
         }
 

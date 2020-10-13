@@ -17,7 +17,6 @@ class SiderComponent extends Component {
     }
 
     render() {
-        console.log(window.location.pathname.match(/^\/(\w+)/))
         let openKey=window.location.pathname.match(/^\/(\w+)/)?window.location.pathname.match(/^\/(\w+)/)[1]:'';
         let selectKey=this.props.location.pathname;
         return (

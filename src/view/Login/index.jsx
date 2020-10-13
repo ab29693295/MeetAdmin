@@ -14,18 +14,19 @@ class Login extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props)
         localStorage.clear()
     }
 
     //验证通过
     submitFinish(value) {
-        console.log(value)
+        let returnUrl=this.props.location.state?this.props.location.state:'/'
         axios.userLogin({userName:value.username,PassWord:value.password}).then((res)=>{
             console.log(res)
             if(res.success){
                 setStorage('isLogin','1',new Date().getTime()+30*60*1000);
                 this.props.history.push({
-                    pathname: '/'
+                    pathname: returnUrl
                 })
             }else{
                 message.error(res.msg);
