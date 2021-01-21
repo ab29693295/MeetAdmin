@@ -24,5 +24,17 @@ instance.interceptors.response.use(
 export default {
     userLogin(params){
         return instance.get(api.cnkiDomain +"/api/User/Login", {  params ,withCredentials:false});
+    },
+    getMeetList(params) {
+        return instance.get(api.cnkiDomain + "/api/MeetRoom/GetRoomList", { params,  withCredentials: false })
+    },
+    deleteMeetRoom(params) {
+        return instance.get(api.cnkiDomain + "​/api​/MeetRoom​/DeleteRoom", { params, withCredentials: false });
+    },
+    addMeetRoom(params) {
+        return instance.post(api.cnkiDomain + "/api/MeetRoom/AddRoom", { params, withCredentials: false });
     }
+
+
+
 }
