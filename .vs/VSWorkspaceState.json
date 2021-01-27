@@ -1,6 +1,7 @@
 {
   "ExpandedNodes": [
     "",
+    "\\scripts",
     "\\src",
     "\\src\\path",
     "\\src\\path\\path",
@@ -11,6 +12,6 @@
     "\\src\\view\\MeetList\\css",
     "\\src\\view\\NewMeet"
   ],
-  "SelectedNode": "\\src\\path\\path\\dev.js",
+  "SelectedNode": "\\src\\view\\NewMeet\\index.jsx",
   "PreviewInSolutionExplorer": false
 }

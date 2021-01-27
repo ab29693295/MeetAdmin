@@ -21,6 +21,10 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+//​/api​/MeetRoom​/DeleteRoom
+
+
+
 export default {
     userLogin(params){
         return instance.get(api.cnkiDomain +"/api/User/Login", {  params ,withCredentials:false});
@@ -28,8 +32,11 @@ export default {
     getMeetList(params) {
         return instance.get(api.cnkiDomain + "/api/MeetRoom/GetRoomList", { params,  withCredentials: false })
     },
+
     deleteMeetRoom(params) {
-        return instance.get(api.cnkiDomain + "​/api​/MeetRoom​/DeleteRoom", { params, withCredentials: false });
+        const deleteUrl = (api.cnkiDomain + "​/api/MeetRoom/DeleteRoom").replace(/%/g, '%25');
+        alert(deleteUrl)
+        return instance.get(deleteUrl, { params, withCredentials: false });
     },
     addMeetRoom(params) {
         return instance.post(api.cnkiDomain + "/api/MeetRoom/AddRoom", { params, withCredentials: false });

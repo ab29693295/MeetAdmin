@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Card, Form, Input, Button, Checkbox,DatePicker} from 'antd';
+import { Card, Form, Input, Button, Checkbox, DatePicker, Select, Radio } from 'antd';
 import styles from './css/index.module.css'
 import 'moment/locale/zh-cn';
 import locale from 'antd/es/date-picker/locale/zh_CN';
@@ -14,21 +14,32 @@ class NewMeet extends Component {
     }
 
     render() {
+
         return (
             <Card title="会议预定" bordered={false}>
 
+             
 
-
-                <Form
+                <Form horizontal
                     name="basic"
                     initialValues={{remember: true}}
                     className={styles.form}
                 >
                     <Form.Item
+                        id="control-input"
+                        label="输入框"
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 14 }}
+                    >
+                        <Input id="control-input" placeholder="Please enter..." />
+                    </Form.Item>
+                    <Form.Item
                         label="会议名称"
                         name="username"
                         rules={[{required: true, message: 'Please input your username!'}]}
                         className={styles.formItem}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 14 }}
                     >
                         <Input/>
                     </Form.Item>
