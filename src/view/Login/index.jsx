@@ -14,15 +14,16 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         localStorage.clear()
     }
 
     //验证通过
     submitFinish(value) {
-        let returnUrl=this.props.location.state?this.props.location.state:'/'
+        let returnUrl=this.props.location.state?this.props.location.state:'/';
+        this.setState({
+            loading:true
+        })
         axios.userLogin({userName:value.username,PassWord:value.password}).then((res)=>{
-            console.log(res)
             if(res.success){
                 setStorage('isLogin','1',new Date().getTime()+30*60*1000);
                 this.props.history.push({
@@ -31,21 +32,26 @@ class Login extends Component {
             }else{
                 message.error(res.msg);
             }
+            this.setState({
+                loading:false
+            })
         })
     }
     render() {
         return (
             <div className={styles.loginWrap}>
-                <Form
-                    name="normal_login"
-                    className={styles.loginForm}
-                    initialValues={{remember: true}}
-                    onFinish={this.submitFinish}
-                >
-                    <Spin
-                        spinning={this.state.loading}
-                        tip='加载中...'
+                <div  className={styles.loginForm}>
+                    <h2 className={styles.title}>视频会议管理后台</h2>
+                    <Form
+                        name="normal_login"
+
+                        initialValues={{remember: true}}
+                        onFinish={this.submitFinish}
                     >
+                        {/*<Spin*/}
+                        {/*    spinning={this.state.loading}*/}
+                        {/*    tip='加载中...'*/}
+                        {/*>*/}
                         <Form.Item
                             name="username"
                             rules={[{required: true, message: '请输入用户名!'}]}
@@ -79,12 +85,16 @@ class Login extends Component {
                                 className={styles.formButton}
                                 htmlType='submit'
                                 type='primary'
+                                loading={this.state.loading}
                             >
                                 登录
                             </Button>
                         </Form.Item>
-                    </Spin>
-                </Form>
+                    </Form>
+                </div>
+
+                    {/*</Spin>*/}
+
 
             </div>
         )

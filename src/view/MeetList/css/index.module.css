@@ -1,0 +1,12 @@
+.toolbar{
+    margin-bottom: 20px;
+    width: 100%;
+}
+.infoBtn{
+    background:orange;
+    border: orange;
+}
+.infoBtn1{
+    background:green;
+    border: green;
+}
