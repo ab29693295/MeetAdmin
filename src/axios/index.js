@@ -38,6 +38,9 @@ export default {
     },
     addMeetRoom(params) {
         return instance.post(api.cnkiDomain + "/api/MeetRoom/AddRoom", { params, withCredentials: false });
+    },
+    lockRoom(params) {
+        return instance.get(api.cnkiDomain + "/Room/LockRoom", { params, withCredentials: false });
     }
 
 

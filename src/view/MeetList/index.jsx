@@ -8,8 +8,6 @@ import axios from '../../axios'
 
 const {Search} = Input;
 
-const onSearch = value => console.log(value);
-
 class MeetList extends Component {
     constructor(props) {
         super(props)
@@ -28,6 +26,7 @@ class MeetList extends Component {
         }
         this.SearchMeet = this.SearchMeet.bind(this);
         this.changPage=this.changPage.bind(this)
+        // this.changeLock=this.changeLock.bind(this)
         this.columns = [
             {
                 title: '会议主题',
@@ -86,11 +85,13 @@ class MeetList extends Component {
                 title: '操作',
                 dataIndex: 'id',
                 align: 'center',
-                render: (text, record) => {
+                render: (text, record,index) => {
                     let delTxt = record.lockStatus == 1 ? '解锁' : '锁定';
                     return (
                         <Space size={5}>
-                            <Button size="small" type="primary" className={` ${record.lockStatus == 1?styles.infoBtn:styles.infoBtn1}`}>{delTxt}</Button>
+                            <Button size="small" type="primary"
+                                    className={` ${record.lockStatus == 1?styles.infoBtn:styles.infoBtn1}`}
+                                    onClick={this.changeLock.bind(this,record,index)}>{delTxt}</Button>
                             <Button size="small" data-record={record} onClick={ this.del.bind(this,record) } type="primary" danger>删除</Button>
                             <Button size="small" type="primary" > 查看</Button>
                         </Space>
@@ -120,6 +121,7 @@ class MeetList extends Component {
             })
         })
     }
+
     //删除
     del (data){
         let that=this;
@@ -178,7 +180,26 @@ class MeetList extends Component {
         })
 
     }
+    //锁定状态
+    changeLock(record,index){
+        axios.lockRoom({rID:record.id,LockStatus:record.lockStatus==1?0:1}).then(res=>{
+            console.log(res)
+            if(res.success){
+                let {meetData}=this.state;
+                if(record.lockStatus==1){
+                    meetData[index].lockStatus=0
+                    message.success('解锁房间成功')
+                }else{
+                    meetData[index].lockStatus=1
+                    message.success('锁定房间成功')
+                }
+                this.setState({
+                    meetData:meetData
+                })
+            }
 
+        })
+    }
     render() {
         const {  selectedRowKeys,pageData,loading } = this.state;
         const rowSelection = {
