@@ -18,36 +18,29 @@ class NewMeet extends Component {
         return (
             <Card title="会议预定" bordered={false}>
 
-             
-
-                <Form horizontal
+                <Form
                     name="basic"
                     initialValues={{remember: true}}
                     className={styles.form}
+                    size='large'
                 >
                     <Form.Item
-                        id="control-input"
-                        label="输入框"
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 14 }}
-                    >
-                        <Input id="control-input" placeholder="Please enter..." />
-                    </Form.Item>
-                    <Form.Item
-                        label="会议名称"
+                        label="会议主题"
                         name="username"
-                        rules={[{required: true, message: 'Please input your username!'}]}
+                        rules={[{required: true, message: '请填写会议名称！'}]}
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 14 }}
+                        wrapperCol={{ span: 16 }}
                     >
-                        <Input/>
+                        <Input autoComplete='off' placeholder='请输入会议主题'/>
                     </Form.Item>
                     <Form.Item
                         label="会议时间"
                         name="timeRange"
-                        rules={[{required: true, message: 'Please input your username!'}]}
+                        rules={[{required: true, message: '请选择会议时间！'}]}
                         className={styles.formItem}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
                     >
                         <RangePicker
                             showTime={{ format: 'HH:mm' }}
@@ -59,11 +52,37 @@ class NewMeet extends Component {
                         label="会议密码（选填）"
                         name="code"
                         className={styles.formItem}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
                      >
                         <Input placeholder='请输入4到6位数字密码'/>
                     </Form.Item>
-                    <Form.Item  className={styles.formItem}>
-                        <Button type="primary">预定会议</Button>
+                    <Form.Item
+                        label="是否公开"
+                        name="isPublic"
+                        className={styles.formItem}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
+                    >
+                        <Radio.Group onChange={this.onChange} value={1}>
+                            <Radio value={1}>是</Radio>
+                            <Radio value={2}>否</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item
+                        label="锁定状态"
+                        name="isLock"
+                        className={styles.formItem}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
+                    >
+                        <Radio.Group onChange={this.onChange} value={1}>
+                            <Radio value={1}>是</Radio>
+                            <Radio value={2}>否</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item  className={styles.formBtn}>
+                        <Button type="primary" htmlType='submit'>预定会议</Button>
                     </Form.Item>
                 </Form>
             </Card>

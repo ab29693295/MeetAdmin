@@ -6,7 +6,7 @@
 /*header*/
 .header{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     color: #fff;
     background: #fff;
@@ -26,4 +26,7 @@
 }
 .siderMenu{
     /*background: #282c34;*/
+}
+.tagsWrap{
+    display: flex;
 }
