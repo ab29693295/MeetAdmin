@@ -40,8 +40,8 @@ export default {
     deleteMeetRoom(params) {
         return instance.get(api.cnkiDomain +'/api/MeetRoom/DeleteRoom', { params, withCredentials: false });
     },
-    addMeetRoom(params) {
-        return instance.post(api.cnkiDomain + "/api/MeetRoom/AddRoom", { params, withCredentials: false });
+    addMeetRoom(data) {
+        return instance.post(api.cnkiDomain + "/api/MeetRoom/AddOrUpdateRoom", data,{withCredentials: false});
     },
     lockRoom(params) {
         return instance.get(api.cnkiDomain + "/Room/LockRoom", { params, withCredentials: false });
@@ -49,7 +49,15 @@ export default {
     //审核
     checkRoom(params){
         return instance.get(api.cnkiDomain + "/api/MeetRoom/checkMeet", { params, withCredentials: false });
-    }
+    },
+    //机构
+    selectProject(params){
+        return instance.get(api.cnkiDomain + "/api/ProjectMange/SelectProject", { params, withCredentials: false });
+    },
+    //主持人
+    selectUserList(params){
+        return instance.get(api.cnkiDomain + "/api/UserManage/GetSelectUserList", { params, withCredentials: false });
+    },
 
 
 

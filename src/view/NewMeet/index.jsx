@@ -1,21 +1,77 @@
 import React, {Component} from "react";
-import { Card, Form, Input, Button, Checkbox, DatePicker, Select, Radio } from 'antd';
+import { Card, Form, Input, Button, DatePicker, Select, Radio,message } from 'antd';
 import styles from './css/index.module.css'
 import 'moment/locale/zh-cn';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
+import axios from '@/axios'
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
 class NewMeet extends Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            projectList:[],
+            hostList:[],
+            hostKey:undefined,
+            currentValue:''
+        }
+        this.getProject=this.getProject.bind(this)
+        this.getHost=this.getHost.bind(this)
+        this.handleChange=this.handleChange.bind(this)
+        this.getHostData=this.getHostData.bind(this)
+        this.submitForm=this.submitForm.bind(this)
+        this.timeout=null
+        this.form=React.createRef()
     }
 
     componentDidMount() {
+        this.getProject()
+    }
+    getProject(){
+        //获取机构列表
+        axios.selectProject({key:''}).then(res=>{
+           this.setState({
+               projectList:res.response
+           })
+        })
     }
 
+    getHost(value){
+        console.log(value)
+        //获取主持人列表
+        if(value){
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+                this.timeout = null;
+            }
+            this.setState({
+                currentValue:value
+            })
+            this.timeout = setTimeout(this.getHostData, 300);
+        }else{
+            this.setState({
+                hostKey:''
+            })
+            this.setState({ hostList: [] });
+        }
+    }
+    getHostData(){
+        axios.selectUserList({key:this.state.currentValue}).then(res=>{
+            this.setState({
+                hostList:res.response
+            })
+            if(res.response.length==0){
+                this.setState({
+                    hostKey:''
+                })
+            }
+        })
+    }
+    handleChange (hostKey){
+        this.setState({ hostKey });
+    };
      disabledDate(current) {
         // Can not select days before today and today
         return current && current < moment().subtract(1, 'day')
@@ -50,25 +106,41 @@ class NewMeet extends Component {
         console.log(dates,dateStrings)
 
     }
-    render() {
+    submitForm(values){
 
+         //提交数据
+        values.startTime=new Date(values.timeRange[0]._d).getTime().toString()
+        values.endTime=new Date(values.timeRange[1]._d).getTime().toString()
+        delete  values.timeRange
+        console.log(values)
+        axios.addMeetRoom(values).then(res=>{
+            console.log(res)
+            if(res.success){
+                message.success('会议创建成功！')
+                this.form.current.resetFields()
+
+            }
+        })
+    }
+    render() {
+        let {projectList,hostList}=this.state
         return (
             <Card title="会议预定" bordered={false}>
-
                 <Form
                     name="basic"
+                    ref={this.form}
                     className={styles.form}
-                    size='large'
                     initialValues={{
                         isPublic: 1,
-                        isLock: 1,
-                        rate: 3.5,
+                        lockStatus: 2,
+                        roomSecret:''
                     }}
+                    onFinish={this.submitForm}
                 >
                     <Form.Item
                         label="会议主题"
-                        name="username"
-                        rules={[{required: true, message: '请填写会议名称！'}]}
+                        name="roomName"
+                        rules={[{required: true, message: '请填写会议主题！'}]}
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
@@ -84,8 +156,13 @@ class NewMeet extends Component {
                         rules={[{ required: true,message:'请选择会议机构！'  }]}
                     >
                         <Select placeholder="请选择所在机构">
-                            <Option value={1}>China</Option>
-                            <Option value={2}>U.S.A</Option>
+                            {
+                                projectList.map((item)=>{
+                                    return (
+                                        <Option value={item.appID} key={item.appID}>{item.appName}</Option>
+                                    )
+                                })
+                            }
                         </Select>
                     </Form.Item>
                     <Form.Item
@@ -107,7 +184,7 @@ class NewMeet extends Component {
                     </Form.Item>
                     <Form.Item
                         label="会议密码（选填）"
-                        name="code"
+                        name="roomSecret"
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
@@ -129,20 +206,20 @@ class NewMeet extends Component {
                     </Form.Item>
                     <Form.Item
                         label="锁定状态"
-                        name="isLock"
+                        name="lockStatus"
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
-                        <Radio.Group onChange={this.onChange} value={1}>
+                        <Radio.Group onChange={this.onChange} >
                             <Radio value={1}>是</Radio>
                             <Radio value={2}>否</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
                         label="最大参会人数"
-                        name="maxNum"
+                        name="maxCount"
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
@@ -158,16 +235,31 @@ class NewMeet extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item
+
                         label="会议主持人"
-                        name="host"
+                        name="hostID"
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
+
                     >
-                        <Select placeholder="请选择主持人">
-                            <Option value={1}>China</Option>
-                            <Option value={2}>U.S.A</Option>
+                        <Select
+                            showSearch
+                            placeholder="请填写主持人筛选"
+                            defaultActiveFirstOption={false}
+                            onSearch={this.getHost}
+                            onChange={this.handleChange}
+                            showArrow={false}
+                            filterOption={false}
+                            loading={true}
+                            value={this.state.hostKey}
+                            notFoundContent={null}>
+                            {
+                                hostList.map(item=>{
+                                    return <Option value={item.id} key={item.id}>{item.userName}</Option>
+                                })
+                            }
                         </Select>
                     </Form.Item>
                     <Form.Item  className={styles.formBtn}>
