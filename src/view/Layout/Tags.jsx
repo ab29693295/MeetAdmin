@@ -49,7 +49,6 @@ const mapStateToProps = state => (
     )
 const mapDispatchToProps = dispatch => ({
     addTags: (playload) => {
-        console.log(playload)
         dispatch(addTags(playload))
     }
 })

@@ -22,7 +22,7 @@ class SiderComponent extends Component {
         return (
             <Sider width={180} className={styles.sider} >
                 <div className={styles.logo} >视频会议管理系统</div>
-                <Menu theme="dark" mode="inline"  defaultSelectedKeys={[selectKey]} defaultOpenKeys={[openKey]}>
+                <Menu theme="dark" mode="inline"  selectedKeys={[selectKey]} defaultOpenKeys={[openKey]}>
                     {
                         menu.map((ele)=>{
                             return (

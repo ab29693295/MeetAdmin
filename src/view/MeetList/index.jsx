@@ -4,6 +4,7 @@ import {SearchOutlined, PlusOutlined, CheckSquareOutlined, CloseCircleOutlined} 
 import styles from './css/index.module.css'
 import {Link} from 'react-router-dom'
 import {formatDateTime} from '../../common/js/tools'
+import ExamineModal from './ExamineModal'
 import axios from '../../axios'
 
 const {Search} = Input;
@@ -23,10 +24,16 @@ class MeetList extends Component {
             pageData:{
                 total:0
             },
+            examineInfo:{
+                visible:false,
+                data:''
+            }
+
         }
-        this.SearchMeet = this.SearchMeet.bind(this);
+        this.searchMeet = this.searchMeet.bind(this);
         this.changPage=this.changPage.bind(this)
-        // this.changeLock=this.changeLock.bind(this)
+        this.checkMeet=this.checkMeet.bind(this)
+        this.setExamineModal=this.setExamineModal.bind(this)
         this.columns = [
             {
                 title: '会议主题',
@@ -82,6 +89,20 @@ class MeetList extends Component {
                 }
             },
             {
+                title: '审核状态',
+                dataIndex: 'status',
+                align: 'center',
+                render: (text, record, index) => {
+
+                    if (record.status == 1) {
+                        return <span> 已审核</span>
+                    } else {
+                        return <span>未审核</span>
+                    }
+
+                }
+            },
+            {
                 title: '操作',
                 dataIndex: 'id',
                 align: 'center',
@@ -94,6 +115,7 @@ class MeetList extends Component {
                                     onClick={this.changeLock.bind(this,record,index)}>{delTxt}</Button>
                             <Button size="small" data-record={record} onClick={ this.del.bind(this,record) } type="primary" danger>删除</Button>
                             <Button size="small" type="primary" > 查看</Button>
+                            <Button size="small" type="primary" > 修改</Button>
                         </Space>
                     )
                 }
@@ -151,7 +173,7 @@ class MeetList extends Component {
     };
 
     //检索
-    SearchMeet(textValue) {
+    searchMeet(textValue) {
         this.setState({
             params:{...this.state.params,key:textValue,page: 1}
         },function () {
@@ -161,13 +183,24 @@ class MeetList extends Component {
     }
 
     //审核课程
-    CheckMeet() {
-
+    checkMeet() {
+        let {selectedRowKeys}=this.state;
+        if(selectedRowKeys.length>0){
+            this.setState({
+                examineInfo:{...this.state.examineInfo,visible:true,data:selectedRowKeys.join(',')}
+            })
+        }else{
+            message.info('请选择需要审核的课程')
+        }
     }
 
+    setExamineModal(){
+        this.setState({
+            examineInfo:{...this.state.examineInfo,visible:false,data:''}
+        })
+    }
     //选择课程
     onSelectChange = selectedRowKeys => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
     };
 
@@ -183,7 +216,6 @@ class MeetList extends Component {
     //锁定状态
     changeLock(record,index){
         axios.lockRoom({rID:record.id,LockStatus:record.lockStatus==1?0:1}).then(res=>{
-            console.log(res)
             if(res.success){
                 let {meetData}=this.state;
                 if(record.lockStatus==1){
@@ -200,6 +232,7 @@ class MeetList extends Component {
 
         })
     }
+
     render() {
         const {  selectedRowKeys,pageData,loading } = this.state;
         const rowSelection = {
@@ -207,39 +240,43 @@ class MeetList extends Component {
             onChange: this.onSelectChange,
         };
         return (
-            <Card title="会议列表">
-                <Row className={styles.toolbar} justify='space-between'>
-                    <Col flex='40%'>
-                        <Search
-                            placeholder="视频会议关键字"
-                            allowClear
-                            enterButton="搜索"
-                            size="large"
-                            onSearch={this.SearchMeet}
-                        />
-                    </Col>
-                    <Col >
-                        <Space size={10}>
-                            <Link to={{pathname:'/meet/newMeet'}}>
-                                <Button type="primary"  size="large" icon={<PlusOutlined/>}>
-                                    新建会议
-                                </Button>
-                            </Link>
-                            <Button type="primary" size="large" icon={<CheckSquareOutlined/>}
-                                    onClick={this.CheckMeet}>审核</Button>
-                        </Space>
-                    </Col>
-                </Row>
+                <>
+                    <Card title="会议列表">
+                    <Row className={styles.toolbar} justify='space-between'>
+                        <Col flex='40%'>
+                            <Search
+                                placeholder="视频会议关键字"
+                                allowClear
+                                enterButton="搜索"
+                                size="large"
+                                onSearch={this.searchMeet}
+                            />
+                        </Col>
+                        <Col >
+                            <Space size={10}>
+                                <Link to={{pathname:'/meet/newMeet'}}>
+                                    <Button type="primary"  size="large" icon={<PlusOutlined/>}>
+                                        新建会议
+                                    </Button>
+                                </Link>
+                                <Button type="primary" size="large" icon={<CheckSquareOutlined/>}
+                                        onClick={this.checkMeet}>审核</Button>
+                            </Space>
+                        </Col>
+                    </Row>
 
-                <Table bordered
-                       rowKey='id'
-                       dataSource={this.state.meetData}
-                       columns={this.columns}
-                       rowSelection={rowSelection}
-                       pagination={{position: ['none', 'bottomRight'],total:pageData.total,onChange:this.changPage}}
-                       loading={loading}
-                > </Table>
-            </Card>
+                    <Table bordered
+                           rowKey='id'
+                           dataSource={this.state.meetData}
+                           columns={this.columns}
+                           rowSelection={rowSelection}
+                           pagination={{position: ['none', 'bottomRight'],total:pageData.total,onChange:this.changPage}}
+                           loading={loading}
+                    > </Table>
+                </Card>
+                    <ExamineModal {...this.state.examineInfo} examineCallback={this.setExamineModal}/>
+                </>
+
         )
     }
 }

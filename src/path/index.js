@@ -8,6 +8,5 @@ const api={
     "rd":rd,
     "pro":pro,
 };
-console.log(process.env.REACT_APP_SECRET_BUILD_TYPE)
 
 export default api[process.env.REACT_APP_SECRET_BUILD_TYPE]
