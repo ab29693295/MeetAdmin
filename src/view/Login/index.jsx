@@ -16,6 +16,11 @@ class Login extends Component {
     componentDidMount() {
         localStorage.clear()
     }
+    componentWillUnmount(){
+        this.setState = (state,callback) => {
+            return
+        }
+    }
 
     //验证通过
     submitFinish(value) {

@@ -38,12 +38,13 @@ export default {
         return instance.get(api.cnkiDomain + "/api/UserManage/GetUserList", { params, withCredentials: false })
     },
     deleteMeetRoom(params) {
-        const deleteUrl = (api.cnkiDomain + "​/api/MeetRoom/DeleteRoom").replace(/%/g, '%25');
-        alert(deleteUrl)
-        return instance.get(deleteUrl, { params, withCredentials: false });
+        return instance.get(api.cnkiDomain +'/api/MeetRoom/DeleteRoom', { params, withCredentials: false });
     },
     addMeetRoom(params) {
         return instance.post(api.cnkiDomain + "/api/MeetRoom/AddRoom", { params, withCredentials: false });
+    },
+    lockRoom(params) {
+        return instance.get(api.cnkiDomain + "/Room/LockRoom", { params, withCredentials: false });
     }
 
 

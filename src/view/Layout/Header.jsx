@@ -4,7 +4,7 @@ import styles from './css/index.module.css'
 import * as menu from "../../redux/actions/menu";
 import {connect} from "react-redux";
 import menuList from '../../config/menu.config'
-
+import Tags from './Tags'
 const {Header} = Layout;
 
 class HeaderComponent extends Component {
@@ -37,6 +37,7 @@ class HeaderComponent extends Component {
     render() {
         return (
             <Header className={styles.header} >
+                    <Tags/>
                     <Dropdown overlay={this.dropMenu} trigger={['click']} placement='bottomCenter'>
                         <div className={styles.userImg}>
                             <Badge dot>
