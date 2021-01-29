@@ -29,10 +29,14 @@ export default {
     userLogin(params){
         return instance.get(api.cnkiDomain +"/api/User/Login", {  params ,withCredentials:false});
     },
+    //获取会议列表
     getMeetList(params) {
         return instance.get(api.cnkiDomain + "/api/MeetRoom/GetRoomList", { params,  withCredentials: false })
     },
-
+    //获取用户列表
+    getUserList(params) {
+        return instance.get(api.cnkiDomain + "/api/UserManage/GetUserList", { params, withCredentials: false })
+    },
     deleteMeetRoom(params) {
         const deleteUrl = (api.cnkiDomain + "​/api/MeetRoom/DeleteRoom").replace(/%/g, '%25');
         alert(deleteUrl)

@@ -5,3 +5,12 @@
 .saveBtn{
     text-align: center;
 }
+.infoBtn {
+    background: orange;
+    border: orange;
+}
+
+.infoBtn1 {
+    background: green;
+    border: green;
+}
