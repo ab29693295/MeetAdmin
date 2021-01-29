@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {Modal, Button, Form, Radio,Input} from 'antd';
-import styles from "../NewMeet/css/index.module.css";
+import {Modal, Form, Radio, message, Button} from 'antd';
+import styles from './css/index.module.css'
+import axios from '@/axios'
 class ExamineModal extends Component {
     constructor(props) {
         super(props)
@@ -11,10 +12,19 @@ class ExamineModal extends Component {
 
     componentDidMount() {
     }
-    handleOk(){
+    handleOk(values){
         let {data,examineCallback}=this.props;
         //接口
-        examineCallback()
+        axios.checkRoom({rIDs:data,status:values.status}).then(res=>{
+            if(res.success){
+                examineCallback(true)
+                message.success('审核成功！')
+            }else{
+                examineCallback()
+                message.error('审核失败！')
+            }
+        })
+
     }
     handleCancel(){
         let {examineCallback}=this.props;
@@ -24,35 +34,36 @@ class ExamineModal extends Component {
     render() {
         let {visible}=this.props
         return (<>
-            <Modal title="会议审核" visible={visible} onOk={this.handleOk}
-                   onCancel={this.handleCancel}>
+            <Modal title="会议审核" visible={visible} footer={null} onCancel={this.handleCancel}>
                 <Form
                     name="basic"
                     className={styles.form}
                     initialValues={{
-                        isPublic: 1,
-                        isLock: 1,
-                        rate: 3.5,
+                        status:1
                     }}
+                    onFinish={this.handleOk}
                 >
                     <Form.Item
                         label="审核"
-                        name="isPublic"
+                        name="status"
                         className={styles.formItem}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
+                        labelCol={{ span: 10 }}
+                        wrapperCol={{ span: 14 }}
                         rules={[{ required: true  }]}
                     >
-                        <Radio.Group onChange={this.onChange} value={1}>
+                        <Radio.Group onChange={this.onChange} >
                             <Radio value={1}>通过</Radio>
                             <Radio value={2}>未通过</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item
-                        name='des'
-                        label="审核意见" labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}>
-                        <Input.TextArea />
+                    {/*<Form.Item*/}
+                    {/*    name='des'*/}
+                    {/*    label="审核意见" labelCol={{ span: 6 }}*/}
+                    {/*    wrapperCol={{ span: 16 }}>*/}
+                    {/*    <Input.TextArea />*/}
+                    {/*</Form.Item>*/}
+                    <Form.Item  className={styles.formBtn}>
+                        <Button type="primary" htmlType='submit'>确定</Button>
                     </Form.Item>
                 </Form>
             </Modal>

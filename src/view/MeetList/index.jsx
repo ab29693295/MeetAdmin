@@ -95,8 +95,10 @@ class MeetList extends Component {
                 render: (text, record, index) => {
 
                     if (record.status == 1) {
-                        return <span> 已审核</span>
-                    } else {
+                        return <span>审核通过</span>
+                    } else if(record.status == 2) {
+                        return <span>审核未通过</span>
+                    }else{
                         return <span>未审核</span>
                     }
 
@@ -194,7 +196,14 @@ class MeetList extends Component {
         }
     }
 
-    setExamineModal(){
+    setExamineModal(update){
+        if(update){
+            // this.setState({
+            //     // params:{...this.state.params,page: 1}
+            // },function () {
+                this.getMeetData();
+            // })
+        }
         this.setState({
             examineInfo:{...this.state.examineInfo,visible:false,data:''}
         })

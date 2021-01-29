@@ -45,6 +45,10 @@ export default {
     },
     lockRoom(params) {
         return instance.get(api.cnkiDomain + "/Room/LockRoom", { params, withCredentials: false });
+    },
+    //审核
+    checkRoom(params){
+        return instance.get(api.cnkiDomain + "/api/MeetRoom/checkMeet", { params, withCredentials: false });
     }
 
 
