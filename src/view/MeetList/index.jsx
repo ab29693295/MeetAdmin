@@ -5,6 +5,7 @@ import styles from './css/index.module.css'
 import {Link} from 'react-router-dom'
 import {formatDateTime} from '../../common/js/tools'
 import ExamineModal from './ExamineModal'
+import ShowModal from './ShowModal'
 import axios from '../../axios'
 
 const {Search} = Input;
@@ -27,6 +28,10 @@ class MeetList extends Component {
             examineInfo:{
                 visible:false,
                 data:''
+            },
+            showInfo:{
+                visible:false,
+                id:''
             }
 
         }
@@ -34,6 +39,7 @@ class MeetList extends Component {
         this.changPage=this.changPage.bind(this)
         this.checkMeet=this.checkMeet.bind(this)
         this.setExamineModal=this.setExamineModal.bind(this)
+        this.setShowModal=this.setShowModal.bind(this)
         this.columns = [
             {
                 title: '会议主题',
@@ -116,7 +122,7 @@ class MeetList extends Component {
                                     className={` ${record.lockStatus == 1?styles.infoBtn:styles.infoBtn1}`}
                                     onClick={this.changeLock.bind(this,record,index)}>{delTxt}</Button>
                             <Button size="small" data-record={record} onClick={ this.del.bind(this,record) } type="primary" danger>删除</Button>
-                            <Button size="small" type="primary" > 查看</Button>
+                            <Button size="small" type="primary" onClick={this.lookMeet.bind(this,record.id)}> 查看</Button>
                             <Button size="small" type="primary" onClick={this.handleModify.bind(this,record)}> 修改</Button>
                         </Space>
                     )
@@ -216,6 +222,16 @@ class MeetList extends Component {
             examineInfo:{...this.state.examineInfo,visible:false,data:''}
         })
     }
+    lookMeet(id){
+        this.setState({
+            showInfo:{...this.state.showInfo,visible:true,id:id}
+        })
+    }
+    setShowModal(){
+        this.setState({
+            showInfo:{...this.state.showInfo,visible:false,id:''}
+        })
+    }
     //选择课程
     onSelectChange = selectedRowKeys => {
         this.setState({ selectedRowKeys });
@@ -292,6 +308,7 @@ class MeetList extends Component {
                     > </Table>
                 </Card>
                     <ExamineModal {...this.state.examineInfo} examineCallback={this.setExamineModal}/>
+                    <ShowModal {...this.state.showInfo} showCallback={this.setShowModal}/>
                 </>
 
         )

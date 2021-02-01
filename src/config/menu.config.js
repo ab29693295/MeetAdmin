@@ -5,8 +5,13 @@ import {
     AppstoreOutlined,
     TeamOutlined,
     SettingOutlined,
+    HomeOutlined
 } from '@ant-design/icons';
 export default [
+    {
+        title: '首页', icon:<HomeOutlined />, key: '/', path: '/',
+        children: []
+    },
     {
         title: '会议管理', icon: <SnippetsOutlined />,key:'meet',
         children: [
@@ -34,11 +39,11 @@ export default [
         ]
     },
     {
-        title: '用户管理', icon: <SettingOutlined />, key: 'usermanage',
+        title: '用户管理', icon: <SettingOutlined/>, key: 'usermanage',
         children: [
             { path: '/usermanage/userList', title: '用户列表' },
             { path: '/usermanage/newUser', title: '添加用户' }
-            
+
         ]
     },
     {
@@ -48,5 +53,5 @@ export default [
             { path: '/user/safeSetting', title: '安全设置' }
         ]
     }
-    
+
 ]

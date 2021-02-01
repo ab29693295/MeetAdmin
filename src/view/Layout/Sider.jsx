@@ -19,14 +19,15 @@ class SiderComponent extends Component {
     render() {
         let openKey=window.location.pathname.match(/^\/(\w+)/)?window.location.pathname.match(/^\/(\w+)/)[1]:'';
         let selectKey=this.props.location.pathname;
+        console.log(selectKey)
         return (
             <Sider width={180} className={styles.sider} >
                 <div className={styles.logo} >视频会议管理系统</div>
                 <Menu theme="dark" mode="inline"  selectedKeys={[selectKey]} defaultOpenKeys={[openKey]}>
                     {
                         menu.map((ele)=>{
-                            return (
-                                <SubMenu title={ele.title} key={ele.key} icon={ele.icon}>
+                            if(ele.children.length>0){
+                                return <SubMenu title={ele.title} key={ele.key} icon={ele.icon}>
                                     {ele.children.map((child)=>{
                                         return(
                                             <Menu.Item key={child.path}>
@@ -38,7 +39,13 @@ class SiderComponent extends Component {
                                         )
                                     })}
                                 </SubMenu>
-                            )
+                            }else{
+                                return <Menu.Item key={ele.key} icon={ele.icon}>
+                                    <Link to={{
+                                        pathname:ele.path,
+                                    }} >{ele.title}</Link>
+                                </Menu.Item>
+                            }
                         })
                     }
                 </Menu>

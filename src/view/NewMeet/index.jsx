@@ -22,7 +22,8 @@ class NewMeet extends Component {
                 roomSecret:'',
                 timeRange:[]
             },
-            id:0
+            id:0,
+            appName:''
         }
 
         this.getProject=this.getProject.bind(this)
@@ -31,6 +32,7 @@ class NewMeet extends Component {
         this.getHostData=this.getHostData.bind(this)
         this.submitForm=this.submitForm.bind(this)
         this.getRoomData=this.getRoomData.bind(this)
+        this.handleAppName=this.handleAppName.bind(this)
         this.timeout=null
         this.form=React.createRef()
     }
@@ -140,8 +142,8 @@ class NewMeet extends Component {
         if(this.state.id!=0){
             values.id=this.state.id
         }
+        values={...values,appName:this.state.appName}
         axios.addMeetRoom(values).then(res=>{
-            console.log(res)
             if(res.success){
                 if(this.state.id!=0){
                     message.success('会议修改成功！')
@@ -171,6 +173,12 @@ class NewMeet extends Component {
 
         })
     }
+    handleAppName(e,option){
+        this.setState({
+            appName:option.data
+        })
+    }
+
 
     render() {
         let {projectList,hostList,initialValues}=this.state
@@ -201,11 +209,11 @@ class NewMeet extends Component {
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true,message:'请选择会议机构！'  }]}
                     >
-                        <Select placeholder="请选择所在机构">
+                        <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
                             {
                                 projectList.map((item)=>{
                                     return (
-                                        <Option value={item.appID} key={item.appID}>{item.appName}</Option>
+                                        <Option value={item.appID} key={item.appID} data={item.appName}>{item.appName}</Option>
                                     )
                                 })
                             }
