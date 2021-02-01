@@ -117,7 +117,7 @@ class MeetList extends Component {
                                     onClick={this.changeLock.bind(this,record,index)}>{delTxt}</Button>
                             <Button size="small" data-record={record} onClick={ this.del.bind(this,record) } type="primary" danger>删除</Button>
                             <Button size="small" type="primary" > 查看</Button>
-                            <Button size="small" type="primary" > 修改</Button>
+                            <Button size="small" type="primary" onClick={this.handleModify.bind(this,record)}> 修改</Button>
                         </Space>
                     )
                 }
@@ -173,6 +173,14 @@ class MeetList extends Component {
         });
 
     };
+
+    //修改
+    handleModify(data){
+        this.props.history.push({
+            pathname: '/meet/newMeet',
+            state:{id:data.id}
+        })
+    }
 
     //检索
     searchMeet(textValue) {

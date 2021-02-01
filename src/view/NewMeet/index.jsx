@@ -15,20 +15,38 @@ class NewMeet extends Component {
             projectList:[],
             hostList:[],
             hostKey:undefined,
-            currentValue:''
+            currentValue:'',
+            initialValues:{
+                isPublic: 1,
+                lockStatus: 0,
+                roomSecret:'',
+                timeRange:[]
+            },
+            id:0
         }
+
         this.getProject=this.getProject.bind(this)
         this.getHost=this.getHost.bind(this)
         this.handleChange=this.handleChange.bind(this)
         this.getHostData=this.getHostData.bind(this)
         this.submitForm=this.submitForm.bind(this)
+        this.getRoomData=this.getRoomData.bind(this)
         this.timeout=null
         this.form=React.createRef()
     }
 
     componentDidMount() {
+        if(this.props.location.state){
+            let id=this.props.location.state.id;
+            this.setState({
+                id:id
+            })
+
+            this.getRoomData(id)
+        }
         this.getProject()
     }
+    //获取岗位
     getProject(){
         //获取机构列表
         axios.selectProject({key:''}).then(res=>{
@@ -37,7 +55,7 @@ class NewMeet extends Component {
            })
         })
     }
-
+    //获取主持人
     getHost(value){
         console.log(value)
         //获取主持人列表
@@ -57,6 +75,7 @@ class NewMeet extends Component {
             this.setState({ hostList: [] });
         }
     }
+
     getHostData(){
         axios.selectUserList({key:this.state.currentValue}).then(res=>{
             this.setState({
@@ -69,14 +88,17 @@ class NewMeet extends Component {
             }
         })
     }
+
     handleChange (hostKey){
         this.setState({ hostKey });
-    };
-     disabledDate(current) {
+    }
+    //不能选择日期
+    disabledDate(current) {
         // Can not select days before today and today
         return current && current < moment().subtract(1, 'day')
     }
-     disabledRangeTime(date) {
+    //不能选择时间
+    disabledRangeTime(date) {
 
          let hours = moment().hours();//0~23
          let minutes = moment().minutes();//0~59
@@ -101,40 +123,64 @@ class NewMeet extends Component {
              return result;
          }
     }
-
+    //时间范围
     timeChange(dates,dateStrings){
         console.log(dates,dateStrings)
 
     }
+    //提交数据
     submitForm(values){
-
          //提交数据
-        values.startTime=new Date(values.timeRange[0]._d).getTime().toString()
-        values.endTime=new Date(values.timeRange[1]._d).getTime().toString()
+        if(values.timeRange){
+            values.startTime=new Date(values.timeRange[0]._d).getTime().toString()
+            values.endTime=new Date(values.timeRange[1]._d).getTime().toString()
+        }
         delete  values.timeRange
-        console.log(values)
+
+        if(this.state.id!=0){
+            values.id=this.state.id
+        }
         axios.addMeetRoom(values).then(res=>{
             console.log(res)
             if(res.success){
-                message.success('会议创建成功！')
+                if(this.state.id!=0){
+                    message.success('会议修改成功！')
+                }else{
+                    message.success('会议创建成功！')
+                }
+                this.form.current.setFieldsValue({timeRange:[]})
                 this.form.current.resetFields()
-
+                this.props.history.push({
+                    pathname: '/meet/meetList',
+                })
             }
         })
     }
+    //获取信息
+    getRoomData(id){
+        axios.getRoomDetail({rID:id}).then(res=>{
+            this.getHostData()
+            let startTime=moment(res.response.startTime,'YYYY-MM-DD HH:mm');
+            let endTime=moment(res.response.endTime,'YYYY-MM-DD HH:mm');
+            let {initialValues}=this.state;
+            initialValues.timeRange=[startTime,endTime]
+            // this.setState({
+            //     initialValues:{...initialValues,...res.response}
+            // })
+            this.form.current.setFieldsValue({...initialValues,...res.response})
+
+        })
+    }
+
     render() {
-        let {projectList,hostList}=this.state
+        let {projectList,hostList,initialValues}=this.state
         return (
             <Card title="会议预定" bordered={false}>
                 <Form
                     name="basic"
                     ref={this.form}
                     className={styles.form}
-                    initialValues={{
-                        isPublic: 1,
-                        lockStatus: 2,
-                        roomSecret:''
-                    }}
+                    initialValues={initialValues}
                     onFinish={this.submitForm}
                 >
                     <Form.Item
@@ -189,7 +235,7 @@ class NewMeet extends Component {
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                      >
-                        <Input placeholder='请输入4到6位数字密码'/>
+                        <Input placeholder='请输入4到6位数字密码' autoComplete='off'/>
                     </Form.Item>
                     <Form.Item
                         label="是否公开"
@@ -201,7 +247,7 @@ class NewMeet extends Component {
                     >
                         <Radio.Group onChange={this.onChange} value={1}>
                             <Radio value={1}>是</Radio>
-                            <Radio value={2}>否</Radio>
+                            <Radio value={0}>否</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
@@ -214,7 +260,7 @@ class NewMeet extends Component {
                     >
                         <Radio.Group onChange={this.onChange} >
                             <Radio value={1}>是</Radio>
-                            <Radio value={2}>否</Radio>
+                            <Radio value={0}>否</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
@@ -235,7 +281,6 @@ class NewMeet extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item
-
                         label="会议主持人"
                         name="hostID"
                         className={styles.formItem}
