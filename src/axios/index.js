@@ -58,6 +58,10 @@ export default {
     selectUserList(params){
         return instance.get(api.cnkiDomain + "/api/UserManage/GetSelectUserList", { params, withCredentials: false });
     },
+    //获取会议详情
+    getRoomDetail(params){
+        return instance.get(api.cnkiDomain + "/api/MeetRoom/GetRoomDetail", { params, withCredentials: false });
+    }
 
 
 
