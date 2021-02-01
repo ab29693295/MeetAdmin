@@ -36,7 +36,8 @@ export default [
     {
         title: '用户管理', icon: <SettingOutlined />, key: 'usermanage',
         children: [
-            { path: '/usermanage/userList', title: '用户列表' }
+            { path: '/usermanage/userList', title: '用户列表' },
+            { path: '/usermanage/newUser', title: '添加用户' }
             
         ]
     },
