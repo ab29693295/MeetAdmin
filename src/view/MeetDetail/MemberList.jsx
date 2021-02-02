@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Col, Row, Space, Table} from "antd";
 import styles from "../MeetList/css/index.module.css";
 import {Link} from "react-router-dom";
-
+import axios from '@/axios'
 class MemberList extends Component {
     constructor(props) {
         super(props)
@@ -12,6 +12,11 @@ class MemberList extends Component {
             pageData:{
                 total:0
             },
+            params:{
+                RID:this.props.id,
+                page:1,
+                pageSize:10
+            }
         }
         this.columns = [
             {
@@ -40,10 +45,24 @@ class MemberList extends Component {
                 align: 'center'
             },
         ]
+        this.getData=this.getData.bind(this)
     }
 
 
     componentDidMount() {
+        console.log()
+        this.getData()
+    }
+    getData(){
+        let {params}=this.state
+        axios.getAllUserList(params).then(res=>{
+            if(res.success){
+                this.setState({
+                    data:res.response.data,
+                    pageData:{...this.state.pageData,total:res.response.dataCount}
+                })
+            }
+        })
     }
 
     render() {

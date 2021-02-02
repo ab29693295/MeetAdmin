@@ -27,7 +27,7 @@ class name extends Component {
                         <BaseInfo id={this.props.match.params.id}/>
                     </TabPane>
                     <TabPane tab="成员列表" key="2">
-                        <MemberList/>
+                        <MemberList id={this.props.match.params.id}/>
                     </TabPane>
                     <TabPane tab="统计数据" key="3">
                         当前会议统计数据

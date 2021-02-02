@@ -67,7 +67,13 @@ export default {
         return instance.get(api.cnkiDomain + "/api/ProjectMange/GetAllProject", { params, withCredentials: false });
     },
     //修改机构状态
-
+    setProjectStatus(params){
+        return instance.get(api.cnkiDomain + "/api/ProjectMange/ForbidPro", { params, withCredentials: false })
+    },
+    //获取会议成员
+    getAllUserList(params){
+        return instance.get(api.cnkiDomain + "/RoomUser/GetAllUserList", { params, withCredentials: false })
+    }
 
 
 }
