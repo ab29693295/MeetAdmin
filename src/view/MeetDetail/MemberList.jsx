@@ -1,5 +1,7 @@
 import React, {Component} from "react";
-import {Table} from "antd";
+import {Button, Col, Row, Space, Table} from "antd";
+import styles from "../MeetList/css/index.module.css";
+import {Link} from "react-router-dom";
 
 class MemberList extends Component {
     constructor(props) {
@@ -47,6 +49,21 @@ class MemberList extends Component {
     render() {
         let {loading,data,pageData}=this.state;
         return (<>
+            <Row className={styles.toolbar} justify='space-between'>
+                <Col flex='40%'>
+
+                </Col>
+                <Col >
+                    <Space size={10}>
+                            <Button type="primary"  size="large" >
+                                添加成员
+                            </Button>
+                        <Button type="primary"  size="large" >
+                            导入数据
+                        </Button>
+                    </Space>
+                </Col>
+            </Row>
             <Table bordered
                    rowKey='id'
                    dataSource={data}

@@ -47,7 +47,7 @@ class name extends Component {
                             />
                         })
                     }
-                    <Redirect exact to='/error'/>
+                    {/*<Redirect exact to='/error'/>*/}
                 </Switch>
             </Content>
         )

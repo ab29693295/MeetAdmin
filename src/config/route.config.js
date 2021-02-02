@@ -15,7 +15,7 @@ export const routes=[
     { path: '/home', component: Home},
     { path: '/meet/meetList', component: MeetList},
     { path: '/meet/newMeet', component: NewMeet},
-    { path: '/meet/meetDetail', component: MeetDetail},
+    { path: '/meet/meetDetail/:id', component: MeetDetail},
     { path: '/project/projectList', component: ProjectList},
     { path: '/tj/meetTj', component: MeetTj},
     { path: '/user/userInfo', component: UserInfo},
