@@ -5,7 +5,8 @@ import {
     AppstoreOutlined,
     TeamOutlined,
     SettingOutlined,
-    HomeOutlined
+    HomeOutlined,
+    ClusterOutlined
 } from '@ant-design/icons';
 export default [
     {
@@ -17,6 +18,13 @@ export default [
         children: [
             { path: '/meet/meetList', title: '会议列表' },
             { path: '/meet/newMeet', title: '新建会议' }
+        ]
+    },
+    {
+        title: '机构管理', icon: <ClusterOutlined />,key:'project',
+        children: [
+            { path: '/project/projectList', title: '机构列表' },
+            { path: '/project/newProject', title: '新建机构' }
         ]
     },
     {

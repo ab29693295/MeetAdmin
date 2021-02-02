@@ -61,7 +61,12 @@ export default {
     //获取会议详情
     getRoomDetail(params){
         return instance.get(api.cnkiDomain + "/api/MeetRoom/GetRoomDetail", { params, withCredentials: false });
-    }
+    },
+    //获取机构
+    getAllProject(params){
+        return instance.get(api.cnkiDomain + "/api/ProjectMange/GetAllProject", { params, withCredentials: false });
+    },
+    //修改机构状态
 
 
 
