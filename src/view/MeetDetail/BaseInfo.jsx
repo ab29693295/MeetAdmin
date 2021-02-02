@@ -39,7 +39,7 @@ class BaseInfo extends Component {
 
     componentDidMount() {
         if(this.props.id){
-            let id=this.props.id;
+            let id=Number(this.props.id);
             this.setState({
                 id:id
             })
@@ -151,11 +151,6 @@ class BaseInfo extends Component {
                 }else{
                     message.success('会议创建成功！')
                 }
-                this.form.current.setFieldsValue({timeRange:[]})
-                this.form.current.resetFields()
-                this.props.history.push({
-                    pathname: '/meet/meetList',
-                })
             }
         })
     }
@@ -168,6 +163,9 @@ class BaseInfo extends Component {
             let {initialValues}=this.state;
             initialValues.timeRange=[startTime,endTime]
             this.form.current.setFieldsValue({...initialValues,...res.response})
+            this.setState({
+                appName:res.response.appName
+            })
         })
     }
 

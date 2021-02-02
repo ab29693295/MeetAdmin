@@ -50,7 +50,6 @@ class MemberList extends Component {
 
 
     componentDidMount() {
-        console.log()
         this.getData()
     }
     getData(){
