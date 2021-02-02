@@ -9,11 +9,13 @@ import UserManage from '../view/UserManage'
 import Home from '../view/Home'
 import NewUser from '../view/NewUser'
 import ProjectList from '../view/ProjectList'
+import MeetDetail from '../view/MeetDetail'
 export const routes=[
     { path: '/', component: Home},
     { path: '/home', component: Home},
     { path: '/meet/meetList', component: MeetList},
     { path: '/meet/newMeet', component: NewMeet},
+    { path: '/meet/meetDetail', component: MeetDetail},
     { path: '/project/projectList', component: ProjectList},
     { path: '/tj/meetTj', component: MeetTj},
     { path: '/user/userInfo', component: UserInfo},
