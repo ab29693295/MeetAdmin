@@ -2,7 +2,7 @@ import axios from 'axios';
 // import Qs from "qs";
 import api from "../path/index";
 const instance = axios.create({
-    withCredentials: true
+    withCredentials: false
 });
 instance.interceptors.request.use(
     config => {
@@ -21,9 +21,6 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-//​/api​/MeetRoom​/DeleteRoom
-
-
 
 export default {
     userLogin(params){
@@ -73,7 +70,11 @@ export default {
     //获取会议成员
     getAllUserList(params){
         return instance.get(api.cnkiDomain + "/RoomUser/GetAllUserList", { params, withCredentials: false })
-    }
+    },
+    //添加成员
+    addMember(data){
+        return instance.post(api.cnkiDomain + "/RoomUser", data)
+    },
 
 
 }

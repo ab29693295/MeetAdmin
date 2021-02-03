@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import {Button, Col, Row, Space, Table} from "antd";
+import {Button, Col, Row, Space, Table,Tag} from "antd";
 import styles from "../MeetList/css/index.module.css";
 import {Link} from "react-router-dom";
+import AddUserModal from './component/AddUserModal'
 import axios from '@/axios'
 class MemberList extends Component {
     constructor(props) {
@@ -16,6 +17,10 @@ class MemberList extends Component {
                 RID:this.props.id,
                 page:1,
                 pageSize:10
+            },
+            addInfo:{
+               rid: this.props.id,
+                visible:false
             }
         }
         this.columns = [
@@ -30,13 +35,26 @@ class MemberList extends Component {
                 align: 'center'
             },
             {
-                title: '参会身份',
-                dataIndex: 'isHost',
+                title: '会议ID',
+                dataIndex: 'peerID',
                 align: 'center'
             },
             {
+                title: '参会身份',
+                dataIndex: 'isHost',
+                align: 'center',
+                render:(text, record, index)=>{
+                    if(record.isHost == 1){
+                      return   <Tag color="magenta">主持人</Tag>
+                    }else{
+                       return  <Tag color="lime">嘉宾</Tag>
+                    }
+
+                }
+            },
+            {
                 title: '会议时长',
-                dataIndex: 'time',
+                dataIndex: 'totalMinutes',
                 align: 'center'
             },
             {
@@ -46,6 +64,8 @@ class MemberList extends Component {
             },
         ]
         this.getData=this.getData.bind(this)
+        this.changPage=this.changPage.bind(this)
+        this.showAddModal=this.showAddModal.bind(this)
     }
 
 
@@ -63,9 +83,29 @@ class MemberList extends Component {
             }
         })
     }
+    //翻页
+    changPage(page){
+        this.setState({
+            params:{...this.state.params,page: page}
+        },function () {
+            this.getData();
+        })
 
+    }
+    showAddModal(flag){
+        this.setState({
+            addInfo:{...this.state.addInfo,visible:!this.state.addInfo.visible}
+        })
+        if(flag){
+            this.setState({
+                params:{...this.state.params,page: 1}
+            },function () {
+                this.getData();
+            })
+        }
+    }
     render() {
-        let {loading,data,pageData}=this.state;
+        let {loading,data,pageData,addInfo}=this.state;
         return (<>
             <Row className={styles.toolbar} justify='space-between'>
                 <Col flex='40%'>
@@ -73,7 +113,7 @@ class MemberList extends Component {
                 </Col>
                 <Col >
                     <Space size={10}>
-                            <Button type="primary"  size="large" >
+                            <Button type="primary"  size="large" onClick={this.showAddModal}>
                                 添加成员
                             </Button>
                         <Button type="primary"  size="large" >
@@ -83,12 +123,13 @@ class MemberList extends Component {
                 </Col>
             </Row>
             <Table bordered
-                   rowKey='id'
+                   rowKey='peerID'
                    dataSource={data}
                    columns={this.columns}
                    pagination={{position: ['none', 'bottomRight'],total:pageData.total,onChange:this.changPage}}
                    loading={loading}
             > </Table>
+            <AddUserModal {...addInfo} addModalCallback={this.showAddModal}/>
         </>)
     }
 }
