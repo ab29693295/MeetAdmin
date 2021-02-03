@@ -13,7 +13,7 @@ class NewUser extends Component {
 
     render() {
         return (
-            <Card title="Ìí¼ÓÓÃ»§">
+            <Card title="æ–°å¢žç”¨æˆ·">
                 <Form
                     name="basic"
                     ref={this.form}
@@ -21,14 +21,14 @@ class NewUser extends Component {
                 >
 
                     <Form.Item
-                        label="»áÒéÖ÷Ìâ"
+                        label="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
                         name="roomName"
-                        rules={[{ required: true, message: 'ÇëÌîÐ´»áÒéÖ÷Ìâ£¡' }]}
+                        rules={[{ required: true, message: 'ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â£¡' }]}
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
-                        <Input autoComplete='off' placeholder='ÇëÊäÈë»áÒéÖ÷Ìâ' />
+                        <Input autoComplete='off' placeholder='ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½' />
                     </Form.Item>
                 </Form>
             </Card>
