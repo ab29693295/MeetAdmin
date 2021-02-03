@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import Qs from "qs";
 import api from "../path/index";
+import {message} from 'antd'
 const instance = axios.create({
     withCredentials: false
 });
@@ -18,6 +19,7 @@ instance.interceptors.response.use(
         return Promise.resolve(response.data);
     },
     error => {
+        message.error(error)
         return Promise.reject(error);
     }
 );
@@ -66,6 +68,10 @@ export default {
     //修改机构状态
     setProjectStatus(params){
         return instance.get(api.cnkiDomain + "/api/ProjectMange/ForbidPro", { params, withCredentials: false })
+    },
+    //添加机构
+    addProject(data){
+        return instance.post(api.cnkiDomain + "/api/ProjectMange/addProject", data,{  withCredentials: false })
     },
     //获取会议成员
     getAllUserList(params){
