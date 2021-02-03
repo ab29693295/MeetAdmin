@@ -51,17 +51,19 @@ class ProjectList extends Component {
                 title: '操作',
                 dataIndex: 'option',
                 align: 'center',
-                render: (text, record) => {
+                render: (text, record,index) => {
                     if (record.status == 1) {
-                        return <Button size="small" type="primary" onClick={this.changeStatus.bind(this,record)} danger>禁用</Button>
+                        return <Button size="small" type="primary" onClick={this.changeStatus.bind(this,record,index)} danger>禁用</Button>
                     } else {
-                        return <Button size="small" type="primary" onClick={this.changeStatus.bind(this,record)}>解禁</Button>
+                        return <Button size="small" type="primary" onClick={this.changeStatus.bind(this,record,index)}>解禁</Button>
                     }
                 }
             },
 
         ]
         this.getData=this.getData.bind(this)
+        this.searchProject=this.searchProject.bind(this)
+        this.changPage=this.changPage.bind(this)
     }
 
     componentDidMount() {
@@ -101,22 +103,22 @@ class ProjectList extends Component {
     }
     //状态
     changeStatus(record,index){
-        // axios.lockRoom({rID:record.id,LockStatus:record.lockStatus==1?0:1}).then(res=>{
-        //     if(res.success){
-        //         let {meetData}=this.state;
-        //         if(record.lockStatus==1){
-        //             meetData[index].lockStatus=0
-        //             message.success('解锁房间成功')
-        //         }else{
-        //             meetData[index].lockStatus=1
-        //             message.success('锁定房间成功')
-        //         }
-        //         this.setState({
-        //             meetData:meetData
-        //         })
-        //     }
-        //
-        // })
+        axios.setProjectStatus({aID:record.id,Status:record.status==1?0:1}).then(res=>{
+            if(res.success){
+                let {projectData}=this.state;
+                if(record.status==1){
+                    projectData[index].status=0
+                    message.success('机构解禁成功')
+                }else{
+                    projectData[index].status=1
+                    message.success('机构禁用成功')
+                }
+                this.setState({
+                    projectData:projectData
+                })
+            }
+
+        })
     }
 
     render() {
