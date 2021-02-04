@@ -10,69 +10,69 @@ const { Search } = Input;
 
 const columns = [
     {
-        title: 'userName',
+        title: 'ç”¨æˆ·å',
         dataIndex: 'userName',
         width: '10%',
         align:'center'
     },
     {
-        title: 'trueName',
+        title: 'çœŸå®å§“å',
         dataIndex: 'trueName',
         width: '10%',
         align: 'center'
     },
     {
-        title: 'phone',
+        title: 'æ‰‹æœºå·',
         dataIndex: 'phone',
         width: '10%',
         align: 'center'
     },
     {
-        title: 'roleID',
+        title: 'è§’è‰²',
         dataIndex: 'roleID',
         width: '10%',
         align: 'center',
         render: (text, record, index) => {
 
             if (record.roleID == 1) {
-                return <span>³¬¼¶¹ÜÀíÔ±</span>
+                return <span>è¶…çº§ç®¡ç†å‘˜</span>
             }
             else if (record.roleID == 2) {
-                return <span>Ö÷³ÖÈË</span>
+                return <span>ä¸»æŒäºº</span>
             }
             else {
-                return <span>ÆÕÍ¨ÓÃ»§</span>
+                return <span>æ™®é€šç”¨æˆ·</span>
             }
 
         }
     },
     {
-        title: 'states',
+        title: 'çŠ¶æ€',
         dataIndex: 'states',
         width: '10%',
         align: 'center',
          render: (text, record, index) => {
 
              if (record.states == 1) {
-                 return <span> Ëø¶¨</span>
+                 return <span> å¯ç”¨</span>
              } else {
-                 return <span>Î´Ëø¶¨</span>
+                 return <span>ç¦ç”¨</span>
              }
 
         }
     },
    
     {
-        title: 'caozuo',
+        title: 'æ“ä½œ',
         dataIndex: 'id',
         align: 'center',
         render: (text, record) => {
-            let delTxt = record.states == 1 ? '½âËø' : 'Ëø¶¨';
+            let delTxt = record.states == 1 ? 'å¯ç”¨' : 'ç¦ç”¨';
             return (
                 <Space size={5}>
                     <Button size="small" type="primary" className={` ${record.states == 1 ? styles.infoBtn : styles.infoBtn1}`}>{delTxt}</Button>
-                    <Button size="small" onClick={() => del(record)} type="primary" danger>delete</Button>
-                    <Button size="small" type="primary" >pwd</Button>
+                    <Button size="small" onClick={() => del(record)} type="primary" danger>åˆ é™¤</Button>
+                    <Button size="small" type="primary" >å¯†ç </Button>
                 </Space>
             )
         }
@@ -82,12 +82,12 @@ const columns = [
 
 const del = (data) => {
     Modal.confirm({
-        title: "ĞÅÏ¢",
-        okText: "È·ÈÏ",
-        cancelText: "È¡Ïû",
+        title: "ç¡®å®šåˆ é™¤ç”¨æˆ·ï¼Ÿ",
+        okText: "ç¡®å®š",
+        cancelText: "å–æ¶ˆ",
         content: (
             <div>
-                <p>È·¶¨ÒªÉ¾³ı{data.roomname}?</p>
+                <p>ç”¨æˆ·ï¼š{data.trueName}</p>
             </div>
         ),
         onOk() {
@@ -96,11 +96,11 @@ const del = (data) => {
             axios.deleteMeetRoom(params).then((res) => {
                 if (res.success) {
                     notification.success({
-                        message: "É¾³ı³É¹¦",
+                        message: "åˆ é™¤æˆåŠŸ",
                     });
                 } else {
                     notification.warning({
-                        message: "É¾³ıÊ§°Ü",
+                        message: "åˆ é™¤å¤±è´¥",
                     });
                 }
 
@@ -117,7 +117,7 @@ class UserManage extends Component {
         super(props)
         this.state = {
             userData: [],
-            selectedRowKeys: [], //Ñ¡ÖĞµÄĞĞ
+            selectedRowKeys: [], //Ñ¡ï¿½Ğµï¿½ï¿½ï¿½
             loading: false,
         }
         this.SearchUser = this.SearchUser.bind(this);
@@ -127,12 +127,12 @@ class UserManage extends Component {
         this.getUserData(params);
     }
 
-    //¼ìË÷
+    //æ£€ç´¢ç”¨æˆ·
     SearchUser(textValue) {
         let params = { page: 1, key: textValue };
         this.getUserData(params);
     }
-    //»ñÈ¡³ÉÔ±ÁĞ±í
+    //è·å–ç”¨æˆ·ä¿¡æ¯
     getUserData(params) {
         axios.getUserList(params).then((res) => {
             console.log(res)
@@ -140,7 +140,7 @@ class UserManage extends Component {
         })
     }
   
-    //Ñ¡Ôñ¿Î³Ì
+    //é€‰æ‹©æ”¹å˜äº‹ä»¶
     onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
@@ -155,13 +155,13 @@ class UserManage extends Component {
         };
 
         return (
-            <Card title="ÓÃ»§ÁĞ±í123">
+            <Card title="ç”¨æˆ·åˆ—è¡¨">
                 <Row className={styles.toolbar} justify='space-between'>
                     <Col flex='40%'>
                         <Search
-                            placeholder="ÊÓÆµ»áÒé¹Ø¼ü×Ö"
+                            placeholder="è¯·è¾“å…¥ç”¨æˆ·åæˆ–çœŸå®å§“å"
                             allowClear
-                            enterButton="ËÑË÷"
+                            enterButton="æœç´¢"
                             size="large"
                             onSearch={this.SearchUser}
                         />
@@ -170,7 +170,7 @@ class UserManage extends Component {
                         <Space size={10}>
                             <Link to={{ pathname: '/meet/newMeet' }}>
                                 <Button type="primary" size="large" icon={<PlusOutlined />}>
-                                    AddUser
+                                    æ·»åŠ ç”¨æˆ·
                                 </Button>
                             </Link>
                           
