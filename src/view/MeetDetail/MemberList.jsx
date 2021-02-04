@@ -35,7 +35,7 @@ class MemberList extends Component {
                 align: 'center'
             },
             {
-                title: '会议ID',
+                title: '参会ID',
                 dataIndex: 'peerID',
                 align: 'center'
             },
@@ -53,14 +53,23 @@ class MemberList extends Component {
                 }
             },
             {
-                title: '会议时长',
+                title: '参会时常',
                 dataIndex: 'totalMinutes',
                 align: 'center'
             },
             {
                 title: '操作',
                 dataIndex: 'option',
-                align: 'center'
+                align: 'center',
+                render:(text, record, index)=>{
+                    return (
+                        <Space size={5}>
+                            <Button size="small" data-record={record}  type="primary" danger>删除</Button>
+                            <Button size="small" type="primary" > 修改</Button>
+                        </Space>
+                    )
+
+                }
             },
         ]
         this.getData=this.getData.bind(this)
