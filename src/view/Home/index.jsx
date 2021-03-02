@@ -15,7 +15,7 @@ class Home extends PureComponent {
                 title:{
                     left: 'center',
                     padding: 0,
-                    text:'会议数量图表'
+                    text:'会议数量折线图'
                 },
                 xAxisData:["2021-1-1", "2021-1-2", "2021-1-3", "2021-1-4", "2021-1-5", "2021-1-6", "2021-1-7"],
                 series:[
@@ -32,7 +32,7 @@ class Home extends PureComponent {
                     },
                     smooth: true,
                     type: "line",
-                    data: [1,2,3,4,5,6],
+                    data: [1,2,3,4,5,6,6],
                     animationDuration: 2800,
                     animationEasing: "cubicInOut",
                 },{
@@ -75,7 +75,8 @@ class Home extends PureComponent {
                                 }
                                 title="我发起的会议"
                                 description="500个"
-                                style={{display:'flex',justifyContent:'space-between'}}
+                                style={{display:'flex',
+                                    justifyContent:'space-between'}}
                             />
                         </Card>
                     </Col>
