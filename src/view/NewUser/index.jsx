@@ -5,11 +5,13 @@ import 'moment/locale/zh-cn';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import axios from '@/axios'
+const { Option } = Select;
 
 class NewUser extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            RoleList:[],
             sex: 0
         }
     }
@@ -23,6 +25,7 @@ class NewUser extends Component {
 
     render() {
 
+        let {RoleList}=this.state
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -71,7 +74,24 @@ class NewUser extends Component {
                             <Radio value={1}>女</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    
+                    <Form.Item
+                        label="用户角色："
+                        name="appID"
+                        className={styles.formItem}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
+                        rules={[{ required: true,message:'请选择会议机构！'  }]}
+                    >
+                        <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
+                            {
+                                RoleList.map((item)=>{
+                                    return (
+                                        <Option value={item.appID} key={item.appID} data={item.appName}>{item.appName}</Option>
+                                    )
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
 
                     <Form.Item
                         label="手机号："
