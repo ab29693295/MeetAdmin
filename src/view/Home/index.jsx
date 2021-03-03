@@ -7,6 +7,7 @@ import {
     PushpinOutlined
 } from '@ant-design/icons';
 import LineChart from '@/components/Charts/LineChart.jsx'
+import BarChart from '@/components/Charts/BarChart.jsx'
 class Home extends PureComponent {
     constructor(props) {
         super(props)
@@ -123,6 +124,7 @@ class Home extends PureComponent {
                     backgroundColor: "#fff",
                     margin: "30px 0",
                 }}/>
+                <BarChart/>
             </Card>
         )
     }
