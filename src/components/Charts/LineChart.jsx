@@ -9,6 +9,7 @@ class LineChart extends Component {
         }
     }
     static defaultProps = {
+        width:'100%',
         height: "350px",
         styles: {},
         className: "",
@@ -48,7 +49,7 @@ class LineChart extends Component {
             },
             grid: {
                 left: 10,
-                right: 10,
+                right: 50,
                 bottom: 10,
                 top: 100,
                 containLabel: true,
