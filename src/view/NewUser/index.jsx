@@ -80,9 +80,9 @@ class NewUser extends Component {
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
-                        rules={[{ required: true,message:'请选择会议机构！'  }]}
+                        rules={[{ required: true,message:'请选择用户角色！'  }]}
                     >
-                        <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
+                        <Select placeholder="请选择用户角色" onChange={this.handleAppName}>
                             {
                                 RoleList.map((item)=>{
                                     return (
@@ -125,6 +125,9 @@ class NewUser extends Component {
                         name="des"
                        >
                         <Input.TextArea placeholder="请输入备注！" />
+                    </Form.Item>
+                    <Form.Item className={styles.formBtn}>
+                        <Button type="primary" htmlType='submit'>确定</Button>
                     </Form.Item>
                 </Form>
             </Card>

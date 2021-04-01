@@ -168,7 +168,7 @@ class UserManage extends Component {
                     </Col>
                     <Col >
                         <Space size={10}>
-                            <Link to={{ pathname: '/meet/newMeet' }}>
+                            <Link to={{ pathname: '/usermanage/newUser' }}>
                                 <Button type="primary" size="large" icon={<PlusOutlined />}>
                                     添加用户
                                 </Button>
