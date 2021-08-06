@@ -73,7 +73,7 @@
   },
   "scripts": {
     "start": "cross-env  REACT_APP_SECRET_BUILD_TYPE=dev node scripts/start.js ",
-    "build": "node scripts/build.js",
+    "build": "cross-env  REACT_APP_SECRET_BUILD_TYPE=pro node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {

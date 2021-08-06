@@ -17,13 +17,15 @@ class BaseInfo extends Component {
             hostKey:undefined,
             currentValue:'',
             initialValues:{
+                isSecret:0,
                 isPublic: 1,
                 lockStatus: 0,
                 roomSecret:'',
                 timeRange:[]
             },
             id:0,
-            appName:''
+            appName:'',
+            isSecret:false
         }
 
         this.getProject=this.getProject.bind(this)
@@ -33,6 +35,7 @@ class BaseInfo extends Component {
         this.submitForm=this.submitForm.bind(this)
         this.getRoomData=this.getRoomData.bind(this)
         this.handleAppName=this.handleAppName.bind(this)
+        this.handleSecret=this.handleSecret.bind(this)
         this.timeout=null
         this.form=React.createRef()
     }
@@ -143,6 +146,9 @@ class BaseInfo extends Component {
         if(this.state.id!=0){
             values.id=this.state.id
         }
+        if(!this.state.isSecret){
+            values.roomSecret=''
+        }
         values={...values,appName:this.state.appName}
         axios.addMeetRoom(values).then(res=>{
             if(res.success){
@@ -164,7 +170,8 @@ class BaseInfo extends Component {
             initialValues.timeRange=[startTime,endTime]
             this.form.current.setFieldsValue({...initialValues,...res.response})
             this.setState({
-                appName:res.response.appName
+                appName:res.response.appName,
+                isSecret:res.response.isSecret==1
             })
         })
     }
@@ -175,6 +182,17 @@ class BaseInfo extends Component {
         })
     }
 
+    handleSecret(event){
+        if(event.target.value==1){
+            this.setState({
+                isSecret:true
+            })
+        }else{
+            this.setState({
+                isSecret:false
+            })
+        }
+    }
 
     render() {
         let {projectList,hostList,initialValues}=this.state
@@ -231,15 +249,28 @@ class BaseInfo extends Component {
                             onChange={this.timeChange}
                         />
                     </Form.Item>
-                    <Form.Item
-                        label="会议密码（选填）"
+                    <Form.Item  label="是否需要密码"
+                                name="isSecret"
+                                className={styles.formItem}
+                                labelCol={{ span: 6 }}
+                                wrapperCol={{ span: 16 }}
+                                rules={[{ required: true  }]}
+                                value={0}>
+                        <Radio.Group onChange={this.handleSecret} >
+                            <Radio value={1}>是</Radio>
+                            <Radio value={0}>否</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    {this.state.isSecret&& <Form.Item
+                        label="会议密码"
                         name="roomSecret"
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
+                        rules={[{ required: true  }]}
                     >
                         <Input placeholder='请输入4到6位数字密码' autoComplete='off'/>
-                    </Form.Item>
+                    </Form.Item>}
                     <Form.Item
                         label="是否公开"
                         name="isPublic"

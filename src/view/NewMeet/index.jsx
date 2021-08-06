@@ -20,10 +20,12 @@ class NewMeet extends Component {
                 isPublic: 1,
                 lockStatus: 0,
                 roomSecret:'',
-                timeRange:[]
+                timeRange:[],
+                isSecret: 0
             },
             id:0,
-            appName:''
+            appName:'',
+            isSecret:false//控制会议显示隐藏
         }
 
         this.getProject=this.getProject.bind(this)
@@ -33,6 +35,7 @@ class NewMeet extends Component {
         this.submitForm=this.submitForm.bind(this)
         this.getRoomData=this.getRoomData.bind(this)
         this.handleAppName=this.handleAppName.bind(this)
+        this.handleSecret=this.handleSecret.bind(this)
         this.timeout=null
         this.form=React.createRef()
     }
@@ -142,6 +145,9 @@ class NewMeet extends Component {
         if(this.state.id!=0){
             values.id=this.state.id
         }
+        if(!this.state.isSecret){
+            values.roomSecret=''
+        }
         values={...values,appName:this.state.appName}
         axios.addMeetRoom(values).then(res=>{
             if(res.success){
@@ -173,10 +179,25 @@ class NewMeet extends Component {
 
         })
     }
+
     handleAppName(e,option){
         this.setState({
             appName:option.data
         })
+    }
+
+    handleSecret(event){
+        if(event.target.value==1){
+            this.setState({
+                isSecret:true
+            })
+        }else{
+            this.setState({
+                isSecret:false
+            })
+        }
+
+
     }
 
 
@@ -213,7 +234,7 @@ class NewMeet extends Component {
                             {
                                 projectList.map((item)=>{
                                     return (
-                                        <Option value={item.appID} key={item.appID} data={item.appName}>{item.appName}</Option>
+                                        <Option value={item.appID} key={item.id} data={item.appName}>{item.appName}</Option>
                                     )
                                 })
                             }
@@ -236,15 +257,28 @@ class NewMeet extends Component {
                             onChange={this.timeChange}
                         />
                     </Form.Item>
-                    <Form.Item
-                        label="会议密码（选填）"
+                    <Form.Item  label="是否需要密码"
+                                name="isSecret"
+                                className={styles.formItem}
+                                labelCol={{ span: 6 }}
+                                wrapperCol={{ span: 16 }}
+                                rules={[{ required: true  }]}
+                                value={0}>
+                        <Radio.Group onChange={this.handleSecret} >
+                            <Radio value={1}>是</Radio>
+                            <Radio value={0}>否</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    {this.state.isSecret&& <Form.Item
+                        label="会议密码"
                         name="roomSecret"
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
-                     >
+                        rules={[{ required: true  }]}
+                    >
                         <Input placeholder='请输入4到6位数字密码' autoComplete='off'/>
-                    </Form.Item>
+                    </Form.Item>}
                     <Form.Item
                         label="是否公开"
                         name="isPublic"
