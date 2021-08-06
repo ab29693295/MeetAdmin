@@ -14,3 +14,7 @@
     background: green;
     border: green;
 }
+.toolbar{
+    margin-bottom: 20px;
+    width: 100%;
+}

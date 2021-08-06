@@ -82,6 +82,9 @@ export default {
     addMember(data){
         return instance.post(api.cnkiDomain + "/RoomUser", data)
     },
-
+    //禁用解禁用户
+    setForbiddenUser(params){
+        return instance.get(api.cnkiDomain + "/api/UserManage/ForbidenUser", { params, withCredentials: false })
+    }
 
 }

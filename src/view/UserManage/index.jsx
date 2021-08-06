@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Input, Table, Card, Button, notification, Row, Col, Space } from 'antd';
+import {Modal, Input, Table, Card, Button, notification, Row, Col, Space, message} from 'antd';
 import { SearchOutlined, PlusOutlined, CheckSquareOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import styles from './css/index.module.css'
 import { Link } from 'react-router-dom'
@@ -8,77 +8,7 @@ import axios from '../../axios'
 
 const { Search } = Input;
 
-const columns = [
-    {
-        title: '用户名',
-        dataIndex: 'userName',
-        width: '10%',
-        align:'center'
-    },
-    {
-        title: '真实姓名',
-        dataIndex: 'trueName',
-        width: '10%',
-        align: 'center'
-    },
-    {
-        title: '手机号',
-        dataIndex: 'phone',
-        width: '10%',
-        align: 'center'
-    },
-    {
-        title: '角色',
-        dataIndex: 'roleID',
-        width: '10%',
-        align: 'center',
-        render: (text, record, index) => {
 
-            if (record.roleID == 1) {
-                return <span>超级管理员</span>
-            }
-            else if (record.roleID == 2) {
-                return <span>主持人</span>
-            }
-            else {
-                return <span>普通用户</span>
-            }
-
-        }
-    },
-    {
-        title: '状态',
-        dataIndex: 'states',
-        width: '10%',
-        align: 'center',
-         render: (text, record, index) => {
-
-             if (record.states == 1) {
-                 return <span> 启用</span>
-             } else {
-                 return <span>禁用</span>
-             }
-
-        }
-    },
-   
-    {
-        title: '操作',
-        dataIndex: 'id',
-        align: 'center',
-        render: (text, record) => {
-            let delTxt = record.states == 1 ? '启用' : '禁用';
-            return (
-                <Space size={5}>
-                    <Button size="small" type="primary" className={` ${record.states == 1 ? styles.infoBtn : styles.infoBtn1}`}>{delTxt}</Button>
-                    <Button size="small" onClick={() => del(record)} type="primary" danger>删除</Button>
-                    <Button size="small" type="primary" >密码</Button>
-                </Space>
-            )
-        }
-    }
-
-]
 
 const del = (data) => {
     Modal.confirm({
@@ -120,6 +50,95 @@ class UserManage extends Component {
             selectedRowKeys: [], //ѡ�е���
             loading: false,
         }
+        this.columns = [
+            {
+                title: '用户名',
+                dataIndex: 'userName',
+                width: '10%',
+                align:'center'
+            },
+            {
+                title: '真实姓名',
+                dataIndex: 'trueName',
+                width: '10%',
+                align: 'center'
+            },
+            {
+                title: '手机号',
+                dataIndex: 'phone',
+                width: '10%',
+                align: 'center'
+            },
+            {
+                title: '角色',
+                dataIndex: 'roleID',
+                width: '10%',
+                align: 'center',
+                render: (text, record, index) => {
+
+                    if (record.roleID == 1) {
+                        return <span>超级管理员</span>
+                    }
+                    else if (record.roleID == 2) {
+                        return <span>主持人</span>
+                    }
+                    else {
+                        return <span>普通用户</span>
+                    }
+
+                }
+            },
+            {
+                title: '启用状态',
+                dataIndex: 'states',
+                width: '10%',
+                align: 'center',
+                render: (text, record, index) => {
+
+                    if (record.states == 1) {
+                        return <span> 启用</span>
+                    } else {
+                        return <span>禁用</span>
+                    }
+
+                }
+            },
+            {
+                title: '用户关联',
+                dataIndex: 'states',
+                width: '10%',
+                align: 'center',
+                render: (text, record, index) => {
+
+                    if (record.isBind == 1) {
+                        return <span> 已关联</span>
+                    } else {
+                        return <span>未关联</span>
+                    }
+
+                }
+            },
+
+            {
+                title: '操作',
+                dataIndex: 'id',
+                align: 'center',
+                render: (text, record,index) => {
+                    let delTxt = record.states == 1 ? '启用' : '禁用';
+                    return (
+                        <Space size={5}>
+                            <Button size="small" type="primary"
+                                    className={` ${record.states == 1 ? styles.infoBtn : styles.infoBtn1}`}
+                                    onClick={this.setForbiddenUser.bind(this,record,index)}>{delTxt}</Button>
+                            <Button size="small" onClick={() => del(record)} type="primary" danger>删除</Button>
+                            <Button size="small" type="primary" >密码</Button>
+                            <Button size="small" type="primary" >管理</Button>
+                        </Space>
+                    )
+                }
+            }
+
+        ]
         this.SearchUser = this.SearchUser.bind(this);
     }
     componentDidMount() {
@@ -139,13 +158,31 @@ class UserManage extends Component {
             this.setState({ userData: res.response.data });
         })
     }
-  
+
     //选择改变事件
     onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
     };
 
+    setForbiddenUser (record,index){
+        axios.setForbiddenUser({uID:record.id,status:record.states==1?0:1}).then(res=>{
+            if(res.success){
+                let {userData}=this.state;
+                if(record.states==1){
+                    userData[index].states=0
+                    message.success('用户已禁用')
+                }else{
+                    userData[index].states=1
+                    message.success('用户已解禁')
+                }
+                this.setState({
+                    userData:userData
+                })
+            }
+
+        })
+    }
     render() {
 
         const { selectedRowKeys } = this.state;
@@ -173,7 +210,7 @@ class UserManage extends Component {
                                     添加用户
                                 </Button>
                             </Link>
-                          
+
                         </Space>
                     </Col>
                 </Row>
@@ -181,7 +218,7 @@ class UserManage extends Component {
                 <Table bordered
                     rowKey='id'
                     dataSource={this.state.userData}
-                    columns={columns}
+                    columns={this.columns}
                     rowSelection={rowSelection}
                     pagination={{ position: ['none', 'bottomRight'] }}
                 > </Table>
