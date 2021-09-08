@@ -4,6 +4,8 @@ import { LeftOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom'
 import MemberList from './MemberList'
 import BaseInfo from './BaseInfo'
+import ChatList from './ChatList'
+
 const {TabPane} = Tabs;
 
 class name extends Component {
@@ -29,8 +31,8 @@ class name extends Component {
                     <TabPane tab="成员列表" key="2">
                         <MemberList id={this.props.match.params.id}/>
                     </TabPane>
-                    <TabPane tab="统计数据" key="3">
-                        当前会议统计数据
+                    <TabPane tab="聊天数据" key="3">
+                        <ChatList id={this.props.match.params.id}/>
                     </TabPane>
                 </Tabs>
             </Card>

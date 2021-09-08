@@ -85,6 +85,10 @@ export default {
     //禁用解禁用户
     setForbiddenUser(params){
         return instance.get(api.cnkiDomain + "/api/UserManage/ForbidenUser", { params, withCredentials: false })
+    },
+    //获取房间聊天记录
+    getRoomChat(params){
+        return instance.get(api.cnkiDomain + "/api/RoomManage/GetRoomChat", { params, withCredentials: false })
     }
 
 }
