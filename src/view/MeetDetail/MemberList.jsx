@@ -116,7 +116,7 @@ class MemberList extends Component {
     render() {
         let {loading,data,pageData,addInfo}=this.state;
         return (<>
-            <Row className={styles.toolbar} justify='space-between'>
+            <Row className={'toolbar'} justify='space-between'>
                 <Col flex='40%'>
 
                 </Col>

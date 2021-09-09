@@ -126,7 +126,7 @@ class ProjectList extends Component {
         return (
             <>
             <Card title="机构列表">
-                <Row className={styles.toolbar} justify='space-between'>
+                <Row className={'toolbar'} justify='space-between'>
                     <Col flex='40%'>
                         <Search
                             placeholder="机构关键字"

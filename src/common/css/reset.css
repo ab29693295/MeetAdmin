@@ -128,19 +128,23 @@ textarea:disabled {
     background-color: #f5f5f5;
 }
 /*浮动*/
-:global(.float_left) {
+.float_left {
     float: left;
 }
-:global(.float_right) {
+.float_right {
     float: right;
 }
 /*清除浮动*/
-:global(.clear_box):after {
+.clear_box:after {
     display: block;
     clear: both;
     content: "";
     visibility: hidden;
     height: 0;
+}
+.toolbar {
+    margin-bottom: 20px;
+    width: 100%;
 }
 :root {
     --background-color: rgba(114, 119, 143, 1.0);

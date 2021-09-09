@@ -274,7 +274,7 @@ class MeetList extends Component {
         return (
                 <>
                     <Card title="会议列表">
-                    <Row className={styles.toolbar} justify='space-between'>
+                    <Row className={'toolbar'} justify='space-between'>
                         <Col flex='40%'>
                             <Search
                                 placeholder="视频会议关键字"

@@ -193,7 +193,7 @@ class UserManage extends Component {
 
         return (
             <Card title="用户列表">
-                <Row className={styles.toolbar} justify='space-between'>
+                <Row className={'toolbar'} justify='space-between'>
                     <Col flex='40%'>
                         <Search
                             placeholder="请输入用户名或真实姓名"

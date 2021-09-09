@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { Table } from 'antd';
+import {Col, Input, Row, Table} from 'antd';
 import axios from '../../axios/index'
+const {Search} = Input;
 export default class JoinLog extends Component {
     constructor(props) {
         super(props);
@@ -56,10 +57,32 @@ export default class JoinLog extends Component {
             this.getData();
         })
     }
+    //检索
+    search(textValue) {
+        this.setState({
+            params:{...this.state.params,key:textValue,page: 1}
+        },function () {
+            this.getData();
+        })
+
+    }
     render() {
         let {data,pageData,loading}=this.state;
         return (
             <>
+                <Row className={'toolbar'} justify='space-between'>
+                    <Col flex='40%'>
+                        <Search
+                            placeholder="访问日志关键字"
+                            allowClear
+                            enterButton="搜索"
+                            size="large"
+                            onSearch={this.search}
+                        />
+                    </Col>
+                    <Col >
+                    </Col>
+                </Row>
                 <Table bordered
                        rowKey='id'
                        dataSource={data}
