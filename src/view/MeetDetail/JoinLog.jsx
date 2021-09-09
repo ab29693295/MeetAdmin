@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Col, Input, Row, Table} from 'antd';
-import axios from '../../axios/index'
+import axios from '@/axios/index'
 const {Search} = Input;
 export default class JoinLog extends Component {
     constructor(props) {
