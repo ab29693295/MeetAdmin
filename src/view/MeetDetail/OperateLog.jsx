@@ -39,14 +39,16 @@ export default class OperateLog extends Component {
                 dataIndex: 'CreateDate',
                 align: 'center'
             }
-        ]
+        ];
+        this.changePage=this.changePage.bind(this)
+        this.search=this.search.bind(this)
     }
     componentDidMount() {
         this.getData()
     }
     getData(){
         let {params}=this.state
-        axios.getRoomJoinLog(params).then(res=>{
+        axios.getRoomOperateLog(params).then(res=>{
             if(res.success){
                 this.setState({
                     data:res.response.data==null?[]:res.response.data,

@@ -34,7 +34,9 @@ export default class JoinLog extends Component {
                 dataIndex: 'CreateDate',
                 align: 'center'
             }
-        ]
+        ];
+        this.changePage=this.changePage.bind(this)
+        this.search=this.search.bind(this)
     }
     componentDidMount() {
         this.getData()
