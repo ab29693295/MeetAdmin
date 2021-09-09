@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Avatar, List, Table} from 'antd';
-import styles from './css/index.module.css'
+import { Table } from 'antd';
 import axios from '../../axios/index'
-export default class ChatList extends Component {
+export default class JoinLog extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,23 +19,13 @@ export default class ChatList extends Component {
         };
         this.columns=[
             {
-                title: '昵称',
-                dataIndex: 'name',
+                title: '用户名',
+                dataIndex: 'UserName',
                 align: 'center'
             },
             {
-                title: '用户ID',
-                dataIndex: 'id',
-                align: 'center'
-            },
-            {
-                title: '聊天内容',
-                dataIndex: 'text',
-                align: 'center'
-            },
-            {
-                title: '发送时间',
-                dataIndex: 'time',
+                title: 'PeerID',
+                dataIndex: 'PeerID',
                 align: 'center'
             },
             {
@@ -51,7 +40,7 @@ export default class ChatList extends Component {
     }
     getData(){
         let {params}=this.state
-        axios.getRoomChat(params).then(res=>{
+        axios.getRoomJoinLog(params).then(res=>{
             if(res.success){
                 this.setState({
                     data:res.response.data==null?[]:res.response.data,

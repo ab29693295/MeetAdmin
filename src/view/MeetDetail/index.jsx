@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import MemberList from './MemberList'
 import BaseInfo from './BaseInfo'
 import ChatList from './ChatList'
-
+import JoinLog from "./JoinLog";
 const {TabPane} = Tabs;
 
 class name extends Component {
@@ -33,6 +33,9 @@ class name extends Component {
                     </TabPane>
                     <TabPane tab="聊天数据" key="3">
                         <ChatList id={this.props.match.params.id}/>
+                    </TabPane>
+                    <TabPane tab="访问日志" key="4">
+                        <JoinLog id={this.props.match.params.id}/>
                     </TabPane>
                 </Tabs>
             </Card>

@@ -6,7 +6,8 @@ import {
     TeamOutlined,
     SettingOutlined,
     HomeOutlined,
-    ClusterOutlined
+    ClusterOutlined,
+    ContainerOutlined
 } from '@ant-design/icons';
 export default [
     {
@@ -51,6 +52,14 @@ export default [
         children: [
             { path: '/usermanage/userList', title: '用户列表' },
             { path: '/usermanage/newUser', title: '添加用户' }
+
+        ]
+    },
+    {
+        title: '日志管理', icon: <ContainerOutlined />, key: 'journal',
+        children: [
+            { path: '/journal/operationList', title: '操作日志' },
+            { path: '/journal/newUser', title: '会议日志' }
 
         ]
     },

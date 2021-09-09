@@ -89,6 +89,13 @@ export default {
     //获取房间聊天记录
     getRoomChat(params){
         return instance.get(api.cnkiDomain + "/api/RoomManage/GetRoomChat", { params, withCredentials: false })
+    },
+    //获取房间访问日志
+    getRoomJoinLog(params){
+        return instance.get(api.cnkiDomain + "/api/RoomManage/GetRoomJoinLog", { params, withCredentials: false })
+    },
+    //获取房间操作日志
+    getRoomOperateLog(params){
+        return instance.get(api.cnkiDomain  + "​/api​/RoomManage​/GetRoomOperateLog", { params, withCredentials: false })
     }
-
 }

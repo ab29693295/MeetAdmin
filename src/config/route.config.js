@@ -11,6 +11,7 @@ import NewUser from '../view/NewUser'
 import ProjectList from '../view/ProjectList'
 import NewProject from '../view/NewProject'
 import MeetDetail from '../view/MeetDetail'
+import OperationList from '../view/OperationList'
 export const routes=[
     { path: '/', component: Home},
     { path: '/home', component: Home},
@@ -24,6 +25,7 @@ export const routes=[
     { path: '/user/safeSetting', component: SafeSetting},
     { path: '/usermanage/userList', component: UserManage },
     { path: '/usermanage/newUser', component: NewUser },
+    { path: '/journal/operationList', component: OperationList },
     { path: '/error', component: Error}
 ]
 
