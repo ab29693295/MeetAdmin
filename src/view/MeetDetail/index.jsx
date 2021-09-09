@@ -6,6 +6,7 @@ import MemberList from './MemberList'
 import BaseInfo from './BaseInfo'
 import ChatList from './ChatList'
 import JoinLog from "./JoinLog";
+import OperateLog from "./OperateLog";
 const {TabPane} = Tabs;
 
 class name extends Component {
@@ -36,6 +37,9 @@ class name extends Component {
                     </TabPane>
                     <TabPane tab="访问日志" key="4">
                         <JoinLog id={this.props.match.params.id}/>
+                    </TabPane>
+                    <TabPane tab="操作列表" key="5">
+                        <OperateLog id={this.props.match.params.id}/>
                     </TabPane>
                 </Tabs>
             </Card>
