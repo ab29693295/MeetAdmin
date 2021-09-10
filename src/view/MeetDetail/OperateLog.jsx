@@ -21,22 +21,22 @@ export default class OperateLog extends Component {
         this.columns=[
             {
                 title: '操作类型',
-                dataIndex: 'UserName',
+                dataIndex: 'typeName',
                 align: 'center'
             },
             {
                 title: '操作详情',
-                dataIndex: 'PeerID',
+                dataIndex: 'des',
                 align: 'center'
             },
             {
                 title: '操作用户',
-                dataIndex: 'CreateDate',
+                dataIndex: 'userName',
                 align: 'center'
             },
             {
                 title: '时间',
-                dataIndex: 'CreateDate',
+                dataIndex: 'createDate',
                 align: 'center'
             }
         ];

@@ -41,7 +41,7 @@ export default class ChatList extends Component {
             },
             {
                 title: '创建时间',
-                dataIndex: 'CreateDate',
+                dataIndex: 'createDate',
                 align: 'center'
             }
         ];

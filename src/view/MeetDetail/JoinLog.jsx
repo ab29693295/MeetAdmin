@@ -21,17 +21,17 @@ export default class JoinLog extends Component {
         this.columns=[
             {
                 title: '用户名',
-                dataIndex: 'UserName',
+                dataIndex: 'userName',
                 align: 'center'
             },
             {
                 title: 'PeerID',
-                dataIndex: 'PeerID',
+                dataIndex: 'peerID',
                 align: 'center'
             },
             {
                 title: '创建时间',
-                dataIndex: 'CreateDate',
+                dataIndex: 'createDate',
                 align: 'center'
             }
         ];
