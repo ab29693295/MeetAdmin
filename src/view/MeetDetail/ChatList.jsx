@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Col, Input, Row, Table} from 'antd';
 import axios from '@/axios/index'
+import {formatDateTime} from "@/common/js/tools";
 const {Search} = Input;
 export default class ChatList extends Component {
     constructor(props) {
@@ -37,7 +38,11 @@ export default class ChatList extends Component {
             {
                 title: '发送时间',
                 dataIndex: 'time',
-                align: 'center'
+                align: 'center',
+                render: (text, record) => {
+                    let dateStr = formatDateTime(new Date(record.time))
+                    return <span>{dateStr}</span>
+                }
             },
             {
                 title: '创建时间',
