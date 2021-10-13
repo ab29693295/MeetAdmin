@@ -101,7 +101,7 @@ export default class ChatList extends Component {
                     </Col>
                 </Row>
                 <Table bordered
-                       rowKey='id'
+                       rowKey='time'
                        dataSource={data}
                        columns={this.columns}
                        pagination={{position: ['none', 'bottomRight'],total:pageData.total,onChange:this.changePage}}

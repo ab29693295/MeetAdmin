@@ -97,5 +97,9 @@ export default {
     //获取房间操作日志
     getRoomOperateLog(params){
         return instance.get(api.cnkiDomain  + "/api/RoomManage/GetRoomOperateLog", { params, withCredentials: false })
+    },
+    //获取房间录制视频
+    getRoomVideo(params){
+        return instance.get(api.cnkiDomain  + "/api/RoomManage/getRoomVideo", { params, withCredentials: false })
     }
 }
