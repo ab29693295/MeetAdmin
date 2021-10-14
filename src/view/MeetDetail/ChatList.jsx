@@ -65,6 +65,9 @@ export default class ChatList extends Component {
                     pageData:{...this.state.pageData,total:res.response.dataCount}
                 })
             }
+            this.setState({
+                loading:false
+            })
         })
     }
     changePage(page){

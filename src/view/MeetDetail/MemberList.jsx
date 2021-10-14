@@ -90,6 +90,9 @@ class MemberList extends Component {
                     pageData:{...this.state.pageData,total:res.response.dataCount}
                 })
             }
+            this.setState({
+                loading:false
+            })
         })
     }
     //翻页

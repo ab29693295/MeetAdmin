@@ -55,6 +55,9 @@ export default class OperateLog extends Component {
                     pageData:{...this.state.pageData,total:res.response.dataCount}
                 })
             }
+            this.setState({
+                loading:false
+            })
         })
     }
     changePage(page){

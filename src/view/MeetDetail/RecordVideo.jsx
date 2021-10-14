@@ -5,7 +5,7 @@ export default class RecordVideo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
+            loading: true,
             data: [],
             pageData:{
                 total:0
@@ -13,7 +13,8 @@ export default class RecordVideo extends Component {
             params:{
                 roomID:this.props.id,
                 page:1,
-                pageSize:10
+                pageSize:10,
+                key:''
             }
         };
         this.columns = [
@@ -46,7 +47,7 @@ export default class RecordVideo extends Component {
                 title: '操作',
                 dataIndex: 'option',
                 align: 'center',
-                render:(text, record, index)=>{
+                render:(text, record)=>{
                     return (
                         <Space size={5}>
                             <Button size="small" data-record={record}  type="primary" danger>删除</Button>
@@ -70,9 +71,12 @@ export default class RecordVideo extends Component {
             if(res.success){
                 this.setState({
                     data:res.response.data,
-                    pageData:{...this.state.pageData,total:res.response.dataCount}
+                    pageData:{...this.state.pageData,total:res.response.dataCount},
                 })
             }
+            this.setState({
+                loading:false
+            })
         })
    }
 
