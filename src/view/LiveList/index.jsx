@@ -181,7 +181,7 @@ class LiveList extends Component {
     //修改
     handleModify(data){
         this.props.history.push({
-            // pathname: '/meet/meetDetail/'+data.id,
+            pathname: '/live/liveDetail/'+data.id,
         })
     }
 
