@@ -6,11 +6,40 @@ export default class index extends Component {
         super(props);
         this.state = {
             imageUrl:'',
-            loading:false
+            loading:false,
+            fileList:[]
         };
     }
-    beforeUpload(){
-
+    beforeUpload(file){
+        console.log(file)
+        //验证格式
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
+        //验证大小
+        if(file.size>10*1024){
+            message.error('请上传不超过10MB大小的图片');
+            return false
+        }else if(!isJpgOrPng){
+            message.error('需要上传jpg格式或者jpeg格式或者png格式!');
+            return false
+        }else{
+            this.setState({
+                fileList:[this.state.fileList,file]
+            })
+        }
+    }
+    customRequest(options){
+        const formData = new FormData();
+        formData.append('file', options.file);
+        formData.append('module','user');
+        this.setState({
+            loading:true
+        })
+        // uploadFile(formData).then(res=>{
+        //     //图片回显
+        //     this.$message.success('图片上传成功！');
+        //     this.$emit('show-img',res.data.filePath)
+        //     this.loading=false
+        // })
     }
     render() {
         let {imageUrl,loading}=this.state
@@ -26,9 +55,9 @@ export default class index extends Component {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 beforeUpload={this.beforeUpload}
                 onChange={this.handleChange}
+                customRequest={this.customRequest}
             >
                 {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
             </Upload>

@@ -231,7 +231,7 @@ class LiveList extends Component {
                         </Col>
                         <Col >
                             <Space size={10}>
-                                <Link to={{pathname:'/meet/newMeet'}}>
+                                <Link to={{pathname:'/live/newLive'}}>
                                     <Button type="primary"  size="large" icon={<PlusOutlined/>}>
                                         新建直播
                                     </Button>
