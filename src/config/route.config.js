@@ -13,6 +13,7 @@ import NewProject from '../view/NewProject'
 import MeetDetail from '../view/MeetDetail'
 import OperationList from '../view/OperationList'
 import LiveList from '../view/LiveList'
+import newLive from '../view/newLive'
 export const routes=[
     { path: '/', component: Home},
     { path: '/home', component: Home},
@@ -27,6 +28,7 @@ export const routes=[
     { path: '/usermanage/userList', component: UserManage },
     { path: '/usermanage/newUser', component: NewUser },
     { path: '/live/liveList', component: LiveList },
+    { path: '/live/newLive', component: newLive },
     { path: '/journal/operationList', component: OperationList },
     { path: '/error', component: Error}
 ]
