@@ -30,19 +30,23 @@ class name extends Component {
                     <TabPane tab="基本信息" key="1">
                         {/*<BaseInfo id={this.props.match.params.id}/>*/}
                     </TabPane>
-                    <TabPane tab="成员列表" key="2">
+                    <TabPane tab="高级设置" key="2">
                         {/*<MemberList id={this.props.match.params.id}/>*/}
                     </TabPane>
-                    <TabPane tab="聊天数据" key="3">
-                        {/*<ChatList id={this.props.match.params.id}/>*/}
-                    </TabPane>
-                    <TabPane tab="访问日志" key="4">
+                    <TabPane tab="回放管理" key="3">
                         {/*<JoinLog id={this.props.match.params.id}/>*/}
                     </TabPane>
-                    <TabPane tab="操作列表" key="5">
+                    <TabPane tab="聊天数据" key="4">
+                        {/*<ChatList id={this.props.match.params.id}/>*/}
+                    </TabPane>
+                    <TabPane tab="访问日志" key="5">
+                        {/*<JoinLog id={this.props.match.params.id}/>*/}
+                    </TabPane>
+
+                    <TabPane tab="操作列表" key="6">
                         {/*<OperateLog id={this.props.match.params.id}/>*/}
                     </TabPane>
-                    <TabPane tab="录制视频列表" key="6">
+                    <TabPane tab="统计管理" key="7">
                         {/*<RecordVideo id={this.props.match.params.id}/>*/}
                     </TabPane>
                 </Tabs>

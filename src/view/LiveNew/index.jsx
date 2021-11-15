@@ -4,7 +4,7 @@ import styles from './css/index.module.css'
 import 'moment/locale/zh-cn';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
-import axios from '@/axios'
+import axios from '@/axios/liveApi'
 import Upload from '@/components/Upload'
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -14,30 +14,27 @@ class NewLive extends Component {
         super(props)
         this.state = {
             projectList:[],
-            hostList:[],
-            hostKey:undefined,
             currentValue:'',
             initialValues:{
                 isPublic: 1,
-                lockStatus: 0,
-                roomSecret:'',
                 timeRange:[],
-                isSecret: 0
+                meetingCode: '',
+                des:'',
+                imagePath:''
             },
             id:0,
             appName:'',
-            isSecret:false//控制会议显示隐藏
+            isPublic:0,//控制会议密钥显示隐藏
+            imagePath:''
         }
 
         this.getProject=this.getProject.bind(this)
-        this.getHost=this.getHost.bind(this)
         this.handleChange=this.handleChange.bind(this)
-        this.getHostData=this.getHostData.bind(this)
+        this.publicStatusChange=this.publicStatusChange.bind(this)
         this.submitForm=this.submitForm.bind(this)
         this.getRoomData=this.getRoomData.bind(this)
         this.handleAppName=this.handleAppName.bind(this)
-        this.handleSecret=this.handleSecret.bind(this)
-        this.timeout=null
+        this.uploadSuccess=this.uploadSuccess.bind(this)
         this.form=React.createRef()
     }
 
@@ -52,47 +49,22 @@ class NewLive extends Component {
         }
         this.getProject()
     }
-    //获取岗位
+
     getProject(){
         //获取机构列表
-        axios.selectProject({key:''}).then(res=>{
+        axios.getProjectList().then(res=>{
             this.setState({
-                projectList:res.response
+                projectList:res
             })
         })
-    }
-    //获取主持人
-    getHost(value){
-        console.log(value)
-        //获取主持人列表
-        if(value){
-            if (this.timeout) {
-                clearTimeout(this.timeout);
-                this.timeout = null;
-            }
-            this.setState({
-                currentValue:value
-            })
-            this.timeout = setTimeout(this.getHostData, 300);
-        }else{
-            this.setState({
-                hostKey:''
-            })
-            this.setState({ hostList: [] });
-        }
     }
 
-    getHostData(){
-        axios.selectUserList({key:this.state.currentValue}).then(res=>{
-            this.setState({
-                hostList:res.response
-            })
-            if(res.response.length==0){
-                this.setState({
-                    hostKey:''
-                })
-            }
+    publicStatusChange(e){
+        //修改公开状态
+        this.setState({
+            isPublic:e.target.value
         })
+
     }
 
     handleChange (hostKey){
@@ -135,39 +107,10 @@ class NewLive extends Component {
         console.log(dates,dateStrings)
 
     }
-    //提交数据
-    submitForm(values){
-        //提交数据
-        if(values.timeRange){
-            values.startTime=new Date(values.timeRange[0]._d).getTime().toString()
-            values.endTime=new Date(values.timeRange[1]._d).getTime().toString()
-        }
-        delete  values.timeRange
 
-        if(this.state.id!=0){
-            values.id=this.state.id
-        }
-        if(!this.state.isSecret){
-            values.roomSecret=''
-        }
-        values={...values,appName:this.state.appName}
-        axios.addMeetRoom(values).then(res=>{
-            if(res.success){
-                if(this.state.id!=0){
-                    message.success('直播修改成功！')
-                }else{
-                    message.success('直播创建成功！')
-                }
-                this.form.current.setFieldsValue({timeRange:[]})
-                this.form.current.resetFields()
-                this.props.history.push({
-                    pathname: '/meet/meetList',
-                })
-            }
-        })
-    }
-    //获取信息
+
     getRoomData(id){
+        //获取信息
         axios.getRoomDetail({rID:id}).then(res=>{
             this.getHostData()
             let startTime=moment(res.response.startTime,'YYYY-MM-DD HH:mm');
@@ -188,23 +131,45 @@ class NewLive extends Component {
         })
     }
 
-    handleSecret(event){
-        if(event.target.value==1){
-            this.setState({
-                isSecret:true
-            })
-        }else{
-            this.setState({
-                isSecret:false
-            })
-        }
-
-
+    uploadSuccess(imagePath){
+        //上传图片成功
+        this.setState({
+            imagePath
+        })
     }
 
+    submitForm(values){
+        //提交数据
+        if(values.timeRange){
+            values.startDate=new Date(values.timeRange[0]._d).getTime().toString()
+            values.endDate=new Date(values.timeRange[1]._d).getTime().toString()
+        }
+        delete  values.timeRange
+        if(this.state.id!=0){
+            values.id=this.state.id
+        }
+        if(this.state.imagePath!=''){
+            values.imagePath=this.state.imagePath
+        }
+        values={...values,appName:this.state.appName}
+        axios.addOrUpdateLiveCourse(values).then(res=>{
+            if(res.success){
+                if(this.state.id!=0){
+                    message.success('直播修改成功！')
+                }else{
+                    message.success('直播创建成功！')
+                }
+                this.form.current.setFieldsValue({timeRange:[]})
+                this.form.current.resetFields()
+                this.props.history.push({
+                    pathname: '/live/liveList',
+                })
+            }
+        })
+    }
 
     render() {
-        let {projectList,hostList,initialValues}=this.state
+        let {projectList,isPublic,initialValues}=this.state
         return (
             <Card title="新建直播" bordered={false}>
                 <Form
@@ -227,7 +192,7 @@ class NewLive extends Component {
 
                     <Form.Item
                         label="课程机构"
-                        name="appID"
+                        name="appiD"
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
@@ -237,7 +202,7 @@ class NewLive extends Component {
                             {
                                 projectList.map((item)=>{
                                     return (
-                                        <Option value={item.appID} key={item.id} data={item.appName}>{item.appName}</Option>
+                                        <Option value={item.id} key={item.id} data={item.appName}>{item.appName}</Option>
                                     )
                                 })
                             }
@@ -260,57 +225,6 @@ class NewLive extends Component {
                             onChange={this.timeChange}
                         />
                     </Form.Item>
-                    <Form.Item  label="是否启用讨论"
-                                name="isPublic"
-                                className={styles.formItem}
-                                labelCol={{ span: 6 }}
-                                wrapperCol={{ span: 16 }}
-                                rules={[{ required: true  }]}
-                                value={1}>
-                        <Radio.Group onChange={this.handleSecret} >
-                            <Radio value={1}>是</Radio>
-                            <Radio value={0}>否</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-                    <Form.Item
-                        label="是否启用鲜花掌声"
-                        name="isPublic"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true  }]}
-                    >
-                        <Radio.Group onChange={this.onChange} value={1}>
-                            <Radio value={1}>是</Radio>
-                            <Radio value={0}>否</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-                    <Form.Item
-                        label="是否显示成员"
-                        name="isPublic"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true  }]}
-                    >
-                        <Radio.Group onChange={this.onChange} value={1}>
-                            <Radio value={1}>是</Radio>
-                            <Radio value={0}>否</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-                    <Form.Item
-                        label="是否启用打赏"
-                        name="isSecret"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true  }]}
-                    >
-                        <Radio.Group onChange={this.onChange} value={0}>
-                            <Radio value={1}>是</Radio>
-                            <Radio value={0}>否</Radio>
-                        </Radio.Group>
-                    </Form.Item>
                     <Form.Item
                         label="是否公开"
                         name="isPublic"
@@ -319,59 +233,126 @@ class NewLive extends Component {
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
-                        <Radio.Group onChange={this.onChange} value={1}>
+                        <Radio.Group onChange={this.publicStatusChange} value={1}>
                             <Radio value={1}>是</Radio>
                             <Radio value={0}>否</Radio>
+                            <Radio value={2}>秘钥</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item
-                        label="推流供应商"
-                        name="lockStatus"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true  }]}
-                    >
-                        <Radio.Group onChange={this.onChange} >
-                            <Radio value={1}>阿里云</Radio>
-                            <Radio value={0}>百度云</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-                    <Form.Item
-                        label="原生或同传"
-                        name="lockStatus"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true  }]}
-                    >
-                        <Radio.Group onChange={this.onChange} >
-                            <Radio value={1}>原生</Radio>
-                            <Radio value={0}>同传</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-                    <Form.Item
-                        label="推流或拉流"
-                        name="lockStatus"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true  }]}
-                    >
-                        <Radio.Group onChange={this.onChange} >
-                            <Radio value={1}>推流</Radio>
-                            <Radio value={0}>拉流</Radio>
-                        </Radio.Group>
-                    </Form.Item>
+                    {
+                        isPublic == 2 &&<Form.Item
+                            label="秘钥"
+                            name="meetingCode"
+                            className={styles.formItem}
+                            labelCol={{ span: 6 }}
+                            wrapperCol={{ span: 16 }}
+                            rules={[{ required: true  }]}
+                        >
+                            <Input autoComplete='off' placeholder='请填写课程秘钥'/>
+                        </Form.Item>
+                    }
+
                     <Form.Item
                         label="背景图片"
-                        name="imgagePath"
+                        name="imagePath"
                         className={styles.formItem}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
-                        rules={[{ required: true  }]}>
-                        <Upload/>
+                    >
+                        <Upload uploadSuccess={this.uploadSuccess} uploadError={this.uploadError}/>
                     </Form.Item>
+                    {/*<Form.Item  label="是否启用讨论"*/}
+                    {/*            name="isPublic"*/}
+                    {/*            className={styles.formItem}*/}
+                    {/*            labelCol={{ span: 6 }}*/}
+                    {/*            wrapperCol={{ span: 16 }}*/}
+                    {/*            rules={[{ required: true  }]}*/}
+                    {/*            value={1}>*/}
+                    {/*    <Radio.Group onChange={this.handleSecret} >*/}
+                    {/*        <Radio value={1}>是</Radio>*/}
+                    {/*        <Radio value={0}>否</Radio>*/}
+                    {/*    </Radio.Group>*/}
+                    {/*</Form.Item>*/}
+                    {/*<Form.Item*/}
+                    {/*    label="是否启用鲜花掌声"*/}
+                    {/*    name="isPublic"*/}
+                    {/*    className={styles.formItem}*/}
+                    {/*    labelCol={{ span: 6 }}*/}
+                    {/*    wrapperCol={{ span: 16 }}*/}
+                    {/*    rules={[{ required: true  }]}*/}
+                    {/*>*/}
+                    {/*    <Radio.Group onChange={this.onChange} value={1}>*/}
+                    {/*        <Radio value={1}>是</Radio>*/}
+                    {/*        <Radio value={0}>否</Radio>*/}
+                    {/*    </Radio.Group>*/}
+                    {/*</Form.Item>*/}
+                    {/*<Form.Item*/}
+                    {/*    label="是否显示成员"*/}
+                    {/*    name="isPublic"*/}
+                    {/*    className={styles.formItem}*/}
+                    {/*    labelCol={{ span: 6 }}*/}
+                    {/*    wrapperCol={{ span: 16 }}*/}
+                    {/*    rules={[{ required: true  }]}*/}
+                    {/*>*/}
+                    {/*    <Radio.Group onChange={this.onChange} value={1}>*/}
+                    {/*        <Radio value={1}>是</Radio>*/}
+                    {/*        <Radio value={0}>否</Radio>*/}
+                    {/*    </Radio.Group>*/}
+                    {/*</Form.Item>*/}
+                    {/*<Form.Item*/}
+                    {/*    label="是否启用打赏"*/}
+                    {/*    name="isSecret"*/}
+                    {/*    className={styles.formItem}*/}
+                    {/*    labelCol={{ span: 6 }}*/}
+                    {/*    wrapperCol={{ span: 16 }}*/}
+                    {/*    rules={[{ required: true  }]}*/}
+                    {/*>*/}
+                    {/*    <Radio.Group onChange={this.onChange} value={0}>*/}
+                    {/*        <Radio value={1}>是</Radio>*/}
+                    {/*        <Radio value={0}>否</Radio>*/}
+                    {/*    </Radio.Group>*/}
+                    {/*</Form.Item>*/}
+
+                    {/*<Form.Item*/}
+                    {/*    label="推流供应商"*/}
+                    {/*    name="lockStatus"*/}
+                    {/*    className={styles.formItem}*/}
+                    {/*    labelCol={{ span: 6 }}*/}
+                    {/*    wrapperCol={{ span: 16 }}*/}
+                    {/*    rules={[{ required: true  }]}*/}
+                    {/*>*/}
+                    {/*    <Radio.Group onChange={this.onChange} >*/}
+                    {/*        <Radio value={1}>阿里云</Radio>*/}
+                    {/*        <Radio value={0}>百度云</Radio>*/}
+                    {/*    </Radio.Group>*/}
+                    {/*</Form.Item>*/}
+                    {/*<Form.Item*/}
+                    {/*    label="原生或同传"*/}
+                    {/*    name="lockStatus"*/}
+                    {/*    className={styles.formItem}*/}
+                    {/*    labelCol={{ span: 6 }}*/}
+                    {/*    wrapperCol={{ span: 16 }}*/}
+                    {/*    rules={[{ required: true  }]}*/}
+                    {/*>*/}
+                    {/*    <Radio.Group onChange={this.onChange} >*/}
+                    {/*        <Radio value={1}>原生</Radio>*/}
+                    {/*        <Radio value={0}>同传</Radio>*/}
+                    {/*    </Radio.Group>*/}
+                    {/*</Form.Item>*/}
+                    {/*<Form.Item*/}
+                    {/*    label="推流或拉流"*/}
+                    {/*    name="lockStatus"*/}
+                    {/*    className={styles.formItem}*/}
+                    {/*    labelCol={{ span: 6 }}*/}
+                    {/*    wrapperCol={{ span: 16 }}*/}
+                    {/*    rules={[{ required: true  }]}*/}
+                    {/*>*/}
+                    {/*    <Radio.Group onChange={this.onChange} >*/}
+                    {/*        <Radio value={1}>推流</Radio>*/}
+                    {/*        <Radio value={0}>拉流</Radio>*/}
+                    {/*    </Radio.Group>*/}
+                    {/*</Form.Item>*/}
+
                     <Form.Item
                         label="课程描述"
                         name="des"

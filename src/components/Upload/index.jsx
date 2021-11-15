@@ -9,14 +9,15 @@ export default class index extends Component {
             loading:false,
             fileList:[]
         };
+        this.beforeUpload=this.beforeUpload.bind(this)
+        this.customRequest=this.customRequest.bind(this)
     }
     beforeUpload(file){
-        console.log(file)
         //验证格式
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
         //验证大小
-        if(file.size>10*1024){
-            message.error('请上传不超过10MB大小的图片');
+        if(file.size>100*1024){
+            message.error('请上传不超过100MB大小的图片');
             return false
         }else if(!isJpgOrPng){
             message.error('需要上传jpg格式或者jpeg格式或者png格式!');
@@ -34,11 +35,15 @@ export default class index extends Component {
         this.setState({
             loading:true
         })
+        this.props.uploadSuccess('123')
         // uploadFile(formData).then(res=>{
         //     //图片回显
-        //     this.$message.success('图片上传成功！');
-        //     this.$emit('show-img',res.data.filePath)
+        //     message.success('图片上传成功！');
         //     this.loading=false
+        //     this.props.uploadSuccess(res.data.filePath)
+        // }).then(error=>{
+        //      message.success('图片上传失败！');
+        //     this.props.uploadError()
         // })
     }
     render() {
