@@ -3,8 +3,8 @@ import {Card, Tabs} from "antd";
 import { LeftOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom'
 // import MemberList from './MemberList'
-// import BaseInfo from './BaseInfo'
-// import ChatList from './ChatList'
+import BaseInfo from './BaseInfo'
+import AdvancedSetting from './AdvancedSetting'
 // import JoinLog from "./JoinLog";
 // import OperateLog from "./OperateLog";
 // import RecordVideo from "./RecordVideo";
@@ -28,10 +28,10 @@ class name extends Component {
                     <TabPane tab={<Link to={{pathname:'/live/liveList'}}><LeftOutlined />返回上一页</Link>} key="0">
                     </TabPane>
                     <TabPane tab="基本信息" key="1">
-                        {/*<BaseInfo id={this.props.match.params.id}/>*/}
+                        <BaseInfo id={this.props.match.params.id}/>
                     </TabPane>
                     <TabPane tab="高级设置" key="2">
-                        {/*<MemberList id={this.props.match.params.id}/>*/}
+                        <AdvancedSetting id={this.props.match.params.id}/>
                     </TabPane>
                     <TabPane tab="回放管理" key="3">
                         {/*<JoinLog id={this.props.match.params.id}/>*/}

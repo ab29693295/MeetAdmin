@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import { Card, Form, Input, Button, DatePicker, Select, Radio,message } from 'antd';
-import styles from './css/index.module.css'
+import {  Form, Input, Button, DatePicker, Select, Radio,message } from 'antd';
+import styles from '@/view/LiveNew/css/index.module.css'
 import 'moment/locale/zh-cn';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
@@ -39,7 +39,6 @@ class NewLive extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         if(this.props.id){
             let id=Number(this.props.id);
             this.setState({
@@ -172,7 +171,6 @@ class NewLive extends Component {
     render() {
         let {projectList,isPublic,initialValues}=this.state
         return (
-            <Card title="新建直播" bordered={false} >
                 <Form
                     name="basic"
                     ref={this.form}
@@ -273,10 +271,9 @@ class NewLive extends Component {
                         <Input.TextArea autoComplete='off' placeholder='请填写课程描述'/>
                     </Form.Item>
                     <Form.Item  className={styles.formBtn}>
-                        <Button type="primary" htmlType='submit'>新建直播</Button>
+                        <Button type="primary" htmlType='submit'>确认修改</Button>
                     </Form.Item>
                 </Form>
-            </Card>
         )
     }
 }

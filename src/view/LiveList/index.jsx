@@ -40,7 +40,7 @@ class LiveList extends Component {
             {
                 title: '课程名称',
                 dataIndex: 'courseName',
-                width: '10%',
+                width: '8%',
                 align: 'center'
             },
             {
@@ -96,6 +96,20 @@ class LiveList extends Component {
                         return <span>不公开</span>
                     }
 
+                }
+            },
+            {
+                title: '审核状态',
+                dataIndex: 'isPublic',
+                align: 'center',
+                render: (text, record) => {
+                    if (record.isPublic == 1) {
+                        return <span> 未审核</span>
+                    } else if(record.isPublic == 2){
+                        return <span>通过</span>
+                    }else{
+                        return <span>不通过</span>
+                    }
                 }
             },
             {
