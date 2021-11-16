@@ -100,12 +100,12 @@ class LiveList extends Component {
             },
             {
                 title: '审核状态',
-                dataIndex: 'isPublic',
+                dataIndex: 'checkStatus',
                 align: 'center',
                 render: (text, record) => {
-                    if (record.isPublic == 1) {
+                    if (record.checkStatus == 0) {
                         return <span> 未审核</span>
-                    } else if(record.isPublic == 2){
+                    } else if(record.checkStatus == 2){
                         return <span>通过</span>
                     }else{
                         return <span>不通过</span>
