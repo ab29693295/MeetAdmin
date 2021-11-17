@@ -60,7 +60,7 @@ class Login extends Component {
                         <Form.Item
                             name="username"
                             rules={[{required: true, message: '请输入用户名!'}]}
-                            className={styles.formItem}
+                            className={'formItem'}
                         >
                             <Input prefix={<UserOutlined className="site-form-item-icon"
                                                          style={{color: 'rgba(0,0,0,.25)'}}/>} autoComplete="off"
@@ -69,7 +69,7 @@ class Login extends Component {
                         <Form.Item
                             name="password"
                             rules={[{required: true, message: '请输入密码！'}]}
-                            className={styles.formItem}
+                            className={'formItem'}
                         >
                             <Input
                                 prefix={<LockOutlined className="site-form-item-icon"

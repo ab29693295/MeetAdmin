@@ -30,7 +30,7 @@ class AddUserModal extends Component {
             <Modal title="添加成员" visible={visible} footer={null} onCancel={this.handleCancel}>
                 <Form
                     name="basic"
-                    className={styles.form}
+                    className={'form'}
                     initialValues={{
                         status:1
                     }}
@@ -39,7 +39,7 @@ class AddUserModal extends Component {
                     <Form.Item
                         label="成员昵称"
                         name="userName"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 7 }}
                         wrapperCol={{ span: 14 }}
                         rules={[{ required: true  }]}
@@ -49,14 +49,14 @@ class AddUserModal extends Component {
                     <Form.Item
                         label="真实姓名"
                         name="trueName"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 7 }}
                         wrapperCol={{ span: 14 }}
                         rules={[{ required: true  }]}
                     >
                         <Input autoComplete='off' placeholder='请输入真实姓名'/>
                     </Form.Item>
-                    <Form.Item  className={styles.formBtn}>
+                    <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>确定</Button>
                     </Form.Item>
                 </Form>

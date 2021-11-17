@@ -37,7 +37,7 @@ class ExamineModal extends Component {
             <Modal title="会议审核" visible={visible} footer={null} onCancel={this.handleCancel}>
                 <Form
                     name="basic"
-                    className={styles.form}
+                    className={'form'}
                     initialValues={{
                         status:1
                     }}
@@ -46,7 +46,7 @@ class ExamineModal extends Component {
                     <Form.Item
                         label="审核"
                         name="status"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 10 }}
                         wrapperCol={{ span: 14 }}
                         rules={[{ required: true  }]}
@@ -62,7 +62,7 @@ class ExamineModal extends Component {
                     {/*    wrapperCol={{ span: 16 }}>*/}
                     {/*    <Input.TextArea />*/}
                     {/*</Form.Item>*/}
-                    <Form.Item  className={styles.formBtn}>
+                    <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>确定</Button>
                     </Form.Item>
                 </Form>

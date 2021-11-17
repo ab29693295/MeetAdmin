@@ -176,7 +176,7 @@ class NewLive extends Component {
                 <Form
                     name="basic"
                     ref={this.form}
-                    className={styles.form}
+                    className={'form'}
                     initialValues={initialValues}
                     onFinish={this.submitForm}
                 >
@@ -184,7 +184,7 @@ class NewLive extends Component {
                         label="课程名称"
                         name="courseName"
                         rules={[{required: true, message: '请填写课程名称！'}]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
@@ -194,7 +194,7 @@ class NewLive extends Component {
                     <Form.Item
                         label="课程机构"
                         name="appiD"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true,message:'请选择课程机构！'  }]}
@@ -213,7 +213,7 @@ class NewLive extends Component {
                         label="直播时间"
                         name="timeRange"
                         rules={[{required: true, message: '请选择直播时间！'}]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
@@ -229,7 +229,7 @@ class NewLive extends Component {
                     <Form.Item
                         label="是否公开"
                         name="isPublic"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
@@ -244,7 +244,7 @@ class NewLive extends Component {
                         isPublic == 2 &&<Form.Item
                             label="秘钥"
                             name="meetingCode"
-                            className={styles.formItem}
+                            className={'formItem'}
                             labelCol={{ span: 6 }}
                             wrapperCol={{ span: 16 }}
                             rules={[{ required: true  }]}
@@ -256,7 +256,7 @@ class NewLive extends Component {
                     <Form.Item
                         label="背景图片"
                         name="imagePath"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
@@ -266,13 +266,13 @@ class NewLive extends Component {
                         label="课程描述"
                         name="des"
                         rules={[{ message: '请填写课程描述！'}]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
                         <Input.TextArea autoComplete='off' placeholder='请填写课程描述'/>
                     </Form.Item>
-                    <Form.Item  className={styles.formBtn}>
+                    <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>新建直播</Button>
                     </Form.Item>
                 </Form>

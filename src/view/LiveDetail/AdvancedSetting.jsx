@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Form, Input, Button, DatePicker, Select, Radio,message} from "antd";
-import styles from "../LiveNew/css/index.module.css";
+import { Form, Button, Radio} from "antd";
 export default class AdvancedSetting extends Component {
     constructor(props) {
         super(props);
@@ -31,14 +30,14 @@ export default class AdvancedSetting extends Component {
                 <Form
                     name="basic"
                     ref={this.form}
-                    className={styles.form}
+                    className={'form'}
                     initialValues={initialValues}
                     onFinish={this.submitForm}
                 >
                     <Form.Item  label="是否启用讨论"
                                 name="isPublic"
-                                className={styles.formItem}
-                                labelCol={{ span: 6 }}
+                                className={'formItem'}
+                                labelCol={{ span: 8 }}
                                 wrapperCol={{ span: 16 }}
                                 rules={[{ required: true  }]}
                                 value={1}>
@@ -50,8 +49,8 @@ export default class AdvancedSetting extends Component {
                     <Form.Item
                         label="是否启用鲜花掌声"
                         name="isPublic"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
+                        className={'formItem'}
+                        labelCol={{ span: 8 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
@@ -63,8 +62,8 @@ export default class AdvancedSetting extends Component {
                     <Form.Item
                         label="是否显示成员"
                         name="isPublic"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
+                        className={'formItem'}
+                        labelCol={{ span: 8 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
@@ -76,8 +75,8 @@ export default class AdvancedSetting extends Component {
                     <Form.Item
                         label="是否启用打赏"
                         name="isSecret"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
+                        className={'formItem'}
+                        labelCol={{ span: 8 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
@@ -90,8 +89,8 @@ export default class AdvancedSetting extends Component {
                     <Form.Item
                         label="推流供应商"
                         name="lockStatus"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
+                        className={'formItem'}
+                        labelCol={{ span: 8 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
@@ -103,8 +102,8 @@ export default class AdvancedSetting extends Component {
                     <Form.Item
                         label="原生或同传"
                         name="lockStatus"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
+                        className={'formItem'}
+                        labelCol={{ span: 8 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
@@ -116,8 +115,8 @@ export default class AdvancedSetting extends Component {
                     <Form.Item
                         label="推流或拉流"
                         name="lockStatus"
-                        className={styles.formItem}
-                        labelCol={{ span: 6 }}
+                        className={'formItem'}
+                        labelCol={{ span: 8 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
@@ -126,7 +125,7 @@ export default class AdvancedSetting extends Component {
                             <Radio value={0}>拉流</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item  className={styles.formBtn}>
+                    <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>确认修改</Button>
                     </Form.Item>
                 </Form>

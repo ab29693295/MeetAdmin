@@ -146,8 +146,13 @@ textarea:disabled {
     margin-bottom: 20px;
     width: 100%;
 }
+.form{
+    width: 500px;
+    margin: 20px auto;
+}
 .formBtn{
     text-align: center;
+    /* margin: 30px 0;*/
 }
 :root {
     --background-color: rgba(114, 119, 143, 1.0);

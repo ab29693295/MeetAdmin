@@ -15,7 +15,7 @@ class name extends Component {
     render() {
         return (
             <Card title="个人信息"  >
-                <Form className={styles.form}>
+                <Form  className={'form'}>
                     <Form.Item label='昵称'>
                         <Input />
                     </Form.Item>

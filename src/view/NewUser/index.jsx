@@ -37,14 +37,14 @@ class NewUser extends Component {
                 <Form
                     name="basic"
                     ref={this.form}
-                    className={styles.form}
+                    className={'form'}
                 >
 
                     <Form.Item
                         label="用户名："
                         name="username"
                         rules={[{ required: true, message: '用户名为必填信息' }]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         {...formItemLayout}
                     >
                         <Input autoComplete='off' placeholder='请输入用户名！' />
@@ -58,7 +58,7 @@ class NewUser extends Component {
                         label="真实姓名："
                         name="truename"
                         rules={[{ required: true, message: '真实姓名为必填信息' }]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         {...formItemLayout}
                     >
                         <Input autoComplete='off' placeholder='请输入真实姓名！' />
@@ -66,7 +66,7 @@ class NewUser extends Component {
                     <Form.Item
                         label="性别："
                         name="sex"
-                        className={styles.formItem}
+                        className={'formItem'}
                         {...formItemLayout}
                     >
                         <Radio.Group onChange={this.onChange} value={sexvalue}>
@@ -77,7 +77,7 @@ class NewUser extends Component {
                     <Form.Item
                         label="用户角色："
                         name="appID"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true,message:'请选择用户角色！'  }]}
@@ -97,7 +97,7 @@ class NewUser extends Component {
                         label="手机号："
                         name="phone"
                         rules={[{ required: true, message: '手机号为必填信息' }]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         {...formItemLayout}
                     >
                         <Input autoComplete='off' placeholder='请输入手机号！' />
@@ -106,7 +106,7 @@ class NewUser extends Component {
                         label="邮箱："
                         name="email"
                         rules={[{ required: true, message: '邮箱为必填信息' }]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         {...formItemLayout}
                     >
                         <Input autoComplete='off' placeholder='请输入邮箱！' />
@@ -126,7 +126,7 @@ class NewUser extends Component {
                        >
                         <Input.TextArea placeholder="请输入备注！" />
                     </Form.Item>
-                    <Form.Item className={styles.formBtn}>
+                    <Form.Item className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>确定</Button>
                     </Form.Item>
                 </Form>

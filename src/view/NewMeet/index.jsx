@@ -208,7 +208,7 @@ class NewMeet extends Component {
                 <Form
                     name="basic"
                     ref={this.form}
-                    className={styles.form}
+                    className={'form'}
                     initialValues={initialValues}
                     onFinish={this.submitForm}
                 >
@@ -216,7 +216,7 @@ class NewMeet extends Component {
                         label="会议主题"
                         name="roomName"
                         rules={[{required: true, message: '请填写会议主题！'}]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
@@ -225,7 +225,7 @@ class NewMeet extends Component {
                     <Form.Item
                         label="会议机构"
                         name="appID"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true,message:'请选择会议机构！'  }]}
@@ -244,7 +244,7 @@ class NewMeet extends Component {
                         label="会议时间"
                         name="timeRange"
                         rules={[{required: true, message: '请选择会议时间！'}]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
@@ -259,7 +259,7 @@ class NewMeet extends Component {
                     </Form.Item>
                     <Form.Item  label="是否需要密码"
                                 name="isSecret"
-                                className={styles.formItem}
+                                className={'formItem'}
                                 labelCol={{ span: 6 }}
                                 wrapperCol={{ span: 16 }}
                                 rules={[{ required: true  }]}
@@ -272,7 +272,7 @@ class NewMeet extends Component {
                     {this.state.isSecret&& <Form.Item
                         label="会议密码"
                         name="roomSecret"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
@@ -282,7 +282,7 @@ class NewMeet extends Component {
                     <Form.Item
                         label="是否公开"
                         name="isPublic"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
@@ -295,7 +295,7 @@ class NewMeet extends Component {
                     <Form.Item
                         label="锁定状态"
                         name="lockStatus"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
@@ -308,7 +308,7 @@ class NewMeet extends Component {
                     <Form.Item
                         label="最大参会人数"
                         name="maxCount"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
@@ -325,7 +325,7 @@ class NewMeet extends Component {
                     <Form.Item
                         label="会议主持人"
                         name="hostID"
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
@@ -349,7 +349,7 @@ class NewMeet extends Component {
                             }
                         </Select>
                     </Form.Item>
-                    <Form.Item  className={styles.formBtn}>
+                    <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>预定会议</Button>
                     </Form.Item>
                 </Form>

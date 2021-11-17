@@ -28,14 +28,14 @@ class name extends Component {
                 <Form
                     name="basic"
                     ref={this.form}
-                    className={styles.form}
+                    className={'form'}
                     onFinish={this.submitForm}
                 >
                     <Form.Item
                         label="机构名称"
                         name="appName"
                         rules={[{required: true, message: '请填写机构名称！'}]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
@@ -45,7 +45,7 @@ class name extends Component {
                         label="机构KEY"
                         name="appKey"
                         rules={[{required: true, message: '请填写机构KEY！'}]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
@@ -55,13 +55,13 @@ class name extends Component {
                         label="机构链接"
                         name="appUrl"
                         rules={[{required: true, message: '请填写机构链接！'}]}
-                        className={styles.formItem}
+                        className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
                         <Input autoComplete='off' placeholder='请输入机构链接'/>
                     </Form.Item>
-                    <Form.Item  className={styles.formBtn}>
+                    <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>新建机构</Button>
                     </Form.Item>
                 </Form>
