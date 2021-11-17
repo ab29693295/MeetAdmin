@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {Modal, Input, Table, Card, Button, message, Row, Col, Space} from 'antd';
 import { PlusOutlined, CheckSquareOutlined} from '@ant-design/icons';
-import styles from './css/index.module.css'
 import {Link} from 'react-router-dom'
 import {formatDateTime} from '../../common/js/tools'
 import axios from '../../axios/liveApi'
+import ExamineModal from '@/components/ExamineModal'
 
 const {Search} = Input;
 
@@ -26,7 +26,8 @@ class LiveList extends Component {
             },
             examineInfo:{
                 visible:false,
-                data:''
+                data:'',
+                title:'课程审核'
             },
             showInfo:{
                 visible:false,
@@ -36,6 +37,10 @@ class LiveList extends Component {
         }
         this.searchMeet = this.searchMeet.bind(this);
         this.changPage=this.changPage.bind(this)
+        this.checkStatus=this.checkStatus.bind(this)
+        this.examineFinish=this.examineFinish.bind(this)
+        this.examineCancel=this.examineCancel.bind(this)
+
         this.columns = [
             {
                 title: '课程名称',
@@ -105,7 +110,7 @@ class LiveList extends Component {
                 render: (text, record) => {
                     if (record.checkStatus == 0) {
                         return <span> 未审核</span>
-                    } else if(record.checkStatus == 2){
+                    } else if(record.checkStatus == 1){
                         return <span>通过</span>
                     }else{
                         return <span>不通过</span>
@@ -179,7 +184,7 @@ class LiveList extends Component {
                             "删除成功！",
                         );
                         //重新获取数据
-                        that.getMeetData({page: 1,pageSize:10})
+                        that.getData({page: 1,pageSize:10})
                     } else {
                         message.error("删除失败！");
                     }
@@ -204,7 +209,7 @@ class LiveList extends Component {
         this.setState({
             params:{...this.state.params,key:textValue,page: 1}
         },function () {
-            this.getMeetData();
+            this.getData();
         })
 
     }
@@ -216,14 +221,50 @@ class LiveList extends Component {
 
     //翻页
     changPage(page){
+        //翻页
         this.setState({
             params:{...this.state.params,page: page}
         },function () {
-            this.getMeetData();
+            this.getData();
         })
 
     }
 
+    //提交审核
+    examineFinish(values){
+        //接口
+        let {data}=this.state.examineInfo
+        axios.setCheckStatus({cid:data,status:values.status}).then(res=>{
+            if(res.success){
+                message.success('审核成功！')
+                this.getData()
+            }else{
+                message.error('审核失败！')
+            }
+            this.examineCancel()
+            this.setState({
+                examineInfo:{...this.state.examineInfo,visible:false,data:''}
+            })
+        })
+    }
+    //取消审核
+    examineCancel(){
+        this.setState({
+            examineInfo:{...this.state.examineInfo,visible:false,data:''}
+        })
+    }
+
+    //审核课程
+    checkStatus() {
+        let {selectedRowKeys}=this.state;
+        if(selectedRowKeys.length>0){
+            this.setState({
+                examineInfo:{...this.state.examineInfo,visible:true,data:selectedRowKeys.join(',')}
+            })
+        }else{
+            message.info('请选择需要审核的课程')
+        }
+    }
     render() {
         const {  selectedRowKeys,pageData,loading } = this.state;
         const rowSelection = {
@@ -251,7 +292,7 @@ class LiveList extends Component {
                                     </Button>
                                 </Link>
                                 <Button type="primary" size="large" icon={<CheckSquareOutlined/>}
-                                        onClick={this.checkMeet}>审核</Button>
+                                        onClick={this.checkStatus}>审核</Button>
                             </Space>
                         </Col>
                     </Row>
@@ -265,7 +306,7 @@ class LiveList extends Component {
                            loading={loading}
                     > </Table>
                 </Card>
-                {/*<ExamineModal {...this.state.examineInfo} examineCallback={this.setExamineModal}/>*/}
+                <ExamineModal {...this.state.examineInfo} examineFinish={this.examineFinish} examineCancel={this.examineCancel}/>
                 {/*<ShowModal {...this.state.showInfo} showCallback={this.setShowModal}/>*/}
             </>
 

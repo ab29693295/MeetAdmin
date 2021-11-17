@@ -4,7 +4,7 @@ import {SearchOutlined, PlusOutlined, CheckSquareOutlined, CloseCircleOutlined} 
 import styles from './css/index.module.css'
 import {Link} from 'react-router-dom'
 import {formatDateTime} from '../../common/js/tools'
-import ExamineModal from './ExamineModal'
+import ExamineModal from '@/components/ExamineModal'
 import ShowModal from './ShowModal'
 import axios from '../../axios'
 
@@ -27,7 +27,8 @@ class MeetList extends Component {
             },
             examineInfo:{
                 visible:false,
-                data:''
+                data:'',
+                title:'会议审核'
             },
             showInfo:{
                 visible:false,
@@ -38,8 +39,8 @@ class MeetList extends Component {
         this.searchMeet = this.searchMeet.bind(this);
         this.changPage=this.changPage.bind(this)
         this.checkMeet=this.checkMeet.bind(this)
-        this.setExamineModal=this.setExamineModal.bind(this)
-        this.setShowModal=this.setShowModal.bind(this)
+        this.examineFinish=this.examineFinish.bind(this)
+        this.examineCancel=this.examineCancel.bind(this)
         this.columns = [
             {
                 title: '会议主题',
@@ -208,6 +209,30 @@ class MeetList extends Component {
             message.info('请选择需要审核的课程')
         }
     }
+    //提交审核
+    examineFinish(values){
+        //接口
+        let {data}=this.state.examineInfo
+        axios.checkRoom({rIDs:data,status:values.status}).then(res=>{
+            if(res.success){
+                message.success('审核成功！')
+                this.getMeetData()
+            }else{
+                message.error('审核失败！')
+            }
+            this.examineCancel()
+            this.setState({
+                examineInfo:{...this.state.examineInfo,visible:false,data:''}
+            })
+        })
+
+    }
+    //取消审核
+    examineCancel(){
+        this.setState({
+            examineInfo:{...this.state.examineInfo,visible:false,data:''}
+        })
+    }
 
     setExamineModal(update){
         if(update){
@@ -306,7 +331,7 @@ class MeetList extends Component {
                            loading={loading}
                     > </Table>
                 </Card>
-                    <ExamineModal {...this.state.examineInfo} examineCallback={this.setExamineModal}/>
+                    <ExamineModal {...this.state.examineInfo} examineFinish={this.examineFinish} examineCancel={this.examineCancel}/>
                     <ShowModal {...this.state.showInfo} showCallback={this.setShowModal}/>
                 </>
 

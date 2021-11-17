@@ -38,4 +38,8 @@ export default {
     addOrUpdateLiveCourse(params){
         return instance.get(api.cnkiDomain +"/api/LiveCourse/AddorUpdateLiveCourse",  {params} );
     },
+    //视频审核
+    setCheckStatus(data){
+        return instance.post(api.cnkiDomain +"/api/LiveCourse/CheckStatus",  data );
+    },
 }
