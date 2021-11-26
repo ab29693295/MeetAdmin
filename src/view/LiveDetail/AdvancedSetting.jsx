@@ -114,7 +114,7 @@ export default class AdvancedSetting extends Component {
                     </Form.Item>
                     <Form.Item
                         label="推流或拉流"
-                        name="lockStatus"
+                        name="steam"
                         className={'formItem'}
                         labelCol={{ span: 8 }}
                         wrapperCol={{ span: 16 }}
@@ -125,6 +125,7 @@ export default class AdvancedSetting extends Component {
                             <Radio value={0}>拉流</Radio>
                         </Radio.Group>
                     </Form.Item>
+
                     <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>确认修改</Button>
                     </Form.Item>

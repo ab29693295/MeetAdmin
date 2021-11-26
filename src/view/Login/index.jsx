@@ -30,7 +30,7 @@ class Login extends Component {
         })
         axios.userLogin({userName:value.username,PassWord:value.password}).then((res)=>{
             if(res.success){
-                setStorage('isLogin','1',new Date().getTime()+30*60*1000);
+                setStorage('token',res.response);
                 this.props.history.push({
                     pathname: returnUrl
                 })

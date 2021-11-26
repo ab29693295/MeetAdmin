@@ -1,6 +1,6 @@
 /*登录管理*/
 import React, {Component} from "react";
-import {Redirect, Route} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {getStorage} from '../common/js/tools'
 export default Comp => {
   return  class ConvertComp extends Component {
@@ -12,7 +12,7 @@ export default Comp => {
         }
 
         componentDidMount() {
-            if (getStorage('isLogin')) {
+            if (getStorage('token')) {
                 this.setState({
                     login: true
                 })
@@ -20,8 +20,7 @@ export default Comp => {
         }
 
         render() {
-
-            if (getStorage('isLogin')) {
+            if (getStorage('token')) {
                 return <Comp {...this.props}   />;
             } else  {
                 return <Redirect to={{
