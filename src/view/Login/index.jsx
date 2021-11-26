@@ -3,7 +3,7 @@ import {message,Button, Input, Form, Checkbox, Spin} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import styles from './css/index.module.css'
 import axios from '../../axios'
-import {setStorage} from '../../common/js/tools'
+import {setStorage,removeStorage} from '../../common/js/tools'
 class Login extends Component {
     constructor(props) {
         super(props)
@@ -14,7 +14,7 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        localStorage.clear()
+        removeStorage('token')
     }
     componentWillUnmount(){
         this.setState = (state,callback) => {

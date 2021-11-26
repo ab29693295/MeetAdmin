@@ -53,9 +53,10 @@ class NewLive extends Component {
     getProject(){
         //获取机构列表
         axios.getProjectList().then(res=>{
-            this.setState({
-                projectList:res
-            })
+            console.log(res)
+            // this.setState({
+            //     projectList:res
+            // })
         })
     }
 

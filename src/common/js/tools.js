@@ -13,6 +13,12 @@ export function getStorage(key) {
     }
     return null;
 }
+export function removeStorage(key){
+    let data = JSON.parse(localStorage.getItem(key));
+    if(data!=null){
+        localStorage.removeItem(key);
+    }
+}
 
 export function formatDateTime(date){
     let y = date.getFullYear();
