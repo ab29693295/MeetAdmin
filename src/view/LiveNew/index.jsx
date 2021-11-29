@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import { Card, Form, Input, Button, DatePicker, Select, Radio,message } from 'antd';
-import styles from './css/index.module.css'
 import 'moment/locale/zh-cn';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
@@ -32,7 +31,6 @@ class NewLive extends Component {
         this.handleChange=this.handleChange.bind(this)
         this.publicStatusChange=this.publicStatusChange.bind(this)
         this.submitForm=this.submitForm.bind(this)
-        this.getRoomData=this.getRoomData.bind(this)
         this.handleAppName=this.handleAppName.bind(this)
         this.uploadSuccess=this.uploadSuccess.bind(this)
         this.form=React.createRef()
@@ -46,7 +44,6 @@ class NewLive extends Component {
                 id:id
             })
 
-            // this.getRoomData(id)
         }
         this.getProject()
     }
@@ -55,7 +52,7 @@ class NewLive extends Component {
         //获取机构列表
         axios.getProjectList().then(res=>{
             this.setState({
-                projectList:res
+                projectList:res.response
             })
         })
     }
@@ -109,22 +106,6 @@ class NewLive extends Component {
 
     }
 
-
-    getRoomData(id){
-        //获取信息
-        axios.getRoomDetail({rID:id}).then(res=>{
-            this.getHostData()
-            let startTime=moment(res.response.startTime,'YYYY-MM-DD HH:mm');
-            let endTime=moment(res.response.endTime,'YYYY-MM-DD HH:mm');
-            let {initialValues}=this.state;
-            initialValues.timeRange=[startTime,endTime]
-            // this.setState({
-            //     initialValues:{...initialValues,...res.response}
-            // })
-            this.form.current.setFieldsValue({...initialValues,...res.response})
-
-        })
-    }
 
     handleAppName(e,option){
         this.setState({

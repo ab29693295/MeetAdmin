@@ -17,4 +17,16 @@ export default {
     setCheckStatus(data){
         return instance.post(api.cnkiDomain +"/api/LiveCourse/CheckStatus",  data );
     },
+    //上传图片
+    uploadFile(data){
+        return instance.post(api.cnkiDomain +"/File/Upload/Img",  data,{headers:{ "Content-Type": false}} );
+    },
+    //删除课程
+    deleteCourse(params){
+        return instance.get(api.cnkiDomain +"/api/LiveCourse/DeleteCourse",  {params} );
+    },
+    //获取直播详情
+    getCourseDetail(params){
+        return instance.get(api.cnkiDomain +"/api/LiveCourse/GetLiveCourseDetail",  {params} );
+    }
 }

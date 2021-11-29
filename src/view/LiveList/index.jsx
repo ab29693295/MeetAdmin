@@ -173,18 +173,22 @@ class LiveList extends Component {
     del (data){
         let that=this;
         Modal.confirm({
-            title: `确定要删除${data.roomName}?`,
+            title: `确定要删除${data.courseName}?`,
             okText: "确认",
             cancelText: "取消",
             onOk() {
-                let params = {rID: data.id};
-                axios.deleteMeetRoom(params).then((res) => {
+                let params = {cid: data.id};
+                axios.deleteCourse(params).then((res) => {
                     if (res.success) {
                         message.success(
                             "删除成功！",
                         );
                         //重新获取数据
-                        that.getData({page: 1,pageSize:10})
+                        this.setState({
+                            params:{...this.state.params,page: 1,pageSize:10}
+                        },function(){
+                            that.getData()
+                        })
                     } else {
                         message.error("删除失败！");
                     }

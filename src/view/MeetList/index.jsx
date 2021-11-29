@@ -168,7 +168,12 @@ class MeetList extends Component {
                             "删除成功！",
                         );
                         //重新获取数据
-                        that.getMeetData({page: 1,pageSize:10})
+                        this.setState({
+                            params:{...this.state.params,page: 1,pageSize:10}
+                        },function(){
+                            that.getMeetData()
+                        })
+
                     } else {
                         message.error("删除失败！");
                     }

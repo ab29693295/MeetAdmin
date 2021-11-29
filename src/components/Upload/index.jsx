@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import axios from '../../axios/liveApi'
 export default class index extends Component {
     constructor(props) {
         super(props);
@@ -29,22 +30,36 @@ export default class index extends Component {
         }
     }
     customRequest(options){
+
+        // let reader = new FileReader();
+        // reader.readAsBinaryString( options.file)
+        // reader.onload=function(e){
+        //     console.log(e)
+        //     axios.uploadFile(e.target.result).then(res=>{
+        //         //图片回显
+        //         message.success('图片上传成功！');
+        //         this.loading=false
+        //         // this.props.uploadSuccess(res.data.filePath)
+        //     }).then(error=>{
+        //         message.success('图片上传失败！');
+        //         this.props.uploadError()
+        //     })
+        // }
         const formData = new FormData();
         formData.append('file', options.file);
-        formData.append('module','user');
+        // formData.append('module','live');
         this.setState({
             loading:true
         })
-        this.props.uploadSuccess('123')
-        // uploadFile(formData).then(res=>{
-        //     //图片回显
-        //     message.success('图片上传成功！');
-        //     this.loading=false
-        //     this.props.uploadSuccess(res.data.filePath)
-        // }).then(error=>{
-        //      message.success('图片上传失败！');
-        //     this.props.uploadError()
-        // })
+        axios.uploadFile(formData).then(res=>{
+            //图片回显
+            message.success('图片上传成功！');
+            this.loading=false
+            // this.props.uploadSuccess(res.data.filePath)
+        }).then(error=>{
+             message.success('图片上传失败！');
+            this.props.uploadError()
+        })
     }
     render() {
         let {imageUrl,loading}=this.state

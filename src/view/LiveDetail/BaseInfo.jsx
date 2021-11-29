@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {  Form, Input, Button, DatePicker, Select, Radio,message } from 'antd';
-import styles from '@/view/LiveNew/css/index.module.css'
 import 'moment/locale/zh-cn';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
@@ -32,7 +31,7 @@ class NewLive extends Component {
         this.handleChange=this.handleChange.bind(this)
         this.publicStatusChange=this.publicStatusChange.bind(this)
         this.submitForm=this.submitForm.bind(this)
-        this.getRoomData=this.getRoomData.bind(this)
+        this.getData=this.getData.bind(this)
         this.handleAppName=this.handleAppName.bind(this)
         this.uploadSuccess=this.uploadSuccess.bind(this)
         this.form=React.createRef()
@@ -45,7 +44,7 @@ class NewLive extends Component {
                 id:id
             })
 
-            // this.getRoomData(id)
+            this.getData(id)
         }
         this.getProject()
     }
@@ -53,10 +52,9 @@ class NewLive extends Component {
     getProject(){
         //获取机构列表
         axios.getProjectList().then(res=>{
-            console.log(res)
-            // this.setState({
-            //     projectList:res
-            // })
+            this.setState({
+                projectList:res.response
+            })
         })
     }
 
@@ -110,20 +108,18 @@ class NewLive extends Component {
     }
 
 
-    getRoomData(id){
+    getData(id){
         //获取信息
-        axios.getRoomDetail({rID:id}).then(res=>{
-            this.getHostData()
-            let startTime=moment(res.response.startTime,'YYYY-MM-DD HH:mm');
-            let endTime=moment(res.response.endTime,'YYYY-MM-DD HH:mm');
+        axios.getCourseDetail({cid:id}).then(res=>{
+            let startTime=moment(res.response.startDate,'YYYY-MM-DD HH:mm');
+            let endTime=moment(res.response.startDate,'YYYY-MM-DD HH:mm');
             let {initialValues}=this.state;
             initialValues.timeRange=[startTime,endTime]
             this.form.current.setFieldsValue({...initialValues,...res.response})
             this.setState({
-                isPublic:res.response.isPublic
+                isPublic:res.response.isPublic,
+                imagePath:res.response.imagePath
             })
-
-
         })
     }
 
@@ -161,11 +157,6 @@ class NewLive extends Component {
                 }else{
                     message.success('直播创建成功！')
                 }
-                this.form.current.setFieldsValue({timeRange:[]})
-                this.form.current.resetFields()
-                this.props.history.push({
-                    pathname: '/live/liveList',
-                })
             }
         })
     }
