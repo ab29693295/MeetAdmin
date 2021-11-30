@@ -24,7 +24,7 @@ class NewLive extends Component {
             id:0,
             appName:'',
             isPublic:0,//控制会议密钥显示隐藏
-            imagePath:''
+            // imagePath:'123'
         }
 
         this.getProject=this.getProject.bind(this)
@@ -117,8 +117,7 @@ class NewLive extends Component {
             initialValues.timeRange=[startTime,endTime]
             this.form.current.setFieldsValue({...initialValues,...res.response})
             this.setState({
-                isPublic:res.response.isPublic,
-                imagePath:res.response.imagePath
+                isPublic:res.response.isPublic
             })
         })
     }
@@ -131,9 +130,7 @@ class NewLive extends Component {
 
     uploadSuccess(imagePath){
         //上传图片成功
-        this.setState({
-            imagePath
-        })
+        this.form.current.setFieldsValue({imagePath})
     }
 
     submitForm(values){
@@ -146,16 +143,14 @@ class NewLive extends Component {
         if(this.state.id!=0){
             values.id=this.state.id
         }
-        if(this.state.imagePath!=''){
-            values.imagePath=this.state.imagePath
-        }
+        // if(this.state.imagePath!=''){
+        //     values.imagePath=this.state.imagePath
+        // }
         values={...values,appName:this.state.appName}
         axios.addOrUpdateLiveCourse(values).then(res=>{
             if(res.success){
                 if(this.state.id!=0){
                     message.success('直播修改成功！')
-                }else{
-                    message.success('直播创建成功！')
                 }
             }
         })
@@ -184,7 +179,7 @@ class NewLive extends Component {
 
                     <Form.Item
                         label="课程机构"
-                        name="appiD"
+                        name="appid"
                         className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
@@ -250,6 +245,7 @@ class NewLive extends Component {
                         className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
+                        rules={[{ required: true  }]}
                     >
                         <Upload uploadSuccess={this.uploadSuccess} uploadError={this.uploadError}/>
                     </Form.Item>
@@ -261,7 +257,7 @@ class NewLive extends Component {
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
-                        <Input.TextArea autoComplete='off' placeholder='请填写课程描述'/>
+                        <Input.TextArea autoComplete='off'   placeholder='请填写课程描述'/>
                     </Form.Item>
                     <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>确认修改</Button>

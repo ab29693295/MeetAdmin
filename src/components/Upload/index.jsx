@@ -2,17 +2,31 @@ import React, {Component} from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from '../../axios/liveApi'
+import api from '../../path/index'
 export default class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            imageUrl:'',
+            imageUrl:this.props.value||'',
             loading:false,
             fileList:[]
         };
         this.beforeUpload=this.beforeUpload.bind(this)
         this.customRequest=this.customRequest.bind(this)
+
     }
+    componentDidMount() {
+    }
+    static getDerivedStateFromProps(props, state){
+        if(props.value!=''&&props.value!=state.value){
+                return {
+                    imageUrl:props.value
+                }
+
+        }
+        return null
+    }
+
     beforeUpload(file){
         //验证格式
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
@@ -30,21 +44,6 @@ export default class index extends Component {
         }
     }
     customRequest(options){
-
-        // let reader = new FileReader();
-        // reader.readAsBinaryString( options.file)
-        // reader.onload=function(e){
-        //     console.log(e)
-        //     axios.uploadFile(e.target.result).then(res=>{
-        //         //图片回显
-        //         message.success('图片上传成功！');
-        //         this.loading=false
-        //         // this.props.uploadSuccess(res.data.filePath)
-        //     }).then(error=>{
-        //         message.success('图片上传失败！');
-        //         this.props.uploadError()
-        //     })
-        // }
         const formData = new FormData();
         formData.append('file', options.file);
         // formData.append('module','live');
@@ -52,11 +51,15 @@ export default class index extends Component {
             loading:true
         })
         axios.uploadFile(formData).then(res=>{
+            console.log(res)
             //图片回显
             message.success('图片上传成功！');
-            this.loading=false
-            // this.props.uploadSuccess(res.data.filePath)
-        }).then(error=>{
+            this.setState({
+                loading:false,
+                imageUrl:res.response
+            })
+            this.props.uploadSuccess(res.response)
+        }).catch(error=>{
              message.success('图片上传失败！');
             this.props.uploadError()
         })
@@ -79,7 +82,7 @@ export default class index extends Component {
                 onChange={this.handleChange}
                 customRequest={this.customRequest}
             >
-                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                {imageUrl ? <img src={api.tuDomain+imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
             </Upload>
         )
     }

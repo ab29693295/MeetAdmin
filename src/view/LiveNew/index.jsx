@@ -24,7 +24,7 @@ class NewLive extends Component {
             id:0,
             appName:'',
             isPublic:0,//控制会议密钥显示隐藏
-            imagePath:''
+            // imagePath:''
         }
 
         this.getProject=this.getProject.bind(this)
@@ -37,7 +37,6 @@ class NewLive extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         if(this.props.id){
             let id=Number(this.props.id);
             this.setState({
@@ -114,13 +113,16 @@ class NewLive extends Component {
     }
 
     uploadSuccess(imagePath){
+        console.log(imagePath)
         //上传图片成功
-        this.setState({
-            imagePath
-        })
+        this.form.current.setFieldsValue({imagePath})
+    }
+    uploadError(){
+        //上传失败
     }
 
     submitForm(values){
+        console.log(values)
         //提交数据
         if(values.timeRange){
             values.startDate=new Date(values.timeRange[0]._d).getTime().toString()
@@ -130,9 +132,9 @@ class NewLive extends Component {
         if(this.state.id!=0){
             values.id=this.state.id
         }
-        if(this.state.imagePath!=''){
-            values.imagePath=this.state.imagePath
-        }
+        // if(this.state.imagePath!=''){
+        //     values.imagePath=this.state.imagePath
+        // }
         values={...values,appName:this.state.appName}
         axios.addOrUpdateLiveCourse(values).then(res=>{
             if(res.success){
@@ -149,6 +151,11 @@ class NewLive extends Component {
             }
         })
     }
+    submitFail(values){
+        console.log(values)
+
+
+    }
 
     render() {
         let {projectList,isPublic,initialValues}=this.state
@@ -160,6 +167,7 @@ class NewLive extends Component {
                     className={'form'}
                     initialValues={initialValues}
                     onFinish={this.submitForm}
+                    onFinishFailed={this.submitFail}
                 >
                     <Form.Item
                         label="课程名称"
@@ -174,7 +182,7 @@ class NewLive extends Component {
 
                     <Form.Item
                         label="课程机构"
-                        name="appiD"
+                        name="appid"
                         className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
@@ -240,6 +248,7 @@ class NewLive extends Component {
                         className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
+                        rules={[{ required: true  }]}
                     >
                         <Upload uploadSuccess={this.uploadSuccess} uploadError={this.uploadError}/>
                     </Form.Item>

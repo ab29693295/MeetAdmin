@@ -10,8 +10,8 @@ export default {
         return instance.get(api.cnkiDomain +"/api/LiveCourse/GetProjectList",  params );
     },
     //添加修改直播课
-    addOrUpdateLiveCourse(params){
-        return instance.get(api.cnkiDomain +"/api/LiveCourse/AddorUpdateLiveCourse",  {params} );
+    addOrUpdateLiveCourse(data){
+        return instance.post(api.cnkiDomain +"/api/LiveCourse/AddorUpdateLiveCourse",  data );
     },
     //视频审核
     setCheckStatus(data){
@@ -19,7 +19,7 @@ export default {
     },
     //上传图片
     uploadFile(data){
-        return instance.post(api.cnkiDomain +"/File/Upload/Img",  data,{headers:{ "Content-Type": false}} );
+        return instance.post(api.cnkiDomain +"/FileUpload/Img",  data,{headers:{ "Content-Type": false}} );
     },
     //删除课程
     deleteCourse(params){

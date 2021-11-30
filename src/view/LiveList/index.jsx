@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {formatDateTime} from '../../common/js/tools'
 import axios from '../../axios/liveApi'
 import ExamineModal from '@/components/ExamineModal'
-
+import api from '../../path/index'
 const {Search} = Input;
 
 class LiveList extends Component {
@@ -60,7 +60,7 @@ class LiveList extends Component {
                 width: '15%',
                 align: 'center',
                 render:(text,record)=>{
-                    return <img src={record.imagePath} width='150' height='80'></img>
+                    return <img src={api.tuDomain+record.imagePath} width='150' height='80'></img>
                 }
             },
             {
