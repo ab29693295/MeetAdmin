@@ -14,8 +14,8 @@ export default {
         return instance.post(api.cnkiDomain +"/api/LiveCourse/AddorUpdateLiveCourse",  data );
     },
     //视频审核
-    setCheckStatus(data){
-        return instance.post(api.cnkiDomain +"/api/LiveCourse/CheckStatus",  data );
+    setCheckStatus(params){
+        return instance.get(api.cnkiDomain +"/api/LiveCourse/CheckStatus",  {params}  );
     },
     //上传图片
     uploadFile(data){

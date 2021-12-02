@@ -25,8 +25,8 @@ export default Comp => {
             } else  {
                 return <Redirect to={{
                     pathname:'/login',
-                    search: "?returnUrl="+this.props.location.pathname,
-                    state: this.props.location.pathname,
+                    // search: "?returnUrl="+this.props.location.pathname,
+                    // state: this.props.location.pathname,
                 }} from='/' />
             }
         }

@@ -16,7 +16,7 @@ class name extends Component {
     }
 
     handleFilter(permission) {
-
+        //验证权限
         const roles = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).roles
         if (!permission || permission === roles) {
             return true

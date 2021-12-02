@@ -15,7 +15,6 @@ import OperationList from '../view/OperationList'
 import LiveList from '../view/LiveList'
 import LiveNew from '../view/LiveNew'
 import LiveDetail from '../view/LiveDetail'
-console.log(123)
 export const routes=[
     { path: '/', component: Home},
     { path: '/home', component: Home},

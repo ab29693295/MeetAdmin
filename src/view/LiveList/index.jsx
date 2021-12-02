@@ -35,7 +35,7 @@ class LiveList extends Component {
             }
 
         }
-        this.searchMeet = this.searchMeet.bind(this);
+        this.searchCourse = this.searchCourse.bind(this);
         this.changPage=this.changPage.bind(this)
         this.checkStatus=this.checkStatus.bind(this)
         this.examineFinish=this.examineFinish.bind(this)
@@ -209,7 +209,7 @@ class LiveList extends Component {
     }
 
     //检索
-    searchMeet(textValue) {
+    searchCourse(textValue) {
         this.setState({
             params:{...this.state.params,key:textValue,page: 1}
         },function () {
@@ -238,19 +238,21 @@ class LiveList extends Component {
     examineFinish(values){
         //接口
         let {data}=this.state.examineInfo
-        axios.setCheckStatus({cid:data,status:values.status}).then(res=>{
+        axios.setCheckStatus({cids:data,status:values.status}).then(res=>{
             if(res.success){
                 message.success('审核成功！')
                 this.getData()
+                this.setState({ selectedRowKeys:[] });
             }else{
                 message.error('审核失败！')
             }
             this.examineCancel()
-            this.setState({
-                examineInfo:{...this.state.examineInfo,visible:false,data:''}
-            })
+            // this.setState({
+            //     examineInfo:{...this.state.examineInfo,visible:false,data:''}
+            // })
         })
     }
+
     //取消审核
     examineCancel(){
         this.setState({
@@ -269,6 +271,7 @@ class LiveList extends Component {
             message.info('请选择需要审核的课程')
         }
     }
+
     render() {
         const {  selectedRowKeys,pageData,loading } = this.state;
         const rowSelection = {
@@ -285,7 +288,7 @@ class LiveList extends Component {
                                 allowClear
                                 enterButton="搜索"
                                 size="large"
-                                onSearch={this.searchMeet}
+                                onSearch={this.searchCourse}
                             />
                         </Col>
                         <Col >

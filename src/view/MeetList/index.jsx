@@ -222,6 +222,7 @@ class MeetList extends Component {
             if(res.success){
                 message.success('审核成功！')
                 this.getMeetData()
+                this.setState({ selectedRowKeys:[] });
             }else{
                 message.error('审核失败！')
             }
