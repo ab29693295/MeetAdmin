@@ -5,7 +5,9 @@ import 'moment/locale/zh-cn';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import axios from '@/axios'
+import TimeSelect from "../../components/TimeSelect";
 const { RangePicker } = DatePicker;
+
 const { Option } = Select;
 
 class BaseInfo extends Component {
@@ -36,6 +38,7 @@ class BaseInfo extends Component {
         this.getRoomData=this.getRoomData.bind(this)
         this.handleAppName=this.handleAppName.bind(this)
         this.handleSecret=this.handleSecret.bind(this)
+        this.timeChange=this.timeChange.bind(this)
         this.timeout=null
         this.form=React.createRef()
     }
@@ -98,41 +101,10 @@ class BaseInfo extends Component {
     handleChange (hostKey){
         this.setState({ hostKey });
     }
-    //不能选择日期
-    disabledDate(current) {
-        // Can not select days before today and today
-        return current && current < moment().subtract(1, 'day')
-    }
-    //不能选择时间
-    disabledRangeTime(date) {
 
-        let hours = moment().hours();//0~23
-        let minutes = moment().minutes();//0~59
-        if (date && moment(date).date() === moment().date() ) {
-            return {
-                disabledHours: () => range(0,hours),
-                disabledMinutes: () => {
-                    if(hours== moment(date).hours()){
-                        return range(0,minutes)
-                    }else{
-                        return []
-                    }
-                }
-            };
-        }
-
-        function range(start, end) {
-            const result = [];
-            for (let i = start; i < end; i++) {
-                result.push(i);
-            }
-            return result;
-        }
-    }
     //时间范围
-    timeChange(dates,dateStrings){
-        console.log(dates,dateStrings)
-
+    timeChange(timeRange){
+        this.form.current.setFieldsValue({timeRange})
     }
     //提交数据
     submitForm(values){
@@ -240,14 +212,7 @@ class BaseInfo extends Component {
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
-                        <RangePicker
-                            showTime={{ format: 'HH:mm' }}
-                            format="YYYY-MM-DD HH:mm"
-                            locale={locale}
-                            disabledDate={this.disabledDate}
-                            disabledTime={this.disabledRangeTime}
-                            onChange={this.timeChange}
-                        />
+                        <TimeSelect onChange={this.timeChange} value={initialValues.timeRange}/>
                     </Form.Item>
                     <Form.Item  label="是否需要密码"
                                 name="isSecret"
