@@ -170,7 +170,7 @@ class NewLive extends Component {
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
                     >
-                        <TimeSelect onChange={this.timeChange} defaultValue={initialValues.timeRange}/>
+                        <TimeSelect onChange={this.timeChange} value={initialValues.timeRange}/>
                     </Form.Item>
                     <Form.Item
                         label="是否公开"
