@@ -63,15 +63,15 @@ export default [
 
         ]
     },
-    {
-        title: '直播管理', icon: <SettingOutlined />,key:'live',
-        children: [
-            { path: '/live/liveList', title: '直播列表' },
-            { path: '/live/newLive', title: '新建直播' },
-            { path: '/live/platformManage', title: '平台管理' },
-            { path: '/live/userManage', title: '用户管理' }
-        ]
-    },
+    // {
+    //     title: '直播管理', icon: <SettingOutlined />,key:'live',
+    //     children: [
+    //         { path: '/live/liveList', title: '直播列表' },
+    //         { path: '/live/newLive', title: '新建直播' },
+    //         { path: '/live/platformManage', title: '平台管理' },
+    //         { path: '/live/userManage', title: '用户管理' }
+    //     ]
+    // },
     {
         title: '账号管理', icon: <SettingOutlined />,key:'user',
         children: [

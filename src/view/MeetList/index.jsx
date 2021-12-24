@@ -41,6 +41,7 @@ class MeetList extends Component {
         this.checkMeet=this.checkMeet.bind(this)
         this.examineFinish=this.examineFinish.bind(this)
         this.examineCancel=this.examineCancel.bind(this)
+        this.setShowModal=this.setShowModal.bind(this)
         this.columns = [
             {
                 title: '会议主题',
