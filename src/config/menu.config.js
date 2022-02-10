@@ -50,8 +50,8 @@ export default [
     {
         title: '用户管理', icon: <SettingOutlined/>, key: 'usermanage',
         children: [
-            { path: '/usermanage/userList', title: '用户列表' },
-            { path: '/usermanage/newUser', title: '添加用户' }
+            { path: '/user/userList', title: '用户列表' },
+            { path: '/user/newUser', title: '添加用户' }
 
         ]
     },
@@ -75,8 +75,8 @@ export default [
     {
         title: '账号管理', icon: <SettingOutlined />,key:'user',
         children: [
-            { path: '/user/userInfo', title: '个人信息' },
-            { path: '/user/safeSetting', title: '安全设置' }
+            { path: '/account/userInfo', title: '个人信息' },
+            { path: '/account/safeSetting', title: '安全设置' }
         ]
     }
 

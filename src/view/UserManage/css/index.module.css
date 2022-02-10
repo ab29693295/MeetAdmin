@@ -8,11 +8,21 @@
 .infoBtn {
     background: orange;
     border: orange;
+    color: #fff;
 }
 
 .infoBtn1 {
     background: green;
     border: green;
+    color: #fff;
+}
+.infoBtn:hover,.infoBtn:focus{
+    background: orange;
+    color: #fff;
+}
+.infoBtn1:hover,.infoBtn1:focus{
+    background: green;
+    color: #fff;
 }
 .toolbar{
     margin-bottom: 20px;

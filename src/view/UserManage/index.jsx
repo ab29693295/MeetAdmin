@@ -4,41 +4,18 @@ import { SearchOutlined, PlusOutlined, CheckSquareOutlined, CloseCircleOutlined 
 import styles from './css/index.module.css'
 import { Link } from 'react-router-dom'
 import { formatDateTime } from '../../common/js/tools'
-import axios from '../../axios'
+import {
+    getUserList,
+    setForbiddenUser,
+    deleteUser
+} from '../../axios/user'
 
 const { Search } = Input;
 
 
 
 const del = (data) => {
-    Modal.confirm({
-        title: "确定删除用户？",
-        okText: "确定",
-        cancelText: "取消",
-        content: (
-            <div>
-                <p>用户：{data.trueName}</p>
-            </div>
-        ),
-        onOk() {
-            // alert(data.id)
-            var params = { rID: data.id };
-            axios.deleteMeetRoom(params).then((res) => {
-                if (res.success) {
-                    notification.success({
-                        message: "删除成功",
-                    });
-                } else {
-                    notification.warning({
-                        message: "删除失败",
-                    });
-                }
 
-            });
-        },
-        onCancel() {
-        },
-    });
 
 };
 
@@ -47,16 +24,10 @@ class UserManage extends Component {
         super(props)
         this.state = {
             userData: [],
-            selectedRowKeys: [], //ѡ�е���
-            loading: false,
+            selectedRowKeys: [],
+            loading: true,
         }
         this.columns = [
-            {
-                title: '用户名',
-                dataIndex: 'userName',
-                width: '10%',
-                align:'center'
-            },
             {
                 title: '真实姓名',
                 dataIndex: 'trueName',
@@ -64,10 +35,40 @@ class UserManage extends Component {
                 align: 'center'
             },
             {
+                title: '注册时间',
+                dataIndex: 'createDate',
+                width: '10%',
+                align: 'center',
+                render: (text, record) => {
+                    let dateStr = formatDateTime(new Date(record.createDate))
+                    return <span>{dateStr}</span>
+                }
+            },
+            {
+                title: '用户名',
+                dataIndex: 'userName',
+                width: '10%',
+                align:'center'
+            },
+
+            {
                 title: '手机号',
                 dataIndex: 'phone',
                 width: '10%',
                 align: 'center'
+            },
+            {
+                title: '性别',
+                dataIndex: 'sex',
+                width: '10%',
+                align: 'center',
+                render:(text, record)=>{
+                    if (record.sex == 0) {
+                        return '男'
+                    } else  {
+                        return '女'
+                    }
+                }
             },
             {
                 title: '角色',
@@ -75,7 +76,6 @@ class UserManage extends Component {
                 width: '10%',
                 align: 'center',
                 render: (text, record, index) => {
-
                     if (record.roleID == 1) {
                         return <span>超级管理员</span>
                     }
@@ -94,7 +94,6 @@ class UserManage extends Component {
                 width: '10%',
                 align: 'center',
                 render: (text, record, index) => {
-
                     if (record.states == 1) {
                         return <span> 启用</span>
                     } else {
@@ -109,7 +108,6 @@ class UserManage extends Component {
                 width: '10%',
                 align: 'center',
                 render: (text, record, index) => {
-
                     if (record.isBind == 1) {
                         return <span> 已关联</span>
                     } else {
@@ -118,21 +116,20 @@ class UserManage extends Component {
 
                 }
             },
-
             {
                 title: '操作',
                 dataIndex: 'id',
                 align: 'center',
                 render: (text, record,index) => {
-                    let delTxt = record.states == 1 ? '启用' : '禁用';
+                    let delTxt = record.states == 1 ? '禁用' : '启用';
                     return (
                         <Space size={5}>
-                            <Button size="small" type="primary"
+                            <Button size="small" type="primary" >
+                                <Link to={{pathname:'/user/detail/'+record.id}}>详情</Link></Button>
+                            <Button size="small"
                                     className={` ${record.states == 1 ? styles.infoBtn : styles.infoBtn1}`}
                                     onClick={this.setForbiddenUser.bind(this,record,index)}>{delTxt}</Button>
-                            <Button size="small" onClick={() => del(record)} type="primary" danger>删除</Button>
-                            <Button size="small" type="primary" >密码</Button>
-                            <Button size="small" type="primary" >管理</Button>
+                            <Button size="small" onClick={ this.deleteUser.bind(this,record)} type="primary" danger>删除</Button>
                         </Space>
                     )
                 }
@@ -142,31 +139,25 @@ class UserManage extends Component {
         this.SearchUser = this.SearchUser.bind(this);
     }
     componentDidMount() {
-        let params = { page: 1 };
+        let params = { page: 1,pageSize:10 };
         this.getUserData(params);
     }
 
     //检索用户
     SearchUser(textValue) {
-        let params = { page: 1, key: textValue };
+        let params = { page: 1, pageSize:10,key: textValue };
         this.getUserData(params);
     }
     //获取用户信息
     getUserData(params) {
-        axios.getUserList(params).then((res) => {
+        getUserList(params).then((res) => {
             console.log(res)
-            this.setState({ userData: res.response.data });
+            this.setState({ userData: res.response.data,loading:false });
         })
     }
-
-    //选择改变事件
-    onSelectChange = selectedRowKeys => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
-        this.setState({ selectedRowKeys });
-    };
-
+    //huoq
     setForbiddenUser (record,index){
-        axios.setForbiddenUser({uID:record.id,status:record.states==1?0:1}).then(res=>{
+        setForbiddenUser({uID:record.id,status:record.states==1?0:1}).then(res=>{
             if(res.success){
                 let {userData}=this.state;
                 if(record.states==1){
@@ -177,22 +168,48 @@ class UserManage extends Component {
                     message.success('用户已解禁')
                 }
                 this.setState({
-                    userData:userData
+                    userData
                 })
             }
 
         })
     }
+    deleteUser(record){
+        let that=this
+        Modal.confirm({
+            title: "确定删除用户？",
+            okText: "确定",
+            cancelText: "取消",
+            content: (
+                <div>
+                    <p>用户：{record.trueName}</p>
+                </div>
+            ),
+            onOk() {
+                let params = { uID: record.id };
+                deleteUser(params).then((res) => {
+                    if (res.success) {
+                        message.success(
+                            "删除成功"
+                        );
+                        that.getUserData({ page: 1,pageSize:10 });
+                    } else {
+                        message.error(
+                            "删除失败"
+                        );
+                    }
+
+                });
+            },
+            onCancel() {
+            },
+        });
+    }
     render() {
 
-        const { selectedRowKeys } = this.state;
-        const rowSelection = {
-            selectedRowKeys,
-            onChange: this.onSelectChange,
-        };
-
+        const { loading } = this.state;
         return (
-            <Card title="用户列表">
+            <Card title="用户列表" className='content-card'>
                 <Row className={'toolbar'} justify='space-between'>
                     <Col flex='40%'>
                         <Search
@@ -205,7 +222,7 @@ class UserManage extends Component {
                     </Col>
                     <Col >
                         <Space size={10}>
-                            <Link to={{ pathname: '/usermanage/newUser' }}>
+                            <Link to={{ pathname: '/user/newUser' }}>
                                 <Button type="primary" size="large" icon={<PlusOutlined />}>
                                     添加用户
                                 </Button>
@@ -214,17 +231,16 @@ class UserManage extends Component {
                         </Space>
                     </Col>
                 </Row>
-
-                <Table bordered
+                <Table
+                    bordered
                     rowKey='id'
                     dataSource={this.state.userData}
                     columns={this.columns}
-                    rowSelection={rowSelection}
                     pagination={{ position: ['none', 'bottomRight'] }}
+                    loading={loading}
                 > </Table>
             </Card>
-            )
-
+        )
     }
 
 }

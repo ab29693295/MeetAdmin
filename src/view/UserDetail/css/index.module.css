@@ -1,0 +1,15 @@
+.infoWrap{
+    margin-bottom: 20px;
+}
+.title{
+    padding: 0 0 30px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.headImg{
+    margin-bottom: 20px;
+    /*text-align: center;*/
+}
+.basicInfoList>p{
+    line-height: 30px;
+}

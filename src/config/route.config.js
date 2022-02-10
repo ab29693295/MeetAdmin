@@ -12,9 +12,7 @@ import ProjectList from '../view/ProjectList'
 import NewProject from '../view/NewProject'
 import MeetDetail from '../view/MeetDetail'
 import OperationList from '../view/OperationList'
-// import LiveList from '../view/LiveList'
-// import LiveNew from '../view/LiveNew'
-// import LiveDetail from '../view/LiveDetail'
+import UserDetail from '@/view/UserDetail'//用户详情
 export const routes=[
     { path: '/', component: Home},
     { path: '/home', component: Home},
@@ -24,13 +22,11 @@ export const routes=[
     { path: '/project/projectList', component: ProjectList},
     { path: '/project/newProject', component: NewProject},
     { path: '/tj/meetTj', component: MeetTj},
-    { path: '/user/userInfo', component: UserInfo},
-    { path: '/user/safeSetting', component: SafeSetting},
-    { path: '/usermanage/userList', component: UserManage },
-    { path: '/usermanage/newUser', component: NewUser },
-    // { path: '/live/liveList', component: LiveList },
-    // { path: '/live/newLive', component: LiveNew },
-    // { path: '/live/liveDetail/:id', component: LiveDetail},
+    { path: '/account/userInfo', component: UserInfo},
+    { path: '/account/safeSetting', component: SafeSetting},
+    { path: '/user/userList', component: UserManage },
+    { path: '/user/detail/:id', component: UserDetail },
+    { path: '/user/newUser', component: NewUser },
     { path: '/journal/operationList', component: OperationList },
     { path: '/error', component: Error}
 ]
