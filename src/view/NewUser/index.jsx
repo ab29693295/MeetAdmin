@@ -1,130 +1,203 @@
 import React, { Component } from "react";
-import { Card, Form, Input, Button, DatePicker, Select, Radio, message } from 'antd';
-import styles from './css/index.module.css'
+import {Card, Form, Input, Button, Select, Radio, message} from 'antd';
+import Upload from '@/components/Upload'
 import 'moment/locale/zh-cn';
-import moment from 'moment';
-import locale from 'antd/es/date-picker/locale/zh_CN';
-import axios from '@/axios'
+import {getALlRole,addOrUpdateUser} from '@/axios/user'
 const { Option } = Select;
 
 class NewUser extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            RoleList:[],
-            sex: 0
+            roleList:[],
+            initialValues:{
+                isBind: 0,
+                sex:0,
+                userName: '',
+                trueName:'',
+                email:'',
+                phone:'',
+                photo:'',
+                address:'',
+                des:'',
+                bindAppID:'',
+                roleID:null
+            },
         }
+        this.bindStatusChange=this.bindStatusChange.bind(this)
+        this.uploadSuccess=this.uploadSuccess.bind(this)
+        this.submitForm=this.submitForm.bind(this)
+
+        this.form=React.createRef()
+    }
+    componentDidMount() {
+        getALlRole().then(res=>{
+            if(res.success){
+                this.setState({
+                    roleList:res.response
+                })
+            }
+        })
     }
 
-    onChange = e => {
-        console.log('radio checked', e.target.value);
+    //绑定状态修改
+    bindStatusChange (e) {
         this.setState({
-            sex: e.target.value,
-        });
+            isBind:e.target.value
+        })
     };
+    submitForm(values){
+        console.log(values)
+        addOrUpdateUser(values).then(res=>{
+            if(res.success){
 
+                message.success('用户添加成功！')
+                this.form.current.resetFields()
+                this.props.history.push({
+                    pathname: '/user/userList',
+                })
+            }
+        })
+    }
+    uploadSuccess(photo){
+        console.log(photo)
+        //上传图片成功
+        this.form.current.setFieldsValue({photo})
+    }
     render() {
 
-        let {RoleList}=this.state
+        let {roleList,initialValues,isBind}=this.state
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
         };
-        const { sexvalue } = this.state.sex;
-
         return (
-            <Card title="新增用户">
+            <Card title="新增用户" className='content-card'>
                 <Form
                     name="basic"
                     ref={this.form}
                     className={'form'}
+                    {...formItemLayout}
+                    initialValues={initialValues}
+                    onFinish={this.submitForm}
                 >
 
                     <Form.Item
                         label="用户名："
-                        name="username"
-                        rules={[{ required: true, message: '用户名为必填信息' }]}
+                        name="userName"
+                        rules={[{ required: true, message: '用户名为必填信息',whitespace: true }]}
                         className={'formItem'}
-                        {...formItemLayout}
                     >
-                        <Input autoComplete='off' placeholder='请输入用户名！' />
+                        <Input autoComplete='off' placeholder='请输入用户名' />
                     </Form.Item>
                     <Form.Item
-                        {...formItemLayout}
-                        label="密码：">
-                        <Input type="password"  placeholder="请输入密码" />
+                        label="初始密码："
+                        name='pwd'
+                        rules={[{ required: true, message: '初始密码为6-20位',min: 6, max: 20 }]}>
+                        <Input   autoComplete='off' placeholder="请输入密码" />
                     </Form.Item>
                     <Form.Item
                         label="真实姓名："
-                        name="truename"
-                        rules={[{ required: true, message: '真实姓名为必填信息' }]}
+                        name="trueName"
+                        rules={[{ required: true, message: '真实姓名为必填信息' ,whitespace: true}]}
                         className={'formItem'}
-                        {...formItemLayout}
                     >
-                        <Input autoComplete='off' placeholder='请输入真实姓名！' />
+                        <Input autoComplete='off' placeholder='请输入真实姓名' />
                     </Form.Item>
                     <Form.Item
                         label="性别："
                         name="sex"
                         className={'formItem'}
-                        {...formItemLayout}
+                        rules={[{ required: true, message: '性别为必填信息' }]}
                     >
-                        <Radio.Group onChange={this.onChange} value={sexvalue}>
+                        <Radio.Group>
                             <Radio value={0} >男</Radio>
                             <Radio value={1}>女</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
                         label="用户角色："
-                        name="appID"
+                        name="roleID"
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true,message:'请选择用户角色！'  }]}
+                        rules={[{ required: true,message:'请选择用户角色'  }]}
                     >
-                        <Select placeholder="请选择用户角色" onChange={this.handleAppName}>
+                        <Select placeholder="请选择用户角色">
                             {
-                                RoleList.map((item)=>{
+                                roleList.map((item)=>{
                                     return (
-                                        <Option value={item.appID} key={item.appID} data={item.appName}>{item.appName}</Option>
+                                        <Option value={item.id} key={item.id} >{item.name}</Option>
                                     )
                                 })
                             }
                         </Select>
                     </Form.Item>
-
                     <Form.Item
                         label="手机号："
                         name="phone"
-                        rules={[{ required: true, message: '手机号为必填信息' }]}
+                        rules={[{ required: true, message: '手机号为必填信息',max:11 },{
+                            required: false,
+                            pattern: new RegExp(/^1(3|4|5|6|7|8|9)\d{9}$/, "g"),
+                            message: '请输入正确的手机号',
+                        }]}
                         className={'formItem'}
-                        {...formItemLayout}
                     >
-                        <Input autoComplete='off' placeholder='请输入手机号！' />
+                        <Input autoComplete='off' placeholder='请输入手机号' maxLength={11}/>
                     </Form.Item>
                     <Form.Item
                         label="邮箱："
                         name="email"
+                        rules={[{ required: true, message: '邮箱为必填信息' },{
+                            type: 'email',
+                            message: '请输入正确的邮箱',
+                        },]}
+                        className={'formItem'}
+                    >
+                        <Input autoComplete='off' placeholder='请输入邮箱' />
+                    </Form.Item>
+                    <Form.Item
+                        label="用户关联："
+                        name="isBind"
                         rules={[{ required: true, message: '邮箱为必填信息' }]}
                         className={'formItem'}
-                        {...formItemLayout}
                     >
-                        <Input autoComplete='off' placeholder='请输入邮箱！' />
+                        <Radio.Group onChange={this.bindStatusChange}>
+                            <Radio value={0}>否</Radio>
+                            <Radio value={1}>是</Radio>
+                        </Radio.Group>
                     </Form.Item>
-
+                    {
+                        isBind == 1 &&<Form.Item
+                            label="关联ID"
+                            name="bindAppID"
+                            className={'formItem'}
+                            labelCol={{ span: 6 }}
+                            wrapperCol={{ span: 16 }}
+                            rules={[{ required: true  }]}
+                        >
+                            <Input autoComplete='off' placeholder='请填写关联ID'/>
+                        </Form.Item>
+                    }
                     <Form.Item
-                        {...formItemLayout}
-                        label="备注："
+                        label="头像"
+                        name="photo"
+                        className={'formItem'}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
+                        rules={[{ required: true  }]}
+                    >
+                        <Upload uploadSuccess={this.uploadSuccess} uploadError={this.uploadError}/>
+                    </Form.Item>
+                    <Form.Item
+                        label="地址："
                         name="address"
-                       >
-                        <Input.TextArea placeholder="地址"    />
+                    >
+                        <Input.TextArea placeholder="请输入地址"/>
                     </Form.Item>
                     <Form.Item
-                        {...formItemLayout}
                         label="备注："
                         name="des"
-                       >
-                        <Input.TextArea placeholder="请输入备注！" />
+                    >
+                        <Input.TextArea placeholder="请输入备注" />
                     </Form.Item>
                     <Form.Item className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>确定</Button>

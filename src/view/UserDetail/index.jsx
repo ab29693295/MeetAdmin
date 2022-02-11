@@ -2,7 +2,13 @@ import React, {Component} from 'react';
 import {Card,Row,Col,Avatar,Button,Table,Tabs ,List,Space } from "antd";
 import EditUser from './EditUser'
 import styles from './css/index.module.css'
-import {getUserDetail,getALlRole,getPersonStatics,getLiveFootLog,getUserLoginLog} from '../../axios/user'
+import {
+    getUserDetail,
+    getALlRole,
+    getPersonStatics,
+    getLiveFootLog,
+    getUserLoginLog,
+    getTotalRoom} from '../../axios/user'
 import api from '../../path/index'
 import {timestampToTime} from '@/utils'
 const { TabPane } = Tabs;
@@ -18,7 +24,8 @@ export default class index extends Component {
             userInfo:{},
             roleList:[],
             studyList:{dataCount:0,data:[]},
-            useLoginList:{dataCount:0,data:[]}
+            useLoginList:{dataCount:0,data:[]},
+            totalRoomList:{dataCount:0,data:[]}
 
         };
         this.columns = [
@@ -49,23 +56,10 @@ export default class index extends Component {
                 align:'center',
             },
         ]
-        this.list1=[
-            {
-                title: '访问',
-            },
-            {
-                title: ' 2021中国企业改革发展峰会暨成果发布会',
-            },
-            {
-                title: '直播课程 3',
-            },
-            {
-                title: '直播课程 4',
-            },
-        ]
         this.getData=this.getData.bind(this)
         this.getFoot=this.getFoot.bind(this)
         this.getLogin=this.getLogin.bind(this)
+        this.getTotalRoom=this.getTotalRoom.bind(this)
 
     }
     async componentDidMount() {
@@ -87,6 +81,7 @@ export default class index extends Component {
         })
         this.getFoot({userName:response.userName,page:1,pageSize:5})
         this.getLogin({userName:response.userName,page:1,pageSize:5})
+        this.getTotalRoom({userName:response.userName,page:1,pageSize:5})
     }
     getFoot(params){
         //学习足迹
@@ -108,6 +103,15 @@ export default class index extends Component {
             }
         })
     }
+    getTotalRoom(params){
+        getTotalRoom(params).then(res=>{
+            if(res.success&&res.response!=null){
+                this.setState({
+                    totalRoomList:res.response
+                })
+            }
+        })
+    }
     setEditModal(flag){
         this.setState({
             editModal:{...this.state.editModal,visible:flag}
@@ -124,7 +128,7 @@ export default class index extends Component {
     }
 
     render() {
-        let {data,editModal,userInfo,roleList,studyList,useLoginList}=this.state;
+        let {data,editModal,userInfo,roleList,studyList,useLoginList,totalRoomList}=this.state;
         return (
             <>
                 <Card title="用户详情" className='content-card'>
@@ -169,7 +173,7 @@ export default class index extends Component {
                     </div>
                     <div className={`${styles.infoWrap} section`}>
                         <Tabs defaultActiveKey="1" >
-                            <TabPane tab="会议足迹" key="1">
+                            <TabPane tab="访问足迹" key="1">
                                 <List
                                     itemLayout="horizontal"
                                     dataSource={studyList.data}
@@ -191,7 +195,29 @@ export default class index extends Component {
                                     )}
                                 />
                             </TabPane>
-                            <TabPane tab="登录日志" key="2">
+                            <TabPane tab="我的会议" key="2">
+                                <List
+                                    itemLayout="horizontal"
+                                    dataSource={totalRoomList.data}
+                                    pagination={{
+                                        onChange: page => {
+                                            this.getTotalRoom({userName:userInfo.userName,page:page,pageSize:5})
+                                        },
+                                        pageSize: 5,
+                                        total: totalRoomList.dataCount,
+                                    }}
+                                    renderItem={item => (
+                                        <List.Item>
+                                            <List.Item.Meta
+                                                title={<p>{timestampToTime(item.roomName)}</p>}
+                                                description={<Space><span>{'开始时间：'+item.startTime}</span><span>{"结束时间："+item.endTime}</span></Space>}
+                                            />
+                                            {/*<div>操作成功</div>*/}
+                                        </List.Item>
+                                    )}
+                                />
+                            </TabPane>
+                            <TabPane tab="登录日志" key="3">
                                 <List
                                     itemLayout="horizontal"
                                     dataSource={useLoginList.data}

@@ -13,6 +13,8 @@ import NewProject from '../view/NewProject'
 import MeetDetail from '../view/MeetDetail'
 import OperationList from '../view/OperationList'
 import UserDetail from '@/view/UserDetail'//用户详情
+import JudgeRole from '@/view/JudgeRole'//角色权限
+import JudgeMenu from '@/view/JudgeMenu'//菜单权限
 export const routes=[
     { path: '/', component: Home},
     { path: '/home', component: Home},
@@ -27,6 +29,8 @@ export const routes=[
     { path: '/user/userList', component: UserManage },
     { path: '/user/detail/:id', component: UserDetail },
     { path: '/user/newUser', component: NewUser },
+    { path: '/judge/role', component: JudgeRole },
+    { path: '/judge/menu', component: JudgeMenu },
     { path: '/journal/operationList', component: OperationList },
     { path: '/error', component: Error}
 ]

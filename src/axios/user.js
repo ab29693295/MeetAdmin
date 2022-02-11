@@ -36,3 +36,7 @@ export function getLiveFootLog(params){
 export function getUserLoginLog(params){
     return instance.get(api.cnkiDomain + "/api/MeetPersonCenter/GetUserLoginLog", {params})
 }
+//参与过的会议
+export function getTotalRoom(params){
+    return instance.get(api.cnkiDomain + "/api/MeetPersonCenter/GetTotalRoom", {params})
+}

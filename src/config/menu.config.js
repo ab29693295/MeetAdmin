@@ -3,7 +3,7 @@ import {
     BarChartOutlined,
     SnippetsOutlined,
     AppstoreOutlined,
-    TeamOutlined,
+    LockOutlined,
     SettingOutlined,
     HomeOutlined,
     ClusterOutlined,
@@ -35,9 +35,10 @@ export default [
         ]
     },
     {
-        title: '权限管理', icon: <TeamOutlined/>,key:'3',
+        title: '权限管理', icon: <LockOutlined />,key:'judge',
         children: [
-
+            { path: '/judge/role', title: '角色管理' },
+            { path: '/judge/menu', title: '菜单管理' },
         ]
     },
 
