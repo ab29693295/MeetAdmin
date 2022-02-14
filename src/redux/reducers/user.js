@@ -1,7 +1,8 @@
 import {setStorage} from "../../common/js/tools";
 
 const initialState = {
-    token:''
+    token:'',
+    info:{}
 };
 const user=(state=initialState,action)=>{
     switch (action.type){
@@ -10,7 +11,7 @@ const user=(state=initialState,action)=>{
             const {
                 token
             } = action.payload;
-            setStorage('token',token);
+            // setStorage('token',token);
             return {
                 ...state,
                 token
@@ -21,6 +22,16 @@ const user=(state=initialState,action)=>{
             return {
                 ...state,
                 token:''
+            };
+        }
+        case "SET_USER_INFO":
+        {
+            const {
+                info
+            } = action.payload;
+            return {
+                ...state,
+                info
             };
         }
         default:

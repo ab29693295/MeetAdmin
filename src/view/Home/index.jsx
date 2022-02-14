@@ -7,7 +7,10 @@ import {
     PushpinOutlined
 } from '@ant-design/icons';
 import LineChart from '@/components/Charts/LineChart.jsx'
-import BarChart from '@/components/Charts/BarChart.jsx'
+import {getTimeRoomCount} from '@/axios/tj'
+import * as user from "../../redux/actions/user";
+import {connect} from "react-redux";
+
 class Home extends PureComponent {
     constructor(props) {
         super(props)
@@ -18,7 +21,7 @@ class Home extends PureComponent {
                     padding: 0,
                     text:'会议数量折线图'
                 },
-                xAxisData:["2021-1-1", "2021-1-2", "2021-1-3", "2021-1-4", "2021-1-5", "2021-1-6", "2021-1-7"],
+                xAxisData:[],
                 series:[
                     {
                     name: "发起会议数量",
@@ -33,7 +36,7 @@ class Home extends PureComponent {
                     },
                     smooth: true,
                     type: "line",
-                    data: [1,2,3,4,5,6,6],
+                    data: [],
                     animationDuration: 2800,
                     animationEasing: "cubicInOut",
                 },{
@@ -49,7 +52,7 @@ class Home extends PureComponent {
                     },
                     smooth: true,
                     type: "line",
-                    data: [1,10,3,6,5,9],
+                    data: [],
                     animationDuration: 2800,
                     animationEasing: "cubicInOut",
                 }],
@@ -62,6 +65,20 @@ class Home extends PureComponent {
     }
 
     componentDidMount() {
+        let {info}=this.props.user
+        console.log(this.props.user)
+        getTimeRoomCount({userName:info.userName}).then(res=>{
+            if(res.success){
+                let {series}=this.state.lineChartData
+                series[0].data=res.response.ownCountArry;
+                series[0].data=res.response.countArry;
+                this.setState({
+                    lineChartData:{...this.state.lineChartData,series},
+                    xAxisData:res.response.timeArry
+                })
+            }
+
+        })
     }
 
     render() {
@@ -124,10 +141,30 @@ class Home extends PureComponent {
                     backgroundColor: "#fff",
                     margin: "30px 0",
                 }}/>
-                <BarChart/>
             </Card>
         )
     }
 }
-
-export default Home
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        user: state.user
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setToken:(token)=>{
+            dispatch(user.setToken(token));
+        },
+        setUserInfo:(info)=>{
+            dispatch(user.setUserInfo(info));
+        },
+        clearToken:()=>{
+            dispatch(user.clearToken());
+        }
+    };
+};
+export default connect(//关联store和组件
+    mapStateToProps,
+    mapDispatchToProps
+)(Home)

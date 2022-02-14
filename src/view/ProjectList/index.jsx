@@ -52,11 +52,16 @@ class ProjectList extends Component {
                 dataIndex: 'option',
                 align: 'center',
                 render: (text, record,index) => {
+                    let tip='解禁'
                     if (record.status == 1) {
-                        return <Button size="small" type="primary" onClick={this.changeStatus.bind(this,record,index)} danger>禁用</Button>
-                    } else {
-                        return <Button size="small" type="primary" onClick={this.changeStatus.bind(this,record,index)}>解禁</Button>
+                        tip='禁用'
                     }
+                    return(
+                        <Space size={5}>
+                            <Button size="small" type="primary" onClick={this.changeStatus.bind(this,record,index)} danger={record.status==1}>{tip}</Button>
+                            <Button size="small" type="primary" onClick={this.handleModify.bind(this,record)}> 管理</Button>
+                        </Space>
+                    )
                 }
             },
 
@@ -121,6 +126,11 @@ class ProjectList extends Component {
         })
     }
 
+    handleModify(data){
+        this.props.history.push({
+            pathname: '/project/detail/'+data.id,
+        })
+    }
     render() {
         let {loading,projectData,pageData}=this.state
         return (

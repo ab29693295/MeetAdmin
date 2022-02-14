@@ -1,9 +1,10 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import {message,Button, Input, Form, Checkbox, Spin} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import styles from './css/index.module.css'
 import axios from '../../axios'
-import {setStorage,removeStorage} from '../../common/js/tools'
+import * as user from "../../redux/actions/user";
 class Login extends Component {
     constructor(props) {
         super(props)
@@ -14,7 +15,9 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        removeStorage('token')
+        // removeStorage('token')
+        // console.log( this.props.clearToken)
+        // this.props.clearToken()
     }
     componentWillUnmount(){
         this.setState = (state,callback) => {
@@ -28,9 +31,11 @@ class Login extends Component {
         this.setState({
             loading:true
         })
+        let {setToken,setUserInfo}=this.props
         axios.userLogin({userName:value.username,PassWord:value.password}).then((res)=>{
             if(res.success){
-                setStorage('token',res.response);
+                setToken(res.response.token)
+                setUserInfo(res.response.userInfo)
                 this.props.history.push({
                     pathname: returnUrl
                 })
@@ -49,7 +54,6 @@ class Login extends Component {
                     <h2 className={styles.title}>视频会议管理后台</h2>
                     <Form
                         name="normal_login"
-
                         initialValues={{remember: true}}
                         onFinish={this.submitFinish}
                     >
@@ -98,12 +102,34 @@ class Login extends Component {
                     </Form>
                 </div>
 
-                    {/*</Spin>*/}
+                {/*</Spin>*/}
 
 
             </div>
         )
     }
 }
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        user: state.user
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setToken:(token)=>{
+            dispatch(user.setToken(token));
+        },
+        setUserInfo:(info)=>{
+            dispatch(user.setUserInfo(info));
+        },
+        clearToken:()=>{
+            dispatch(user.clearToken());
+        }
+    };
+};
+export default connect(//关联store和组件
+    mapStateToProps,
+    mapDispatchToProps
+)(Login)
 
-export default Login
