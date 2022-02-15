@@ -26,18 +26,18 @@ function AddMenu({title='',initialValues={},visible,onClose,onSuccess}) {
                     <Input/>
                 </Form.Item>
                 <Form.Item  label="菜单URL："
-                            name="url"
+                            name="permissonUrl"
                             rules={[{ required: true, message: '菜单URL为必填信息' }]}
                             className={'formItem'}>
                     <Input/>
                 </Form.Item>
                 <Form.Item  label="描述："
-                            name="des"
+                            name="description"
                             className={'formItem'}>
                     <Input.TextArea/>
                 </Form.Item>
                 <Form.Item  label="类型："
-                            name="type"
+                            name="permissonType"
                             rules={[{ required: true, message: '类型为必填信息' }]}
                             className={'formItem'}>
                     <Radio.Group >
@@ -46,7 +46,7 @@ function AddMenu({title='',initialValues={},visible,onClose,onSuccess}) {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item  label="排序："
-                            name="type"
+                            name="orderSort"
                             rules={[{ required: true, message: '类型为必填信息' }]}
                             className={'formItem'}>
                     <InputNumber min={1} max={10} style={{width:'100%'}}/>
