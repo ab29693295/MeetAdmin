@@ -1,53 +1,53 @@
-import React, {useState,useEffect} from 'react';
-import {Button, Form, Input, Modal, Tree} from "antd";
+import React, {useEffect,useCallback,useRef,useState} from 'react';
+import {Button, Form, Input, Modal, Tree,Radio} from "antd";
+import {useSelector} from 'react-redux'
+import {addOrUpdateRole} from '@/axios/judge'
+function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess}) {
+    const formRef=useRef()
+    const treeData = useSelector(state => state.menu.allMenus)
+    const [checkIds,setCheckIds] = useState([])
+     let onFinish=useCallback((val)=>{
+         if(type=='up'){
+             val.id=initialValues.id
+         }
+         //数据提交
+         addOrUpdateRole(val).then(res=>{
+                if(res.success){
+                    onSuccess&&onSuccess()
+                }
+         })
+         }, [type,initialValues])
+     let onCheck=useCallback((val)=>{
+         //数据提交
+         formRef.current.setFieldsValue({permissonIDs:val.toString()})
+     }, [])
+    useEffect(() => {
+        if(initialValues.permissonIDs){
+            let arr=initialValues.permissonIDs.split(',').map(Number)
+            setCheckIds(arr)
 
- function RoleNewModal ({title='',initialValues={},visible,onClose}) {
+        }
+        return()=>{
+            formRef && formRef.current&&formRef.current.resetFields()
+        }
 
-     const [treeData, setTreeData] = useState([]);
-     useEffect( () => {
-         console.log(1)
-         setTreeData([
-             {
-                 title: '首页',
-                 key: '0-0'
-             },
-             {
-                 title: '机构管理',
-                 key: '0-1',
-                 children: [
-                     { title: '机构列表', key: '0-1-0-0' },
-                     { title: '新建机构', key: '0-1-0-1' },
-                 ]
-             },
-             {
-                 title: '权限管理',
-                 key: '0-2',
-                 children: [
-                     {
-                         title: '角色权限',
-                         key: '0-2-0-0' ,
-                         children: [
-                             { title: '查看', key: '0-1-1-0' },
-                             { title: '编辑', key: '0-1-1-1' },
-                             { title: '删除', key: '0-1-1-2' },
-                         ]},
-                     { title: '新建角色', key: '0-2-0-1' },
-                 ]
-             }
-         ])
-     },[]);
+    }, [initialValues.permissonIDs])
     return <>
-        <Modal title={title} visible={visible} onCancel={onClose} footer={null}>
+        {/*destroyOnClose*/}
+        <Modal title={title} visible={visible} onCancel={onClose} footer={null} forceRender>
             <Form
                 name="basic"
                 className={'form'}
                 autoComplete="off"
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 16 }}
+                onFinish={onFinish}
+                ref={formRef}
+                initialValues={{...initialValues}}
             >
                 <Form.Item
                     label="角色名称"
-                    name="username"
+                    name="name"
                     rules={[{ required: true, message: '请填写角色名称!' }]}
                 >
                     <Input placeholder='请输入角色名称'/>
@@ -56,19 +56,35 @@ import {Button, Form, Input, Modal, Tree} from "antd";
                 <Form.Item
                     label="角色描述"
                     name="des"
+                    rules={[{ required: true, message: '请填写角色描述!' }]}
                 >
                     <Input.TextArea placeholder='请输入角色描述'/>
                 </Form.Item>
-                <Form.Item
-                    label="权限信息"
-                    name="judge"
-                    rules={[{ required: true, message: '请选择权限!' }]}
-                >
-                    <Tree
-                        checkable
-                        treeData={treeData}
-                    />
+                <Form.Item  label="后台管理"
+                            name="isAdmin"
+                            rules={[{ required: true, message: '后台管理角色为必填信息' }]}
+                            className={'formItem'}>
+                    <Radio.Group >
+                        <Radio value={1}>是</Radio>
+                        <Radio value={0}>否</Radio>
+                    </Radio.Group>
                 </Form.Item>
+                {
+                    treeData.length? <Form.Item
+                        label="权限信息"
+                        name="permissonIDs"
+                        rules={[{ required: true, message: '请选择权限!' }]}
+                    >
+                        <Tree
+                            defaultCheckedKeys={checkIds}
+                            checkable
+                            treeData={treeData}
+                            onCheck={onCheck}
+                            fieldNames={{ title: 'name', key: 'id', children: 'childrenList' }}
+                        />
+                    </Form.Item>:'加载中'
+                }
+
                 <Form.Item className={'formBtn'} wrapperCol={{ offset: 3, span: 16 }}>
                     <Button type="primary" htmlType="submit" >
                         确定

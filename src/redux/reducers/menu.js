@@ -1,5 +1,6 @@
 const initialState = {
-    siderList:[]
+    siderList:[],//当前权限下的菜单
+    allMenus:[],//所有菜单不涉及权限
 };
 const menu=(state=initialState,action)=>{
     switch (action.type){
@@ -12,6 +13,17 @@ const menu=(state=initialState,action)=>{
             return {
                 ...state,
                 siderList
+            };
+        }
+        case "SET_ALL_MENUS":
+        {
+            const {
+                allMenus
+            } = action.payload;
+
+            return {
+                ...state,
+                allMenus
             };
         }
         default:

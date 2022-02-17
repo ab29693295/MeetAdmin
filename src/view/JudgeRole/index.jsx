@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import {Button, Card, Col, Input, Row, Space, Table} from "antd";
 import { PlusOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
-import {getALlRole} from '@/axios/user'
+import {
+    getALlRole,
+    getPermissionList,
+    checkRoleStatus,
+    deleteRole,
+    addOrUpdateRole
+} from '@/axios/judge'
 import RoleNewModal from './RoleNewModal'
+import  * as menu from "@/redux/actions/menu";
 const {Search} = Input;
-export default class index extends Component {
+class JudgeRole extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,10 +24,13 @@ export default class index extends Component {
             addRoleData:{
                 visible:false,
                 title:'新建',
-                initialValues:{}
-            }
+                initialValues:{},
+                type:'add'
+            },
+            loading:false
         };
         this.getData=this.getData.bind(this)
+        this.getMenus=this.getMenus.bind(this)
         this.closeAddModal=this.closeAddModal.bind(this)
         this.columns = [
             {
@@ -37,22 +48,13 @@ export default class index extends Component {
                 dataIndex: 'num',
                 align:'center'
             },
-            {
-                title: '添加人',
-                dataIndex: 'creator',
-                align:'center'
-            },
-            {
-                title: '添加时间',
-                dataIndex: 'createDate',
-                align:'center'
-            },
+
             {
                 title: '操作',
                 align:'center',
                 render: (text, record) => (
                     <Space size="middle">
-                        <Button size="small" type="primary" onClick={this.addRole.bind(this,{title:'编辑'})}>编辑</Button>
+                        <Button size="small" type="primary" onClick={this.addRole.bind(this,{title:'编辑',type:'up',initialValues:record})}>编辑</Button>
                         <Button size="small" type="primary" danger>删除</Button>
                     </Space>
                 ),
@@ -61,17 +63,28 @@ export default class index extends Component {
     }
     componentDidMount() {
         this.getData()
+        this.getMenus()
     }
     getData(){
+        this.setState({
+            loading:true
+        })
         getALlRole().then(res=>{
             if(res.success){
                 this.setState({
-                    roleList:res.response
+                    roleList:res.response,
+                    loading:false
                 })
             }
         })
     }
-
+    getMenus(){
+        getPermissionList().then(res=>{
+            if(res.success){
+               this.props.setAllMenus(res.response)
+            }
+        })
+    }
     addRole(data){
         let {addRoleData}=this.state
         this.setState({
@@ -87,7 +100,7 @@ export default class index extends Component {
     }
 
     render() {
-        let {roleList,pageData,addRoleData}=this.state;
+        let {roleList,pageData,addRoleData,loading}=this.state;
         return (
             <>
                 <Card title="角色管理" className='content-card'>
@@ -104,7 +117,7 @@ export default class index extends Component {
                         <Col >
                             <Space size={10}>
                                 {/*<Link to={{pathname:'/judge/newRole'}}>*/}
-                                    <Button type="primary"  size="large" icon={<PlusOutlined/>} onClick={this.addRole.bind(this,{title:'新建'})}>
+                                    <Button type="primary"  size="large" icon={<PlusOutlined/>} onClick={this.addRole.bind(this,{title:'新建',type:'add'})}>
                                         新建
                                     </Button>
                                 {/*</Link>*/}
@@ -116,11 +129,28 @@ export default class index extends Component {
                            dataSource={roleList}
                            columns={this.columns}
                            pagination={{position: ['none', 'bottomRight'],total:pageData.total,onChange:this.changPage}}
-                           // loading={loading}
+                           loading={loading}
                     > </Table>
                 </Card>
-                <RoleNewModal {...addRoleData} onClose={this.closeAddModal}/>
+                <RoleNewModal {...addRoleData} onClose={this.closeAddModal} onSuccess={()=>{this.getData()}}/>
             </>
         )
     }
 }
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        menus: state.menu.allMenus
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setAllMenus:(allMenus)=>{
+            dispatch(menu.setAllMenus(allMenus));
+        }
+    };
+};
+export default connect(//关联store和组件
+    mapStateToProps,
+    mapDispatchToProps
+)(JudgeRole)

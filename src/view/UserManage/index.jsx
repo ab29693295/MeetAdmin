@@ -155,7 +155,7 @@ class UserManage extends Component {
             this.setState({ userData: res.response.data,loading:false });
         })
     }
-    //huoq
+
     setForbiddenUser (record,index){
         setForbiddenUser({uID:record.id,status:record.states==1?0:1}).then(res=>{
             if(res.success){
