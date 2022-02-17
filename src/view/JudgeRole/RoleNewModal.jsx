@@ -14,6 +14,7 @@ function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess
          addOrUpdateRole(val).then(res=>{
                 if(res.success){
                     onSuccess&&onSuccess()
+                    onClose()
                 }
          })
          }, [type,initialValues])
@@ -26,12 +27,14 @@ function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess
             let arr=initialValues.permissonIDs.split(',').map(Number)
             setCheckIds(arr)
 
+        }else{
+            setCheckIds([])
         }
         return()=>{
             formRef && formRef.current&&formRef.current.resetFields()
         }
 
-    }, [initialValues.permissonIDs])
+    }, [initialValues])
     return <>
         {/*destroyOnClose*/}
         <Modal title={title} visible={visible} onCancel={onClose} footer={null} forceRender>

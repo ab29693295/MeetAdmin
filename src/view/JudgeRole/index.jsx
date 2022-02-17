@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {Button, Card, Col, Input, Row, Space, Table} from "antd";
+import {Button, Card, Col, Input, message, Modal, Row, Space, Table} from "antd";
 import { PlusOutlined} from '@ant-design/icons';
-import {Link} from "react-router-dom";
 import {
     getALlRole,
     getPermissionList,
     checkRoleStatus,
-    deleteRole,
-    addOrUpdateRole
+    deleteRole
 } from '@/axios/judge'
 import RoleNewModal from './RoleNewModal'
 import  * as menu from "@/redux/actions/menu";
 const {Search} = Input;
+const { confirm } = Modal;
 class JudgeRole extends Component {
     constructor(props) {
         super(props);
@@ -55,7 +54,7 @@ class JudgeRole extends Component {
                 render: (text, record) => (
                     <Space size="middle">
                         <Button size="small" type="primary" onClick={this.addRole.bind(this,{title:'编辑',type:'up',initialValues:record})}>编辑</Button>
-                        <Button size="small" type="primary" danger>删除</Button>
+                        <Button size="small" type="primary" danger onClick={this.delRole.bind(this,{id:record.id})}>删除</Button>
                     </Space>
                 ),
             },
@@ -91,7 +90,22 @@ class JudgeRole extends Component {
             addRoleData:{...addRoleData,visible:true,initialValues:{}, ...data}
         })
     }
-
+    delRole(id){
+        let that=this
+        confirm({
+            title: '确定删除当前角色吗？',
+            onOk() {
+                deleteRole(id).then(res=>{
+                    if(res.success){
+                        message.success('删除成功！');
+                        that.getData()
+                    }else{
+                        message.error('删除失败！');
+                    }
+                })
+            }
+        });
+    }
     closeAddModal(){
         let {addRoleData}=this.state
         this.setState({
@@ -106,13 +120,6 @@ class JudgeRole extends Component {
                 <Card title="角色管理" className='content-card'>
                     <Row className={'toolbar'} justify='space-between'>
                         <Col flex='40%'>
-                            <Search
-                                placeholder="角色关键字"
-                                allowClear
-                                enterButton="搜索"
-                                size="large"
-                                onSearch={this.searchProject}
-                            />
                         </Col>
                         <Col >
                             <Space size={10}>
