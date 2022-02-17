@@ -1,20 +1,20 @@
-import React, {useCallback,useEffect,useRef} from 'react';
-import {Modal, Form, Input, InputNumber,Radio,Button  } from "antd";
+import React, {useCallback,useEffect,useRef,useState} from 'react';
+import {Modal, Form, Input, InputNumber,Radio,Button ,Select } from "antd";
 import {addPermission} from '@/axios/judge'
+import { IconsData } from "@/utils/icons";
+import Icon from "@/components/Icon";
 function AddMenu({title='',initialValues={},visible,parentId,onClose,operateType,onSuccess}) {
     const formItemLayout = {
         labelCol: { span: 6 },
         wrapperCol: { span: 14 },
     };
-    console.log(parentId,1)
     const formRef=useRef()
+
     const onFinish=useCallback((val)=>{
         //数据提交
         if(operateType=='up'){
             val.id=initialValues.id
         }
-            console.log(initialValues,2)
-        console.log(val)
         addPermission({...val,parentID:parentId}).then(res=>{
             if(res.success){
                 onSuccess&&onSuccess()
@@ -24,11 +24,13 @@ function AddMenu({title='',initialValues={},visible,parentId,onClose,operateType
         },
         [parentId])
     useEffect(() => {
-        formRef && formRef.current&&formRef.current.resetFields()
+        return()=>{
+            formRef && formRef.current&&formRef.current.resetFields()
+        }
     }, [initialValues,parentId])
-    console.log(initialValues)
+
     return <>
-        <Modal title={title} visible={visible} onCancel={onClose} footer={null}>
+        <Modal title={title} visible={visible} onCancel={onClose} footer={null} forceRender>
             <Form name="add"
                   className={'form'}
                   autoComplete="off"
@@ -48,6 +50,7 @@ function AddMenu({title='',initialValues={},visible,parentId,onClose,operateType
                             className={'formItem'}>
                     <Input/>
                 </Form.Item>
+
                 <Form.Item  label="描述："
                             name="description"
                             className={'formItem'}
@@ -58,7 +61,7 @@ function AddMenu({title='',initialValues={},visible,parentId,onClose,operateType
                             name="permissonType"
                             rules={[{ required: true, message: '类型为必填信息' }]}
                             className={'formItem'}>
-                    <Radio.Group >
+                    <Radio.Group  >
                         <Radio value={0}>菜单</Radio>
                         <Radio value={1}>目录</Radio>
                     </Radio.Group>
@@ -69,15 +72,20 @@ function AddMenu({title='',initialValues={},visible,parentId,onClose,operateType
                             className={'formItem'}>
                     <InputNumber min={0} max={9999} style={{width:'100%'}}/>
                 </Form.Item>
-                {/*<Form.Item  label="状态："*/}
-                {/*            name="status"*/}
-                {/*            rules={[{ required: true, message: '状态为必填信息' }]}*/}
-                {/*            className={'formItem'}>*/}
-                {/*    <Radio.Group >*/}
-                {/*        <Radio value={1}>启用</Radio>*/}
-                {/*        <Radio value={0}>不启用</Radio>*/}
-                {/*    </Radio.Group>*/}
-                {/*</Form.Item>*/}
+                <Form.Item label="图标" name="formIcon"  >
+                    <Select
+                        dropdownClassName="iconSelect"
+                    >
+                        {IconsData.map((item, index) => {
+                            return (
+                                <Select.Option key={index} value={item}>
+                                    <Icon type={item} />
+                                </Select.Option>
+                            );
+                        })}
+                    </Select>
+                </Form.Item>
+
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
                         确定

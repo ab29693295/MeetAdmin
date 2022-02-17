@@ -4,7 +4,7 @@ import instance from "./base";
 export default {
     //登录
     userLogin(params){
-        return instance.get(api.cnkiDomain +"/api/Login/GetJwtStr", {  params ,withCredentials:false});
+        return instance.get(api.cnkiDomain +"/api/Login/AdminLogin", {  params ,withCredentials:false});
     },
     //获取会议列表
     getMeetList(params) {

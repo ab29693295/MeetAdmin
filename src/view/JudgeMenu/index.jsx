@@ -50,7 +50,11 @@ export default class index extends Component {
                     }
                 }
             },
-
+            {
+                title:'图标',
+                dataIndex: 'icon',
+                align:'center'
+            },
             {
                 title:'排序',
                 dataIndex: 'orderSort',

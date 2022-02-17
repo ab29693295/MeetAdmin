@@ -1,9 +1,7 @@
 import React, { useCallback,useEffect } from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
 import AsyncComponent from "../AsyncComponent";
-// import Comp from './login'
 import {useSelector, useDispatch} from 'react-redux'
-import {getStorage} from "../common/js/tools";
 /*路由配置*/
 const Login = AsyncComponent(() => import("../view/Login")); //登录
 const Layout = AsyncComponent(() => import("../view/Layout")); //

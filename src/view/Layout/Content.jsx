@@ -24,7 +24,14 @@ class name extends Component {
             return false
         }
     }
-
+    beforeEnter(Component,props){
+        // const roles = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).roles
+        // if (roles) {
+            return <Component {...props}/>
+        // }else{
+        //     return  <Redirect exact to='/error'/>
+        // }
+    };
 
     render() {
         return (
@@ -39,15 +46,16 @@ class name extends Component {
                 <Switch>
                     {
                         routes.map(ele => {
-                            return this.handleFilter(ele.permission) && <Route
+                            return <Route
                                 exact
-                                component={ele.component}
+                                // component={ele.component}
                                 key={ele.path}
                                 path={ele.path}
+                                render={(props) => this.beforeEnter( ele.component,props)}
                             />
                         })
                     }
-                    {/*<Redirect exact to='/error'/>*/}
+                    {/*<Route exact path="/error" component={NoPower} />*/}
                 </Switch>
             </Content>
         )

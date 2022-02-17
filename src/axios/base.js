@@ -1,14 +1,15 @@
 import axios from 'axios';
-// import Qs from "qs";
+import store from '@/redux/store.js'
 import {removeStorage} from "../common/js/tools";
 import {message} from 'antd'
-import {getStorage} from "../common/js/tools";
+import * as user from '@/redux/actions/user'
+console.log()
 const instance = axios.create({
     withCredentials: false
 });
 instance.interceptors.request.use(
     config => {
-        let token=getStorage('token');
+        let token=store.getState().user.token
         if(token){
             config.headers.Authorization="Bearer "+token
         }
@@ -24,6 +25,7 @@ instance.interceptors.response.use(
         let status=response.data.status;
         if(status==401){
             message.error(response.data.msg,3,function () {
+                store.dispatch(user.clearToken());
                 removeStorage('token')
                 window.location.href='/login'
             })
