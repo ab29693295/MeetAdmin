@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {Button, Card, Col, Input, message, Modal, Row, Space, Table} from "antd";
+import {Button, Card, Col, Input, message, Modal, Row, Space, Table, Tag} from "antd";
 import { PlusOutlined} from '@ant-design/icons';
 import {
     getALlRole,
@@ -43,20 +43,36 @@ class JudgeRole extends Component {
                 align:'center'
             },
             {
-                title: '角色人数',
-                dataIndex: 'num',
-                align:'center'
+                title: '状态',
+                dataIndex: 'status',
+                align:'center',
+                render:(text,record)=>{
+                    if(record.status==1){
+                        return <Tag color="#87d068">启用</Tag>
+                    }else{
+                        return <Tag color="#f50">停用</Tag>
+                    }
+                }
             },
 
             {
                 title: '操作',
                 align:'center',
-                render: (text, record) => (
-                    <Space size="middle">
-                        <Button size="small" type="primary" onClick={this.addRole.bind(this,{title:'编辑',type:'up',initialValues:record})}>编辑</Button>
-                        <Button size="small" type="primary" danger onClick={this.delRole.bind(this,{id:record.id})}>删除</Button>
-                    </Space>
-                ),
+                render: (text, record,index) => {
+                    let tip='启用'
+                    if(record.status==1){
+                        tip='停用'
+                    }else{
+                        tip='启用'
+                    }
+                    return (
+                        <Space size="middle">
+                            <Button size="small" type="primary" onClick={this.changeStatus.bind(this,{id:record.id,status:record.status,index})}>{tip}</Button>
+                            <Button size="small" type="primary" onClick={this.addRole.bind(this,{title:'编辑',type:'up',initialValues:record})}>编辑</Button>
+                            <Button size="small" type="primary" danger onClick={this.delRole.bind(this,{id:record.id})}>删除</Button>
+                        </Space>
+                    )
+                },
             },
         ]
     }
@@ -105,6 +121,27 @@ class JudgeRole extends Component {
                 })
             }
         });
+    }
+    changeStatus({id,status,index}){
+        let status1=1
+        if(status==1){
+            status1=0
+        }
+        checkRoleStatus({id,status:status1}).then(res=>{
+            let {roleList}=this.state;
+            if(res.success){
+                if(status==1){
+                    roleList[index].status=0
+                }else{
+                    roleList[index].status=1
+                }
+                message.success('操作成功！')
+                this.setState({
+                    roleList
+                })
+            }
+
+        })
     }
     closeAddModal(){
         let {addRoleData}=this.state

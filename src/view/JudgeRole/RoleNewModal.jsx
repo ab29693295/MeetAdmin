@@ -1,5 +1,5 @@
 import React, {useEffect,useCallback,useRef,useState} from 'react';
-import {Button, Form, Input, Modal, Tree,Radio} from "antd";
+import {Button, Form, Input, Modal, Tree, Radio, message} from "antd";
 import {useSelector} from 'react-redux'
 import {addOrUpdateRole} from '@/axios/judge'
 function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess}) {
@@ -13,6 +13,7 @@ function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess
          //数据提交
          addOrUpdateRole(val).then(res=>{
                 if(res.success){
+                    message.success('操作成功！');
                     onSuccess&&onSuccess()
                     onClose()
                 }
