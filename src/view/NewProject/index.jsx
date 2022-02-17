@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Button, Card, Form, Input,message} from "antd";
-import styles from "../NewMeet/css/index.module.css";
-import axios from '@/axios'
+import {
+    addProject
+} from '@/axios/project'
 class name extends Component {
     constructor(props) {
         super(props)
@@ -12,7 +13,8 @@ class name extends Component {
     componentDidMount() {
     }
     submitForm(val){
-        axios.addProject(val).then(res=>{
+
+        addProject({...val,liveType:0}).then(res=>{
             if(res.success){
                 message.success('新建机构成功！')
                 this.props.history.push({
@@ -50,6 +52,16 @@ class name extends Component {
                         wrapperCol={{ span: 16 }}
                     >
                         <Input autoComplete='off' placeholder='请输入机构KEY'/>
+                    </Form.Item>
+                    <Form.Item
+                        label="机构秘钥"
+                        name="appValue"
+                        rules={[{required: true, message: '请填写机构秘钥！'}]}
+                        className={'formItem'}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
+                    >
+                        <Input autoComplete='off' placeholder='请填写机构秘钥'/>
                     </Form.Item>
                     <Form.Item
                         label="机构链接"

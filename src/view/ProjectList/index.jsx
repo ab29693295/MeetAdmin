@@ -1,8 +1,11 @@
 import React, {Component} from "react";
-import {Card, Table, Button, Col, Space, Row, Input, message} from "antd";
-import {SearchOutlined, PlusOutlined, CheckSquareOutlined, CloseCircleOutlined} from '@ant-design/icons';
-import axios from '@/axios'
-import styles from "../MeetList/css/index.module.css";
+import {Card, Table, Button, Col, Space, Row, Input, message, Tag} from "antd";
+import { PlusOutlined, CheckSquareOutlined, CloseCircleOutlined} from '@ant-design/icons';
+import {
+    getAllProject,
+    setProjectStatus,
+    addProject
+} from '@/axios/project'
 import {Link} from "react-router-dom";
 const {Search} = Input;
 class ProjectList extends Component {
@@ -15,7 +18,8 @@ class ProjectList extends Component {
             params:{
                 page:1,
                 pageSize:10,
-                key:''
+                key:'',
+                liveType:0
             },
         }
         this.columns=[
@@ -40,10 +44,10 @@ class ProjectList extends Component {
                 dataIndex: 'status',
                 align: 'center',
                 render: (text, record) => {
-                    if (record.status == 1) {
-                        return <span>未禁用</span>
-                    } else {
-                        return <span>禁用</span>
+                    if(record.status==1){
+                        return <Tag color="#87d068">启用</Tag>
+                    }else{
+                        return <Tag color="#f50">停用</Tag>
                     }
                 }
             },
@@ -52,9 +56,9 @@ class ProjectList extends Component {
                 dataIndex: 'option',
                 align: 'center',
                 render: (text, record,index) => {
-                    let tip='解禁'
+                    let tip='启用'
                     if (record.status == 1) {
-                        tip='禁用'
+                        tip='停用'
                     }
                     return(
                         <Space size={5}>
@@ -79,7 +83,7 @@ class ProjectList extends Component {
         this.setState({
             loading:true
         })
-        axios.getAllProject(params).then(res=>{
+        getAllProject(params).then(res=>{
             if(res.success){
                 let response=res.response
                 this.setState({projectData: response.data,pageData:{...this.state.pageData,total:response.dataCount}});
@@ -108,16 +112,15 @@ class ProjectList extends Component {
     }
     //状态
     changeStatus(record,index){
-        axios.setProjectStatus({aID:record.id,Status:record.status==1?0:1}).then(res=>{
+        setProjectStatus({aID:record.id,Status:record.status==1?0:1}).then(res=>{
             if(res.success){
                 let {projectData}=this.state;
                 if(record.status==1){
                     projectData[index].status=0
-                    message.success('机构解禁成功')
                 }else{
                     projectData[index].status=1
-                    message.success('机构禁用成功')
                 }
+                message.success('操作成功')
                 this.setState({
                     projectData:projectData
                 })
