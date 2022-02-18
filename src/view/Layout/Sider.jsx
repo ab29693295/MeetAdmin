@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import { Layout,Menu} from 'antd'
 import { Link,withRouter } from 'react-router-dom'
 import styles from './css/index.module.css'
-import menu from '../../config/menu.config'
+// import menu from '../../config/menu.config'
+import {getSiderList} from '@/config/menu.config'
 const { Sider } = Layout
 const { SubMenu } = Menu;
 
@@ -25,8 +26,8 @@ class SiderComponent extends Component {
                 <div className={styles.logo} >会议管理系统</div>
                 <Menu theme="dark" mode="inline"  selectedKeys={[selectKey]} defaultOpenKeys={[openKey]}>
                     {
-                        menu.map((ele)=>{
-                            if(ele.children.length>0){
+                        getSiderList().map((ele)=>{
+                            if(ele.children&&ele.children.length>0){
                                 return <SubMenu title={ele.title} key={ele.key} icon={ele.icon}>
                                     {ele.children.map((child)=>{
                                         return(

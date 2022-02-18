@@ -5,6 +5,7 @@ import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import styles from './css/index.module.css'
 import axios from '../../axios'
 import * as user from "../../redux/actions/user";
+import * as menu from "../../redux/actions/menu";
 class Login extends Component {
     constructor(props) {
         super(props)
@@ -31,11 +32,14 @@ class Login extends Component {
         this.setState({
             loading:true
         })
-        let {setToken,setUserInfo}=this.props
+        let {setToken,setUserInfo,setSiderMenu}=this.props
         axios.userLogin({userName:value.username,PassWord:value.password}).then((res)=>{
             if(res.success){
                 setToken(res.response.token)
                 setUserInfo(res.response.userInfo)
+                if(res.response.permissionList){
+                    setSiderMenu(res.response.permissionList)
+                }
                 this.props.history.push({
                     pathname: returnUrl
                 })
@@ -112,7 +116,8 @@ class Login extends Component {
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
-        user: state.user
+        user: state.user,
+        menu : state.menu,
     };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -125,6 +130,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         clearToken:()=>{
             dispatch(user.clearToken());
+        },
+        setSiderMenu : (list) =>//设置房间id
+        {
+            dispatch(menu.setSiderMenu(list));
         }
     };
 };

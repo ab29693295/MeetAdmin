@@ -1,4 +1,4 @@
-import  menus  from '@/config/menu.config'
+import  {getSiderList}  from '@/config/menu.config'
 
 export const addTags = playload => (dispatch, getState) =>{
     const currentTagList = getState().tags.tagList
@@ -15,7 +15,7 @@ export const addTags = playload => (dispatch, getState) =>{
             playload: obj
         })
     }
-    menus.forEach(ele=>{
+    getSiderList().forEach(ele=>{
         if(ele.path===playload) {
             handleDispatch(ele)
         }else if(ele.children){

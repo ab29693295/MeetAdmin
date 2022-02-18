@@ -3,7 +3,6 @@ import store from '@/redux/store.js'
 import {removeStorage} from "../common/js/tools";
 import {message} from 'antd'
 import * as user from '@/redux/actions/user'
-console.log()
 const instance = axios.create({
     withCredentials: false
 });

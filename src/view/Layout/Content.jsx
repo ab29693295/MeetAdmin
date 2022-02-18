@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {Redirect, withRouter, Route, Switch} from 'react-router-dom'
+import {Redirect, Route, Switch} from 'react-router-dom'
 import {Layout} from 'antd'
-import {routes} from '../../config/route.config'
+import {setPower} from '../../config/route.config'
 
 
 const {Content} = Layout
@@ -24,13 +24,12 @@ class name extends Component {
             return false
         }
     }
-    beforeEnter(Component,props){
-        // const roles = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).roles
-        // if (roles) {
+    beforeEnter(Component,routerPower,props){
+        if (routerPower) {
             return <Component {...props}/>
-        // }else{
-        //     return  <Redirect exact to='/error'/>
-        // }
+        }else{
+            return  <Redirect exact to='/error'/>
+        }
     };
 
     render() {
@@ -45,17 +44,16 @@ class name extends Component {
             >
                 <Switch>
                     {
-                        routes.map(ele => {
+                        setPower().map(ele => {
                             return <Route
                                 exact
                                 // component={ele.component}
                                 key={ele.path}
                                 path={ele.path}
-                                render={(props) => this.beforeEnter( ele.component,props)}
+                                render={(props) => this.beforeEnter( ele.component,ele.routerPower,props)}
                             />
                         })
                     }
-                    {/*<Route exact path="/error" component={NoPower} />*/}
                 </Switch>
             </Content>
         )

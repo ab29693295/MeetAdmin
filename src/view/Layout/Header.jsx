@@ -3,7 +3,6 @@ import {Layout, Icon, Popover,Avatar,Dropdown,Menu,Badge} from 'antd'
 import styles from './css/index.module.css'
 import * as menu from "../../redux/actions/menu";
 import {connect} from "react-redux";
-import menuList from '../../config/menu.config'
 import Tags from './Tags'
 const {Header} = Layout;
 
@@ -53,23 +52,6 @@ class HeaderComponent extends Component {
         )
     }
 }
-const mapStateToProps = (state) =>//将state转到props
-{
-    return {
-        menu : state.menu,
-    };
-};
-const mapDispatchToProps = (dispatch) =>
-{
-    return {
-        setSiderMenu : (list) =>//设置房间id
-        {
-            dispatch(menu.setSiderMenu(list));
-        }
-    };
-};
-export default connect(//关联store和组件
-    mapStateToProps,
-    mapDispatchToProps
-)(HeaderComponent)
+
+export default HeaderComponent
 
