@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import { Layout,Menu} from 'antd'
 import { Link,withRouter } from 'react-router-dom'
 import styles from './css/index.module.css'
-// import menu from '../../config/menu.config'
 import {getSiderList} from '@/config/menu.config'
 const { Sider } = Layout
 const { SubMenu } = Menu;
@@ -12,24 +11,22 @@ class SiderComponent extends Component {
         super(props)
         this.state = {}
     }
-
     componentDidMount() {
 
     }
-
     render() {
         let openKey=window.location.pathname.match(/^\/(\w+)/)?window.location.pathname.match(/^\/(\w+)/)[1]:'';
         let selectKey=this.props.location.pathname;
-        console.log(selectKey)
         return (
             <Sider width={180} className={styles.sider} >
                 <div className={styles.logo} >会议管理系统</div>
                 <Menu theme="dark" mode="inline"  selectedKeys={[selectKey]} defaultOpenKeys={[openKey]}>
                     {
                         getSiderList().map((ele)=>{
-                            if(ele.children&&ele.children.length>0){
-                                return <SubMenu title={ele.title} key={ele.key} icon={ele.icon}>
-                                    {ele.children.map((child)=>{
+                            if((ele.children&&ele.children.length>0) || ele.permissonType==1){
+                                //icon={<Icon type={item.icon} />}
+                                return <SubMenu title={ele.title} key={ele.key} >
+                                    {ele.children && ele.children.map((child)=>{
                                         return(
                                             <Menu.Item key={child.path}>
                                                 <Link to={{

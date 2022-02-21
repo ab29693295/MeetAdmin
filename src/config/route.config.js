@@ -37,7 +37,7 @@ const routes=[
     { path: '/meet/newMeet', component: NewMeet},
     { path: '/project/projectList', component: ProjectList},
     { path: '/project/newProject', component: NewProject},
-    { path: '/tj/meetTj', component: MeetTj},
+    { path: '/statistics/meetTj', component: MeetTj},
     { path: '/account/userInfo', component: UserInfo},
     { path: '/account/safeSetting', component: SafeSetting},
     { path: '/user/userList', component: UserManage },
@@ -61,6 +61,7 @@ export function setPower(){
              }
          }
      }
+    console.log(routes)
     return routes.concat(noPower)
 }
 

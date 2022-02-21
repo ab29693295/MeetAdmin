@@ -16,9 +16,6 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        // removeStorage('token')
-        // console.log( this.props.clearToken)
-        // this.props.clearToken()
     }
     componentWillUnmount(){
         this.setState = (state,callback) => {
@@ -84,14 +81,18 @@ class Login extends Component {
                                                       style={{color: 'rgba(0,0,0,.25)'}}/>}
                                 type="password"
                                 placeholder="密码"
+                                autoComplete="off"
                             />
                         </Form.Item>
-                        <Form.Item>
-                            <Form.Item name='remember' valuePropName="checked" noStyle>
-                                <Checkbox>记住密码</Checkbox>
-                            </Form.Item>
-                            <a className={styles.formSetting}>忘记密码</a>
-                        </Form.Item>
+                        {/*<Form.Item>*/}
+                            {/*<Form.Item name='remember' valuePropName="checked" noStyle>*/}
+                            {/*    <Checkbox>记住密码</Checkbox>*/}
+                            {/*</Form.Item>*/}
+
+                            {/*<a className={styles.formSetting}>忘记密码</a>*/}
+
+
+                        {/*</Form.Item>*/}
 
                         <Form.Item>
                             <Button

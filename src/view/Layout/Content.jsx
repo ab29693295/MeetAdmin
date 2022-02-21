@@ -2,10 +2,7 @@ import React, {Component} from "react";
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {Layout} from 'antd'
 import {setPower} from '../../config/route.config'
-
-
 const {Content} = Layout
-
 class name extends Component {
     constructor(props) {
         super(props)
@@ -14,15 +11,10 @@ class name extends Component {
 
     componentDidMount() {
     }
-
-    handleFilter(permission) {
-        //验证权限
-        const roles = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).roles
-        if (!permission || permission === roles) {
-            return true
-        } else {
-            return false
-        }
+    componentWillUnmount = () => {
+        this.setState = (state,callback)=>{
+            return;
+        };
     }
     beforeEnter(Component,routerPower,props){
         if (routerPower) {
@@ -54,6 +46,7 @@ class name extends Component {
                             />
                         })
                     }
+                    <Redirect exact to='/error'/>
                 </Switch>
             </Content>
         )

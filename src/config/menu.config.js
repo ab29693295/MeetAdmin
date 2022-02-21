@@ -1,20 +1,6 @@
 import React from "react";
-import {
-    BarChartOutlined,
-    SnippetsOutlined,
-    AppstoreOutlined,
-    LockOutlined,
-    SettingOutlined,
-    HomeOutlined,
-    ClusterOutlined,
-    ContainerOutlined
-} from '@ant-design/icons';
 import store from '@/redux/store.js'
-export function getSiderList(){
-    let siderList=store.getState().menu.siderList
-    let list = a2b(siderList);
-    return list
-}
+
 function a2b(ls){
     return ls.map(obj=>{
         let result = {}
@@ -22,17 +8,23 @@ function a2b(ls){
             result.title=obj.name;
             result.path=obj.permissonUrl;
             result.key=obj.permissonUrl.slice(1)
+            result.permissonType=obj.permissonType
             result.children=a2b(obj.permissionchildList)
             return result
         } else {
             result.title=obj.name;
             result.key=obj.permissonUrl.slice(1)
             result.path=obj.permissonUrl;
+            result.permissonType=obj.permissonType
             return result
         }
     })
 }
-
+export function getSiderList(){
+    let siderList=store.getState().menu.siderList
+    let list = a2b(siderList);
+    return list
+}
 // export default [
 //     {
 //         title: '首页', icon:<HomeOutlined />, key: '/', path: '/',
@@ -53,9 +45,9 @@ function a2b(ls){
 //         ]
 //     },
 //     {
-//         title: '统计管理', icon: <BarChartOutlined />,key:'tj',
+//         title: '统计管理', icon: <BarChartOutlined />,key:'statistics',
 //         children: [
-//             { path: '/tj/meetTj', title: '会议统计' }
+//             { path: '/statistics/meetTj', title: '会议统计' }
 //         ]
 //     },
 //     {
@@ -73,7 +65,7 @@ function a2b(ls){
 //         ]
 //     },
 //     {
-//         title: '用户管理', icon: <SettingOutlined/>, key: 'usermanage',
+//         title: '用户管理', icon: <SettingOutlined/>, key: 'user',
 //         children: [
 //             { path: '/user/userList', title: '用户列表' },
 //             { path: '/user/newUser', title: '添加用户' }
@@ -89,7 +81,7 @@ function a2b(ls){
 //         ]
 //     },
 //     {
-//         title: '账号管理', icon: <SettingOutlined />,key:'user',
+//         title: '账号管理', icon: <SettingOutlined />,key:'account',
 //         children: [
 //             { path: '/account/userInfo', title: '个人信息' },
 //             { path: '/account/safeSetting', title: '安全设置' }

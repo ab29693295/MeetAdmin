@@ -50,11 +50,11 @@ export default class index extends Component {
                     }
                 }
             },
-            {
-                title:'图标',
-                dataIndex: 'icon',
-                align:'center'
-            },
+            // {
+            //     title:'图标',
+            //     dataIndex: 'icon',
+            //     align:'center'
+            // },
             {
                 title:'排序',
                 dataIndex: 'orderSort',
@@ -147,20 +147,10 @@ export default class index extends Component {
             status1=0
         }
         checkMenuStatus({cids:id,status:status1}).then(res=>{
-            let {data}=this.state;
             if(res.success){
-                if(status==1){
-                    data[index].status=0
-
-                }else{
-                    data[index].status=1
-                }
+                this.getData()
                 message.success('操作成功！')
-                this.setState({
-                    data
-                })
             }
-
         })
     }
     render() {

@@ -22,7 +22,7 @@ function AddMenu({title='',initialValues={},visible,parentId,onClose,operateType
             }
         })
         },
-        [parentId])
+        [parentId,operateType])
     useEffect(() => {
         return()=>{
             formRef && formRef.current&&formRef.current.resetFields()
@@ -38,13 +38,13 @@ function AddMenu({title='',initialValues={},visible,parentId,onClose,operateType
                   initialValues={{...initialValues}}
                   ref={formRef}
                   {...formItemLayout}>
-                <Form.Item  label="菜单名称："
+                <Form.Item  label="名称："
                             name="name"
                             rules={[{ required: true, whitespace: true, message: '菜单名称为必填信息' }, { max: 12, message: "最多输入12位字符" },]}
                             className={'formItem'}>
                     <Input/>
                 </Form.Item>
-                <Form.Item  label="菜单URL："
+                <Form.Item  label="URL："
                             name="permissonUrl"
                             rules={[{ required: true,  whitespace: true, message: '菜单URL为必填信息' }]}
                             className={'formItem'}>
@@ -72,19 +72,19 @@ function AddMenu({title='',initialValues={},visible,parentId,onClose,operateType
                             className={'formItem'}>
                     <InputNumber min={0} max={9999} style={{width:'100%'}}/>
                 </Form.Item>
-                <Form.Item label="图标" name="formIcon"  >
-                    <Select
-                        dropdownClassName="iconSelect"
-                    >
-                        {IconsData.map((item, index) => {
-                            return (
-                                <Select.Option key={index} value={item}>
-                                    <Icon type={item} />
-                                </Select.Option>
-                            );
-                        })}
-                    </Select>
-                </Form.Item>
+                {/*<Form.Item label="图标" name="formIcon"  >*/}
+                {/*    <Select*/}
+                {/*        dropdownClassName="iconSelect"*/}
+                {/*    >*/}
+                {/*        {IconsData.map((item, index) => {*/}
+                {/*            return (*/}
+                {/*                <Select.Option key={index} value={item}>*/}
+                {/*                    <Icon type={item} style={{fontSize:'20px'}}/>*/}
+                {/*                </Select.Option>*/}
+                {/*            );*/}
+                {/*        })}*/}
+                {/*    </Select>*/}
+                {/*</Form.Item>*/}
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
