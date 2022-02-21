@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import axios from '../../axios/liveApi'
-import api from '../../path/index'
+import axios from '@axios/upload'
+import api from '@/path/index'
 export default class index extends Component {
     constructor(props) {
         super(props);
@@ -19,9 +19,9 @@ export default class index extends Component {
     }
     static getDerivedStateFromProps(props, state){
         if(props.value!=''&&props.value!=state.value){
-                return {
-                    imageUrl:props.value
-                }
+            return {
+                imageUrl:props.value
+            }
 
         }
         return null
@@ -31,7 +31,7 @@ export default class index extends Component {
         //验证格式
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
         //验证大小
-        if(file.size>100*1024){
+        if(file.size/1024/1024>100){
             message.error('请上传不超过100MB大小的图片');
             return false
         }else if(!isJpgOrPng){
@@ -53,15 +53,18 @@ export default class index extends Component {
         axios.uploadFile(formData).then(res=>{
             console.log(res)
             //图片回显
-            message.success('图片上传成功！');
-            this.setState({
-                loading:false,
-                imageUrl:res.response
-            })
-            this.props.uploadSuccess(res.response)
-        }).catch(error=>{
-             message.success('图片上传失败！');
-            this.props.uploadError()
+            if(res.success){
+                message.success('图片上传成功！');
+                this.setState({
+                    loading:false,
+                    imageUrl:res.response
+                })
+                this.props.uploadSuccess(res.response)
+            }else{
+                message.success('图片上传失败！');
+                this.props.uploadError&&this.props.uploadError()
+            }
+
         })
     }
     render() {
