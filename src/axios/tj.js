@@ -11,5 +11,5 @@ export function getRoomFootLog(params){
 }
 //登录日志
 export function getUserLoginLog(params){
-    return instance.get(api.cnkiDomain  + "​/api/MeetStatics/GetRoomFootLog", { params })
+    return instance.get(api.cnkiDomain  + "/api/MeetStatics/GetUserLoginLog", { params })
 }

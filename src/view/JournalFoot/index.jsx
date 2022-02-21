@@ -1,9 +1,7 @@
 
 import React, {Component} from 'react';
 import {Modal, Input, Table, Card, Button, message, Row, Col, Space} from 'antd';
-import {SearchOutlined, PlusOutlined, CheckSquareOutlined, CloseCircleOutlined} from '@ant-design/icons';
 import styles from "../MeetList/css/index.module.css";
-import {Link} from "react-router-dom";
 import {formatDateTime} from "../../common/js/tools";
 import {getRoomFootLog} from '@/axios/tj'
 const {Search} = Input;
@@ -124,8 +122,13 @@ export default class JournalFoot extends Component {
         let {params}=this.state;
         getRoomFootLog(params).then(res=>{
             if(res.success){
+              let data= res.response.data.map((item,index)=>{
+                  item.key=index
+                    return item
+                })
+                console.log(data)
                 this.setState({
-                    data:res.response.data,
+                    data,
                     pageData:{total:res.response.dataCount},
                     loading:false
                     })
@@ -135,8 +138,9 @@ export default class JournalFoot extends Component {
     changPage(page){
         this.setState({
             params:{...this.state.params,page}
+        },function(){
+            this.getData()
         })
-        this.getData()
     }
     render() {
         let {pageData,loading,data}=this.state;
@@ -155,7 +159,7 @@ export default class JournalFoot extends Component {
                         </Col>
                     </Row>
                     <Table bordered
-                           rowKey='id'
+                           rowKey='key'
                            dataSource={data}
                            columns={this.columns}
                            pagination={{position: ['none', 'bottomRight'],total:pageData.total,onChange:this.changPage}}
