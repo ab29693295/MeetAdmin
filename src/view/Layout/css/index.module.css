@@ -8,9 +8,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #fff;
+    /*color: #fff;*/
     background: #fff;
     box-shadow: 0 1px 6px rgba(0, 0, 0, .117647), 0 1px 4px rgba(0, 0, 0, .117647);
+}
+.user{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .userImg{
     cursor: pointer;

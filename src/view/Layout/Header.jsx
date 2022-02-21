@@ -1,8 +1,10 @@
 import React, {Component} from "react";
-import {Layout, Icon, Popover,Avatar,Dropdown,Menu,Badge} from 'antd'
+import {Layout,Avatar,Dropdown,Menu,Space} from 'antd'
 import styles from './css/index.module.css'
-import * as menu from "../../redux/actions/menu";
 import {connect} from "react-redux";
+import * as user from '@/redux/actions/user'
+import * as menu from '@/redux/actions/menu'
+import {Link} from 'react-router-dom'
 import Tags from './Tags'
 const {Header} = Layout;
 
@@ -20,38 +22,61 @@ class HeaderComponent extends Component {
     dropMenu(){
         return (
             <Menu>
-                <Menu.Item key="0">
-                    <a href="http://www.alipay.com/">个人资料</a>
-                </Menu.Item>
-                <Menu.Item key="1">
-                    <a href="http://www.taobao.com/">系统消息</a>
-                </Menu.Item>
+                {/*<Menu.Item key="0">*/}
+                {/*    <a href="http://www.alipay.com/">个人信息</a>*/}
+                {/*</Menu.Item>*/}
+                {/*<Menu.Item key="1">*/}
+                {/*    <a href="http://www.taobao.com/">系统消息</a>*/}
+                {/*</Menu.Item>*/}
                 <Menu.Item key="2">
-                    <a href="http://www.taobao.com/">退出系统</a>
+                    <span onClick={this.logout.bind(this)}>退出系统</span>
                 </Menu.Item>
             </Menu>
         )
     }
-
+    logout(){
+        this.props.clearInfo();
+    }
     render() {
+        let {userInfo}=this.props
         return (
             <Header className={styles.header} >
                     <Tags/>
-                    <Dropdown overlay={this.dropMenu} trigger={['click']} placement='bottomCenter'>
-                        <div className={styles.userImg}>
-                            <Badge dot>
-                            <Avatar
-                                size='large'
-                                // src={userInfo.avatar}
-                            />
-                            </Badge>
-                        </div>
-                    </Dropdown>
+                    <div className={styles.user}>
+                        <Space>
+                            <span>欢迎您，{userInfo.userName}</span>
+                            <Dropdown overlay={this.dropMenu} trigger={['click']} placement='bottomCenter'>
+                                <div className={styles.userImg}>
+                                    {/*<Badge dot>*/}
+
+                                    <Avatar
+                                        size='large'
+                                        src={userInfo.photo}
+                                    />
+                                    {/*</Badge>*/}
+                                </div>
+                            </Dropdown>
+                        </Space>
+
+                    </div>
+
 
             </Header>
         )
     }
 }
+const mapStateToProps = state => (
+    {userInfo: state.user.info}
+)
+const mapDispatchToProps = dispatch => ({
+    clearInfo:()=>{
+        dispatch(user.clearToken());
+        dispatch(user.setUserInfo({}))
+        dispatch(menu.setSiderMenu([]))
+        dispatch(menu.setAllMenus([]));
+    }
 
-export default HeaderComponent
+})
+export default connect(mapStateToProps,mapDispatchToProps)(HeaderComponent)
+
 
