@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import axios from '@axios/upload'
+import axios from '@/axios/upload'
 import api from '@/path/index'
 export default class index extends Component {
     constructor(props) {

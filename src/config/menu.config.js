@@ -75,8 +75,8 @@ export function getSiderList(){
 //     {
 //         title: '日志管理', icon: <ContainerOutlined />, key: 'journal',
 //         children: [
-//             { path: '/journal/operationList', title: '操作日志' },
-//             { path: '/journal/newUser', title: '会议日志' }
+//             { path: '/journal/footLog', title: '访问日志' },
+//             { path: '/journal/loginLog', title: '登录日志' }
 //
 //         ]
 //     },

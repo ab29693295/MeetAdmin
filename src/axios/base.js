@@ -23,14 +23,15 @@ instance.interceptors.response.use(
     response => {
         let status=response.data.status;
         if(status==401){
+            //登录失效
             message.error(response.data.msg,3,function () {
                 store.dispatch(user.clearToken());
-                removeStorage('token')
                 window.location.href='/login'
             })
             return Promise.reject(new Error(response.data.msg || 'Error'))
 
         }else if(status==403){
+            //无权限
             message.error(response.data.msg,3)
             return Promise.reject(new Error(response.data.msg || 'Error'))
 
@@ -41,7 +42,7 @@ instance.interceptors.response.use(
     },
     error => {
         console.log(error)
-        // message.error(error)
+        message.error('接口错误，请联系管理员！')
         return Promise.reject(error);
     }
 );

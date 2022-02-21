@@ -12,7 +12,8 @@ import ProjectList from '@/view/ProjectList'
 import ProjectDetail from '@/view/ProjectDetail'//机构详情
 import NewProject from '@/view/NewProject'
 import MeetDetail from '@/view/MeetDetail'
-import OperationList from '@/view/OperationList'
+import JournalLogin from '@/view/JournalLogin'//登录日志
+import JournalFoot from '@/view/JournalFoot'//访问日志
 import UserDetail from '@/view/UserDetail'//用户详情
 import JudgeRole from '@/view/JudgeRole'//角色权限
 import JudgeMenu from '@/view/JudgeMenu'//菜单权限
@@ -44,7 +45,8 @@ const routes=[
     { path: '/user/newUser', component: NewUser },
     { path: '/judge/role', component: JudgeRole },
     { path: '/judge/menu', component: JudgeMenu },
-    { path: '/journal/operationList', component: OperationList },
+    { path: '/journal/loginLog', component: JournalLogin },
+    { path: '/journal/footLog', component: JournalFoot },
 ]
 const noPower=[
     { path: '/error', component: Error,routerPower:true},
