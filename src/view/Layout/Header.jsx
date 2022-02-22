@@ -4,7 +4,7 @@ import styles from './css/index.module.css'
 import {connect} from "react-redux";
 import * as user from '@/redux/actions/user'
 import * as menu from '@/redux/actions/menu'
-import {Link} from 'react-router-dom'
+import api from '@/path/index'
 import Tags from './Tags'
 const {Header} = Layout;
 
@@ -51,7 +51,7 @@ class HeaderComponent extends Component {
 
                                     <Avatar
                                         size='large'
-                                        src={userInfo.photo}
+                                        src={api.tuDomain+userInfo.photo}
                                     />
                                     {/*</Badge>*/}
                                 </div>

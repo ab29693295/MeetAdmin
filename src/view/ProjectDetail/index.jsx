@@ -23,19 +23,19 @@ export default class index extends Component {
                         <TabPane tab="成员管理" key="2">
                             {/*<AdvancedSetting id={this.props.match.params.id}/>*/}
                         </TabPane>
-                        <TabPane tab="分类管理" key="3">
+                        {/*<TabPane tab="分类管理" key="3">*/}
                             {/*<JoinLog id={this.props.match.params.id}/>*/}
-                        </TabPane>
-                        <TabPane tab="权限管理" key="4">
-                            {/*<ChatList id={this.props.match.params.id}/>*/}
-                        </TabPane>
-                        <TabPane tab="数据统计" key="5">
+                        {/*</TabPane>*/}
+                        {/*<TabPane tab="权限管理" key="4">*/}
+                        {/*    <ChatList id={this.props.match.params.id}/>*/}
+                        {/*</TabPane>*/}
+                        {/*<TabPane tab="数据统计" key="5">*/}
                             {/*<JoinLog id={this.props.match.params.id}/>*/}
-                        </TabPane>
+                        {/*</TabPane>*/}
 
-                        <TabPane tab="日志管理" key="6">
+                        {/*<TabPane tab="日志管理" key="6">*/}
                             {/*<OperateLog id={this.props.match.params.id}/>*/}
-                        </TabPane>
+                        {/*</TabPane>*/}
                     </Tabs>
                 </Card></>
         )

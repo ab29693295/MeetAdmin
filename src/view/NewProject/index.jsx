@@ -8,6 +8,7 @@ class name extends Component {
         super(props)
         this.state = {}
         this.submitForm=this.submitForm.bind(this)
+        this.form=React.createRef()
     }
 
     componentDidMount() {

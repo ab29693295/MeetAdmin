@@ -88,7 +88,6 @@ export default class index extends Component {
                                 record.parentID==0&&<Button size="small" type="primary" onClick={this.addMenu.bind(this,{title:'添加子级',operateType:'addC',parentId:record.id})}>添加子级</Button>
                             }
                             <Button size="small" type="primary" onClick={this.changeStatus.bind(this,{id:record.id,status:record.status,index})}>{tip}</Button>
-
                             <Button size="small" type="primary" onClick={this.addMenu.bind(this,{title:'编辑',operateType:'up',initialValues:record,parentId:record.parentID})}>编辑</Button>
                             <Button size="small" type="primary" danger onClick={this.delMenu.bind(this,{id:record.id})}>删除</Button>
                         </Space>
@@ -122,12 +121,14 @@ export default class index extends Component {
             addData:{...addData,visible:true,initialValues:{}, ...data}
         })
     }
+
     closeAddModal(){
         let {addData}=this.state
         this.setState({
             addData:{...addData,visible:false}
         })
     }
+
     delMenu(id){
         let that=this
         confirm({
@@ -144,6 +145,7 @@ export default class index extends Component {
             }
         });
     }
+
     changeStatus({id,status,index}){
         let status1=1
         if(status==1){

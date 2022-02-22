@@ -37,9 +37,9 @@ class LineChart extends Component {
 
     setOptions({ xAxisData,series,title,legend } = {}) {
         this.state.chart.setOption({
-            title: title,
+            title,
             backgroundColor: "#fff",
-            legend:legend,
+            legend,
             xAxis: {
                 data:xAxisData ,
                 boundaryGap: false,

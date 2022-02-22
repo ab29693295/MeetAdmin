@@ -22,88 +22,42 @@ export default class JournalFoot extends Component {
         this.columns = [
             {
                 title: '房间名称',
-                dataIndex: 'createDate',
+                dataIndex: 'courseName',
                 width: '20%',
                 align: 'center'
             },
             {
                 title: '访问时间',
-                dataIndex: 'startTime',
+                dataIndex: 'createDate',
                 width: '20%',
                 align: 'center',
                 render: (text, record) => {
-                    let dateStr = formatDateTime(new Date(record.startTime))
+                    let dateStr = formatDateTime(new Date(record.createDate))
                     return <span>{dateStr}</span>
                 }
             },
             {
                 title: '停留时长',
-                dataIndex: 'endTime',
+                dataIndex: 'duration',
                 width: '20%',
-                align: 'center',
-                render: (text, record) => {
-                    let dateStr = formatDateTime(new Date(record.endTime))
-                    return <span>{dateStr}</span>
-                }
+                align: 'center'
             },
             {
                 title: '用户名',
-                dataIndex: 'isPublic',
-                align: 'center',
-                render: (text, record) => {
-                    if (record.isPublic == 1) {
-                        return <span> 公开</span>
-                    } else {
-                        return <span>封闭</span>
-                    }
-
-                }
+                dataIndex: 'userName',
+                align: 'center'
             },
             {
                 title: 'IP',
-                dataIndex: 'lockStatus',
-                align: 'center',
-                render: (text, record, index) => {
-                    if (record.lockStatus == 1) {
-                        return <span> 锁定</span>
-                    } else {
-                        return <span>未锁定</span>
-                    }
-
-                }
+                dataIndex: 'ip',
+                align: 'center'
             },
             {
-                title: '位置',
-                dataIndex: 'status',
-                align: 'center',
-                render: (text, record, index) => {
+                title: '地区',
 
-                    if (record.status == 1) {
-                        return <span>审核通过</span>
-                    } else if(record.status == 2) {
-                        return <span>审核未通过</span>
-                    }else{
-                        return <span>未审核</span>
-                    }
-
-                }
-            },
-            {
-                title: '操作',
-                dataIndex: 'id',
                 align: 'center',
-                render: (text, record,index) => {
-                    let delTxt = record.lockStatus == 1 ? '解锁' : '锁定';
-                    return (
-                        <Space size={5}>
-                            <Button size="small" type="primary"
-                                    className={` ${record.lockStatus == 1?styles.infoBtn:styles.infoBtn1}`}
-                                    onClick={this.changeLock.bind(this,record,index)}>{delTxt}</Button>
-                            <Button size="small" data-record={record} onClick={ this.del.bind(this,record) } type="primary" danger>删除</Button>
-                            <Button size="small" type="primary" onClick={this.lookMeet.bind(this,record.id)}> 查看</Button>
-                            <Button size="small" type="primary" onClick={this.handleModify.bind(this,record)}> 管理</Button>
-                        </Space>
-                    )
+                render: (text, record) => {
+                    return  <Space>{record.country}{record.province}{record.city}</Space>
                 }
             }
         ]

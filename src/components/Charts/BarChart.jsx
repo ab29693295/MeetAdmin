@@ -45,13 +45,10 @@ class BarChart extends Component {
         this.setState({ chart: null });
     }
 
-    setOptions() {
+    setOptions({ xAxisData,series,title,legend}) {
         const animationDuration = 3000;
         this.state.chart.setOption({
-            title: {
-                text: '会议柱状图',
-                left: 'center',
-            },
+            title,
             tooltip: {
                 trigger: "axis",
                 axisPointer: {
@@ -59,10 +56,7 @@ class BarChart extends Component {
                     type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
                 },
             },
-            legend: {
-                left:'left',
-                data: ['pageA', 'pageB','pageC']
-            },
+            legend,
             grid: {
                 left: 10,
                 right: 50,
@@ -73,7 +67,7 @@ class BarChart extends Component {
             xAxis: [
                 {
                     type: "category",
-                    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                    data: xAxisData,
                     axisTick: {
                         alignWithLabel: true,
                     },
@@ -87,32 +81,7 @@ class BarChart extends Component {
                     },
                 },
             ],
-            series: [
-                {
-                    name: "pageA",
-                    type: "bar",
-                    stack: "vistors",
-                    barWidth: "60%",
-                    data: [79, 52, 200, 334, 390, 330, 220],
-                    animationDuration,
-                },
-                {
-                    name: "pageB",
-                    type: "bar",
-                    stack: "vistors",
-                    barWidth: "60%",
-                    data: [80, 52, 200, 334, 390, 330, 220],
-                    animationDuration,
-                },
-                {
-                    name: "pageC",
-                    type: "bar",
-                    stack: "vistors",
-                    barWidth: "60%",
-                    data: [30, 52, 200, 334, 390, 330, 220],
-                    animationDuration,
-                },
-            ],
+            series
         });
     }
 

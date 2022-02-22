@@ -4,24 +4,29 @@ export default class BaseInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.form=React.createRef()
     }
 
     render() {
+        const formItemLayout = {
+            labelCol: { span: 6 },
+            wrapperCol: { span: 16 },
+        };
         return (
             <>
                 <Form
                     name="basic"
                     ref={this.form}
-                    className={'form'}
+                    className='form'
                     onFinish={this.submitForm}
+                    {...formItemLayout}
                 >
                     <Form.Item
                         label="机构名称"
                         name="appName"
                         rules={[{required: true, message: '请填写机构名称！'}]}
-                        className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
+                        className='formItem'
+
                     >
                         <Input autoComplete='off' placeholder='请输入机构名称'/>
                     </Form.Item>
@@ -29,19 +34,17 @@ export default class BaseInfo extends Component {
                         label="机构KEY"
                         name="appKey"
                         rules={[{required: true, message: '请填写机构KEY！'}]}
-                        className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
+                        className='formItem'
                     >
-                        <Input autoComplete='off' placeh older='请输入机构KEY'/>
+                        <Input autoComplete='off' placeholder='请输入机构链接'/>
                     </Form.Item>
+
                     <Form.Item
                         label="机构链接"
                         name="appUrl"
                         rules={[{required: true, message: '请填写机构链接！'}]}
-                        className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
+                        className='formItem'
+
                     >
                         <Input autoComplete='off' placeholder='请输入机构链接'/>
                     </Form.Item>

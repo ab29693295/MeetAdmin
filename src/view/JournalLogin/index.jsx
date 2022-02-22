@@ -23,12 +23,6 @@ export default class JournalLogin extends Component {
         };
         this.columns = [
             {
-                title: '用户',
-                dataIndex: 'userName',
-                width: '20%',
-                align: 'center'
-            },
-            {
                 title: '登录时间',
                 dataIndex: 'createDate',
                 width: '20%',
@@ -39,13 +33,25 @@ export default class JournalLogin extends Component {
                 }
             },
             {
-                title: 'IP',
+                title: '终端类型',
+                width: '20%',
+                align: 'center'
+            },
+            {
+                title: '登录者',
+                dataIndex: 'userName',
+                width: '20%',
+                align: 'center'
+            },
+
+            {
+                title: 'IP地址',
                 dataIndex: 'ip',
                 width: '20%',
                 align: 'center'
             },
             {
-                title: '位置',
+                title: '地区',
 
                 align: 'center',
                 render: (text, record) => {

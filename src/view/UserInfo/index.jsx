@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Card, Form, Input, Radio, Button, message} from "antd";
 import * as user from "../../redux/actions/user";
 import Upload from '@/components/Upload'
-import {addOrUpdateUser,getUserDetail} from '@/axios/user'
+import {updateUserMessage,getUserDetail} from '@/axios/user'
 import {connect} from "react-redux";
 class userInfo extends Component {
     constructor(props) {
@@ -17,12 +17,17 @@ class userInfo extends Component {
     componentDidMount() {
 
     }
+    componentWillUnmount = () => {
+        this.setState = (state,callback)=>{
+            return;
+        };
+    }
     submitForm(values){
         let {info}=this.props.user
-        addOrUpdateUser({...values,id:info.id}).then(res=>{
+        updateUserMessage({...values,id:info.id}).then(res=>{
             if(res.success){
                 message.success('用户修改成功！')
-                this.getData()
+                this.getData(info.id)
 
             }
         })

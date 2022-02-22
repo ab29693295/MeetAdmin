@@ -40,3 +40,7 @@ export function getUserLoginLog(params){
 export function getTotalRoom(params){
     return instance.get(api.cnkiDomain + "/api/MeetPersonCenter/GetTotalRoom", {params})
 }
+//添加用户/修改用户
+export function updateUserMessage(data){
+    return instance.post(api.cnkiDomain + "/api/UserManage/UpdateUserMessage", data)
+}
