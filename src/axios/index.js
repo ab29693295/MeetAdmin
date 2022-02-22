@@ -31,7 +31,7 @@ export default {
     selectProject(params){
         return instance.get(api.cnkiDomain + "/api/ProjectMange/SelectProject", { params, withCredentials: false });
     },
-    //主持人
+    //获取选择用户
     selectUserList(params){
         return instance.get(api.cnkiDomain + "/api/UserManage/GetSelectUserList", { params, withCredentials: false });
     },
@@ -67,5 +67,8 @@ export default {
     //获取房间录制视频
     getRoomVideo(params){
         return instance.get(api.cnkiDomain  + "/api/RoomManage/getRoomVideo", { params, withCredentials: false })
-    }
+    },
+
+
+
 }

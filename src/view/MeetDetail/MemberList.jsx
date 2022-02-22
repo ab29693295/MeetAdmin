@@ -14,7 +14,7 @@ class MemberList extends Component {
                 total:0
             },
             params:{
-                RID:this.props.id,
+                rID:this.props.id,
                 page:1,
                 pageSize:10
             },

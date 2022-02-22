@@ -1,13 +1,14 @@
 import React, {PureComponent} from "react";
-import {Card,Row,Col,Avatar} from "antd";
+import {Card,Row,Col,Avatar,Statistic} from "antd";
 import {
     SoundOutlined,
     ClockCircleOutlined,
     InfoCircleOutlined,
-    PushpinOutlined
+    PushpinOutlined,
+    ArrowUpOutlined
 } from '@ant-design/icons';
 import LineChart from '@/components/Charts/LineChart.jsx'
-import {getTimeRoomCount} from '@/axios/tj'
+import {getTimeRoomCount,getMeetHomeDetail} from '@/axios/tj'
 import * as user from "../../redux/actions/user";
 import {connect} from "react-redux";
 
@@ -60,13 +61,51 @@ class Home extends PureComponent {
                     left:'left',
                     data: ['发起会议数量', '参与会议数量']
                 },
-            }
+            },
+            homeData:[
+                {
+                    title:'会议总数量',
+                    icon:<SoundOutlined />,
+                    backgroundColor:'#40c9c6',
+                    value:0,
+                    des:'本月新增',
+                    upNum:0,
+                    id:1
+                },
+                {
+                    title:'机构总数量',
+                    icon:<PushpinOutlined />,
+                    backgroundColor:'#36a3f7',
+                    value:0,
+                    des:'本月新增',
+                    upNum:0,
+                    id:2
+                },
+                {
+                    title:'访问总数量',
+                    icon:<ClockCircleOutlined />,
+                    backgroundColor:'#f4516c',
+                    value:0,
+                    des:'本月新增',
+                    upNum:0,
+                    id:3
+                },
+                {
+                    title:'用户总数量',
+                    icon:<InfoCircleOutlined />,
+                    backgroundColor:'#f6ab40',
+                    value:0,
+                    des:'本月新增',
+                    upNum:0,
+                    id:4
+                }
+            ]
         }
     }
 
     componentDidMount() {
         let {info}=this.props.user
-        console.log(this.props.user)
+        let {homeData} =this.state
         getTimeRoomCount({userName:info.userName}).then(res=>{
             if(res.success){
                 let {series}=this.state.lineChartData
@@ -77,63 +116,72 @@ class Home extends PureComponent {
                     xAxisData:res.response.timeArry
                 })
             }
+        })
+        getMeetHomeDetail().then(res=>{
+            if(res.success){
+                let response=res.response
+                let data=  homeData.map((item,index)=>{
+                    switch (item.id) {
+                        case 1:
+                            item.value=response.meetCount
+                            item.upNum=response.meetMonthCount
+                            break
 
+                        case 2:
+                            item.value=response.orgCount
+                            item.upNum=response.orgMonthCount
+                            break
+                        case 3:
+                            item.value=response.visitCount
+                            item.upNum=response.visitMonthCount
+                            break
+                        case 4:
+                            item.value=response.userCount
+                            item.upNum=response.userMonthCount
+                            break
+                    }
+                    return item
+                })
+                this.setState({
+                    homeData:data
+                })
+
+            }
         })
     }
 
+
     render() {
+        let {homeData}=this.state
         return (
             <Card title="首页"  >
                 <Row gutter={40} align='middle'>
-                    <Col span={6} >
-                        <Card  hoverable>
-                            <Card.Meta
-                                avatar={
-                                    <Avatar icon={<SoundOutlined />} style={{ backgroundColor: '#40c9c6' }} size={64}/>
-                                }
-                                title="我发起的会议"
-                                description="500个"
-                                style={{display:'flex',
-                                    justifyContent:'space-between'}}
-                            />
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card  hoverable>
-                            <Card.Meta
-                                avatar={
-                                    <Avatar icon={<PushpinOutlined />} style={{ backgroundColor: '#36a3f7' }} size={64}/>
-                                }
-                                title="我参与的会议"
-                                description="500个"
-                                style={{display:'flex',justifyContent:'space-between'}}
-                            />
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card  hoverable>
-                            <Card.Meta
-                                avatar={
-                                    <Avatar icon={<ClockCircleOutlined />} style={{ backgroundColor: '#f4516c' }} size={64}/>
-                                }
-                                title="参会总时长"
-                                description="100小时"
-                                style={{display:'flex',justifyContent:'space-between'}}
-                            />
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card  hoverable>
-                            <Card.Meta
-                                avatar={
-                                    <Avatar icon={<InfoCircleOutlined />} style={{ backgroundColor: '#f6ab40' }} size={64}/>
-                                }
-                                title="我的消息"
-                                description="This is the description"
-                                style={{display:'flex',justifyContent:'space-between'}}
-                            />
-                        </Card>
-                    </Col>
+                    {
+                        homeData.map((item,index)=>{
+                            return (
+                                <Col span={6} key={index}>
+                                    <Card  hoverable>
+                                        <Card.Meta
+                                            avatar={
+                                                <Avatar icon={item.icon} style={{ backgroundColor:item.backgroundColor }} size={80}/>
+                                            }
+                                            title={<Statistic title={item.title} value={item.value} precision={0} />}
+                                            description={<Statistic
+                                                title={item.des}
+                                                value={item.upNum}
+                                                precision={0}
+                                                valueStyle={{ color: '#3f8600' }}
+                                                prefix={<ArrowUpOutlined />}
+                                                suffix=""
+                                            />}
+                                            style={{display:'flex',
+                                                justifyContent:'space-between',alignItems:'center'}}
+                                        />
+                                    </Card>
+                                </Col>
+                            )
+                        })
+                    }
 
                 </Row>
                 <LineChart  chartData={this.state.lineChartData} styles={{

@@ -13,3 +13,7 @@ export function getRoomFootLog(params){
 export function getUserLoginLog(params){
     return instance.get(api.cnkiDomain  + "/api/MeetStatics/GetUserLoginLog", { params })
 }
+//获取首页
+export function getMeetHomeDetail(params){
+    return instance.get(api.cnkiDomain  + "/api/AdminHome/GetMeetHomeDetail", { params, withCredentials: false })
+}
