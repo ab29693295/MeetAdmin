@@ -45,6 +45,6 @@ export function updateUserMessage(data){
     return instance.post(api.cnkiDomain + "/api/UserManage/UpdateUserMessage", data)
 }
 //添加用户/修改用户
-export function resetUserPwd(data){
-    return instance.post(api.cnkiDomain + "/api/UserManage/ResetUserPwd", data)
+export function resetUserPwd(params){
+    return instance.get(api.cnkiDomain + "/api/UserManage/ResetUserPwd", {params})
 }

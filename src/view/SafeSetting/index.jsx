@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Card, Form, Input,Modal} from "antd";
+import {Button, Card, Form, Input,Modal,message} from "antd";
 import {resetUserPwd} from '@/axios/user.js'
 import * as user from "@/redux/actions/user";
 import * as menu from '@/redux/actions/menu'
@@ -14,16 +14,18 @@ class SafeSetting extends Component {
     componentDidMount() {
     }
     onFinish(val){
-        let {info}=this.props.user
+        let {user,clearInfo}=this.props
         let {Oldpassword,Newpassword}=val
-        resetUserPwd({Oldpassword,Newpassword,uID:info.id}).then(res=>{
+        resetUserPwd({Oldpassword,Newpassword,uID:user.info.id}).then(res=>{
             if(res.success){
                 Modal.success({
                     content: '修改成功，即将退出重新登录！',
                     onOk() {
-                        this.props.clearInfo();
+                       clearInfo();
                     },
                 });
+            }else{
+                message.error(res.msg)
             }
         })
     }
