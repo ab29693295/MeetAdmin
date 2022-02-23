@@ -97,10 +97,12 @@ class MemberList extends Component {
                     return (
                         <Space size={5}>
                             <Button size="small" type="primary" >
-                                <Link to={{pathname:'/user/detail/'+record.id}}>详情</Link></Button>
+                                <Link to={{pathname:'/user/detail/'+record.id}}>详情</Link>
+                            </Button>
                             <Button size="small"
                                     className={` ${record.states == 1 ? styles.infoBtn : styles.infoBtn1}`}
                                     onClick={this.setForbiddenUser.bind(this,record,index)}>{delTxt}</Button>
+                            <Button size="small" type="primary">权限</Button>
                             <Button size="small" onClick={ this.deleteUser.bind(this,record)} type="primary" danger>删除</Button>
                         </Space>
                     )
@@ -191,18 +193,18 @@ class MemberList extends Component {
     render() {
         let {loading,data,pageData,addInfo}=this.state;
         return (<>
-            <Row className={'toolbar'} justify='space-between'>
-                <Col flex='40%'>
+            {/*<Row className={'toolbar'} justify='space-between'>*/}
+            {/*    <Col flex='40%'>*/}
 
-                </Col>
-                <Col >
-                    <Space size={10}>
-                        <Button type="primary"  size="large" onClick={this.showAddModal}>
-                            添加成员
-                        </Button>
-                    </Space>
-                </Col>
-            </Row>
+            {/*    </Col>*/}
+            {/*    <Col >*/}
+            {/*        <Space size={10}>*/}
+            {/*            /!*<Button type="primary"  size="large" onClick={this.showAddModal}>*!/*/}
+            {/*            /!*    添加成员*!/*/}
+            {/*            /!*</Button>*!/*/}
+            {/*        </Space>*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
             <Table bordered
                    rowKey='id'
                    dataSource={data}

@@ -9,7 +9,9 @@ import UserManage from '@/view/UserManage'
 import Home from '@/view/Home'
 import NewUser from '@/view/NewUser'
 import ProjectList from '@/view/ProjectList'
-import ProjectDetail from '@/view/ProjectDetail'//机构详情
+import ProjectDetail from '@/view/ProjectDetail'//机构详情（超级管理员权限）
+import ProjectManageDetail from '@/view/ProjectManageDetail'//机构详情(管理员权限)
+import ProjectMemberList from '@/view/ProjectMemberList'//机构详情(管理员权限)
 import NewProject from '@/view/NewProject'
 import MeetDetail from '@/view/MeetDetail'
 import JournalLogin from '@/view/JournalLogin'//登录日志
@@ -38,6 +40,8 @@ const routes=[
     { path: '/meet/newMeet', component: NewMeet},
     { path: '/project/projectList', component: ProjectList},
     { path: '/project/newProject', component: NewProject},
+    { path: '/project/projectDetail', component: ProjectManageDetail },
+    { path: '/project/member', component: ProjectMemberList },
     { path: '/statistics/meetTj', component: MeetTj},
     { path: '/account/userInfo', component: UserInfo},
     { path: '/account/safeSetting', component: SafeSetting},
@@ -56,7 +60,7 @@ const noPower=[
 ]
 export function setPower(){
     for(let i=0;i<routes.length;i++){
-         routes[i].routerPower=false
+         routes[i].routerPower=true
          for(let j=0;j<arr.length;j++){
              if(routes[i].path==arr[j].permissonUrl){
                  routes[i].routerPower=true
