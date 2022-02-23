@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {Layout} from 'antd'
 import {setPower} from '../../config/route.config'
+import styles from "./css/index.module.css";
 const {Content} = Layout
 class name extends Component {
     constructor(props) {
@@ -27,12 +28,7 @@ class name extends Component {
     render() {
         return (
             <Content
-                className="site-layout-background"
-                style={{
-                    padding: 24,
-                    margin: 0,
-                    minHeight: 280,
-                }}
+                className={styles.content}
             >
                 <Switch>
                     {

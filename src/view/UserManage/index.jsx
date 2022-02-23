@@ -12,13 +12,6 @@ import {
 
 const { Search } = Input;
 
-
-
-const del = (data) => {
-
-
-};
-
 class UserManage extends Component {
     constructor(props) {
         super(props)
@@ -26,7 +19,16 @@ class UserManage extends Component {
             userData: [],
             selectedRowKeys: [],
             loading: true,
+            pageData:{
+                total:0
+            },
+            params:{
+                page: 1,
+                pageSize:10,
+                key:''
+            }
         }
+
         this.columns = [
             {
                 title: '真实姓名',
@@ -137,25 +139,34 @@ class UserManage extends Component {
 
         ]
         this.SearchUser = this.SearchUser.bind(this);
+        this.changPage=this.changPage.bind(this)
     }
     componentDidMount() {
-        let params = { page: 1,pageSize:10 };
-        this.getUserData(params);
+        this.getData();
     }
 
     //检索用户
     SearchUser(textValue) {
-        let params = { page: 1, pageSize:10,key: textValue };
-        this.getUserData(params);
-    }
-    //获取用户信息
-    getUserData(params) {
-        getUserList(params).then((res) => {
-            console.log(res)
-            this.setState({ userData: res.response.data,loading:false });
+        this.setState({
+            params:{...this.state.params,key: textValue}
+        },function () {
+            this.getData();
         })
     }
-
+    //获取用户信息
+    getData() {
+        let {params}=this.state
+        getUserList(params).then((res) => {
+            this.setState({ userData: res.response.data,loading:false,pageData:{total:res.response.dataCount} });
+        })
+    }
+    changPage(page){
+        this.setState({
+            params:{...this.state.params,page: page}
+        },function () {
+            this.getData();
+        })
+    }
     setForbiddenUser (record,index){
         setForbiddenUser({uID:record.id,status:record.states==1?0:1}).then(res=>{
             if(res.success){
@@ -207,7 +218,7 @@ class UserManage extends Component {
     }
     render() {
 
-        const { loading } = this.state;
+        const { loading,pageData } = this.state;
         return (
             <Card title="用户列表" className='content-card'>
                 <Row className={'toolbar'} justify='space-between'>
@@ -236,7 +247,7 @@ class UserManage extends Component {
                     rowKey='id'
                     dataSource={this.state.userData}
                     columns={this.columns}
-                    pagination={{ position: ['none', 'bottomRight'] }}
+                    pagination={{ position: ['none', 'bottomRight'], total:pageData.total,onChange:this.changPage}}
                     loading={loading}
                 > </Table>
             </Card>

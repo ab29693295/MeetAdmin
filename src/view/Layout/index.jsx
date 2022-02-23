@@ -17,7 +17,7 @@ class LayoutComponent extends Component {
         return (
             <Layout className={styles.layout}>
                 <Sider/>
-            <Layout>
+            <Layout className={styles.sitLayout}>
                 <Header />
                 <Content/>
             </Layout>

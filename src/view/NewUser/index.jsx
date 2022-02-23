@@ -64,7 +64,6 @@ class NewUser extends Component {
         })
     }
     uploadSuccess(photo){
-        console.log(photo)
         //上传图片成功
         this.form.current.setFieldsValue({photo})
     }
@@ -128,22 +127,6 @@ class NewUser extends Component {
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
-                        label="用户角色："
-                        name="roleID"
-                        className={'formItem'}
-                        rules={[{ required: true,message:'请选择用户角色'  }]}
-                    >
-                        <Select placeholder="请选择用户角色">
-                            {
-                                roleList.map((item)=>{
-                                    return (
-                                        <Option value={item.id} key={item.id} >{item.name}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
                         label="手机号："
                         name="phone"
                         rules={[{ required: true, message: '手机号为必填信息',max:11 },{
@@ -167,6 +150,23 @@ class NewUser extends Component {
                         <Input autoComplete='off' placeholder='请输入邮箱' />
                     </Form.Item>
                     <Form.Item
+                        label="用户角色："
+                        name="roleID"
+                        className={'formItem'}
+                        rules={[{ required: true,message:'请选择用户角色'  }]}
+                    >
+                        <Select placeholder="请选择用户角色">
+                            {
+                                roleList.map((item)=>{
+                                    return (
+                                        <Option value={item.id} key={item.id} >{item.name}</Option>
+                                    )
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
                         label="会议机构"
                         name="proID"
                         className={'formItem'}
@@ -178,7 +178,7 @@ class NewUser extends Component {
                             {
                                 projectList.map((item)=>{
                                     return (
-                                        <Option value={item.appID} key={item.id} data={item.appName}>{item.appName}</Option>
+                                        <Option value={item.id} key={item.id} data={item.appName}>{item.appName}</Option>
                                     )
                                 })
                             }

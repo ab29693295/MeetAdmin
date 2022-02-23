@@ -19,10 +19,20 @@
 }
 .userImg{
     cursor: pointer;
+
 }
 /*sider*/
 .sider{
     color: #fff;
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0
+}
+.sitLayout{
+    margin-left: 180px;
 }
 .logo{
     height: 64px;
@@ -34,4 +44,9 @@
 }
 .tagsWrap{
     display: flex;
+}
+.content{
+    min-height: 280px;
+    margin-top: 30px;
+    padding:20px ;
 }
