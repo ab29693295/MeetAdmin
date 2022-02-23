@@ -31,12 +31,12 @@ export default class BaseInfo extends Component {
                         <Input autoComplete='off' placeholder='请输入机构名称'/>
                     </Form.Item>
                     <Form.Item
-                        label="机构KEY"
-                        name="appKey"
-                        rules={[{required: true, message: '请填写机构KEY！'}]}
-                        className='formItem'
+                        label="机构秘钥"
+                        name="appValue"
+                        rules={[{required: true, message: '请填写机构秘钥！'}]}
+                        className={'formItem'}
                     >
-                        <Input autoComplete='off' placeholder='请输入机构链接'/>
+                        <Input autoComplete='off' placeholder='请填写机构秘钥'/>
                     </Form.Item>
 
                     <Form.Item

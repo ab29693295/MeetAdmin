@@ -7,8 +7,11 @@ import {
     PushpinOutlined,
     ArrowUpOutlined
 } from '@ant-design/icons';
-import LineChart from '@/components/Charts/LineChart.jsx'
-import {getTimeRoomCount,getMeetHomeDetail} from '@/axios/tj'
+import BarChart from '@/components/Charts/BarChart'
+import {
+    getTimeRoomCount,
+    getMeetHomeDetail,
+    getTimeVisitCount} from '@/axios/tj'
 import * as user from "../../redux/actions/user";
 import {connect} from "react-redux";
 
@@ -16,11 +19,11 @@ class Home extends PureComponent {
     constructor(props) {
         super(props)
         this.state = {
-            lineChartData:{
+            barChartData:{
                 title:{
                     left: 'center',
                     padding: 0,
-                    text:'会议数量折线图'
+                    text:'会议数量图'
                 },
                 xAxisData:[],
                 series:[
@@ -36,7 +39,7 @@ class Home extends PureComponent {
                         },
                     },
                     smooth: true,
-                    type: "line",
+                    type: "bar",
                     data: [],
                     animationDuration: 2800,
                     animationEasing: "cubicInOut",
@@ -52,7 +55,7 @@ class Home extends PureComponent {
                         },
                     },
                     smooth: true,
-                    type: "line",
+                    type: "bar",
                     data: [],
                     animationDuration: 2800,
                     animationEasing: "cubicInOut",
@@ -106,13 +109,13 @@ class Home extends PureComponent {
     componentDidMount() {
         let {info}=this.props.user
         let {homeData} =this.state
-        getTimeRoomCount({userName:info.userName}).then(res=>{
+        getTimeRoomCount().then(res=>{
             if(res.success){
-                let {series}=this.state.lineChartData
+                let {series}=this.state.barChartData
                 series[0].data=res.response.ownCountArry;
                 series[0].data=res.response.countArry;
                 this.setState({
-                    lineChartData:{...this.state.lineChartData,series},
+                    barChartData:{...this.state.barChartData,series},
                     xAxisData:res.response.timeArry
                 })
             }
@@ -148,11 +151,14 @@ class Home extends PureComponent {
 
             }
         })
+        getTimeVisitCount().then(res=>{
+
+        })
     }
 
 
     render() {
-        let {homeData}=this.state
+        let {homeData,barChartData}=this.state
         return (
             <Card title="首页"  >
                 <Row gutter={40} align='middle'>
@@ -184,7 +190,7 @@ class Home extends PureComponent {
                     }
 
                 </Row>
-                <LineChart  chartData={this.state.lineChartData} styles={{
+                <BarChart  chartData={barChartData} styles={{
                     padding: 12,
                     backgroundColor: "#fff",
                     margin: "30px 0",

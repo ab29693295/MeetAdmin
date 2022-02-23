@@ -44,16 +44,16 @@ class name extends Component {
                     >
                         <Input autoComplete='off' placeholder='请输入机构名称'/>
                     </Form.Item>
-                    <Form.Item
-                        label="机构KEY"
-                        name="appKey"
-                        rules={[{required: true, message: '请填写机构KEY！'}]}
-                        className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                    >
-                        <Input autoComplete='off' placeholder='请输入机构KEY'/>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    label="机构KEY"*/}
+                    {/*    name="appKey"*/}
+                    {/*    rules={[{required: true, message: '请填写机构KEY！'}]}*/}
+                    {/*    className={'formItem'}*/}
+                    {/*    labelCol={{ span: 6 }}*/}
+                    {/*    wrapperCol={{ span: 16 }}*/}
+                    {/*>*/}
+                    {/*    <Input autoComplete='off' placeholder='请输入机构KEY'/>*/}
+                    {/*</Form.Item>*/}
                     <Form.Item
                         label="机构秘钥"
                         name="appValue"

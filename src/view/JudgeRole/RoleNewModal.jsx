@@ -21,7 +21,8 @@ function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess
          }, [type,initialValues])
      let onCheck=useCallback((val)=>{
          //数据提交
-         formRef.current.setFieldsValue({permissonIDs:val.toString()})
+         let data=val.checked.slice(1)
+         formRef.current.setFieldsValue({permissonIDs:data.toString()})
      }, [])
     useEffect(() => {
         if(initialValues.permissonIDs){
@@ -80,6 +81,8 @@ function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess
                         rules={[{ required: true, message: '请选择权限!' }]}
                     >
                         <Tree
+                            defaultExpandAll
+                            checkStrictly
                             defaultCheckedKeys={checkIds}
                             checkable
                             treeData={treeData}

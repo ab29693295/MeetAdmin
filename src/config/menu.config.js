@@ -41,7 +41,9 @@ export function getSiderList(){
 //         title: '机构管理', icon: <ClusterOutlined />,key:'project',
 //         children: [
 //             { path: '/project/projectList', title: '机构列表' },
-//             { path: '/project/newProject', title: '新建机构' }
+//             { path: '/project/newProject', title: '新建机构' },
+//             { path: '/project/projectDetail', title： '机构详情' }，
+//             { path: '/project/member', title： '成员管理' }
 //         ]
 //     },
 //     {

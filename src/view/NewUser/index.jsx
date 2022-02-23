@@ -3,12 +3,14 @@ import {Card, Form, Input, Button, Select, Radio, message} from 'antd';
 import Upload from '@/components/Upload'
 import 'moment/locale/zh-cn';
 import {getALlRole,addOrUpdateUser} from '@/axios/user'
+import axios from '@/axios'
 const { Option } = Select;
 
 class NewUser extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            projectList:[],
             roleList:[],
             initialValues:{
                 isBind: 0,
@@ -24,6 +26,7 @@ class NewUser extends Component {
                 roleID:null
             },
         }
+        this.getProject=this.getProject.bind(this)
         this.bindStatusChange=this.bindStatusChange.bind(this)
         this.uploadSuccess=this.uploadSuccess.bind(this)
         this.submitForm=this.submitForm.bind(this)
@@ -38,6 +41,7 @@ class NewUser extends Component {
                 })
             }
         })
+        this.getProject()
     }
 
     //绑定状态修改
@@ -64,9 +68,17 @@ class NewUser extends Component {
         //上传图片成功
         this.form.current.setFieldsValue({photo})
     }
+    getProject(){
+        //获取机构列表
+        axios.selectProject({key:''}).then(res=>{
+            this.setState({
+                projectList:res.response
+            })
+        })
+    }
     render() {
 
-        let {roleList,initialValues,isBind}=this.state
+        let {roleList,initialValues,isBind,projectList}=this.state
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -153,6 +165,24 @@ class NewUser extends Component {
                         className={'formItem'}
                     >
                         <Input autoComplete='off' placeholder='请输入邮箱' />
+                    </Form.Item>
+                    <Form.Item
+                        label="会议机构"
+                        name="proID"
+                        className={'formItem'}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
+                        rules={[{ required: true,message:'请选择机构！'}]}
+                    >
+                        <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
+                            {
+                                projectList.map((item)=>{
+                                    return (
+                                        <Option value={item.appID} key={item.id} data={item.appName}>{item.appName}</Option>
+                                    )
+                                })
+                            }
+                        </Select>
                     </Form.Item>
                     <Form.Item
                         label="用户关联："

@@ -12,3 +12,7 @@ export function setProjectStatus(params){
 export function addProject(data){
     return instance.post(api.cnkiDomain + "/api/ProjectMange/addProject", data,{  withCredentials: false })
 }
+//修改机构状态
+export function getAllProUser(params){
+    return instance.get(api.cnkiDomain + "/api/MeetPersonCenter/GetAllProUser", { params, withCredentials: false })
+}
