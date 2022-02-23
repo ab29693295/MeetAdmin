@@ -44,7 +44,7 @@ class HeaderComponent extends Component {
                     <Tags/>
                     <div className={styles.user}>
                         <Space>
-                            <span>欢迎您，{userInfo.userName}</span>
+                            <span>欢迎您，{userInfo.trueName}</span>
                             <Dropdown overlay={this.dropMenu} trigger={['click']} placement='bottomCenter'>
                                 <div className={styles.userImg}>
                                     {/*<Badge dot>*/}

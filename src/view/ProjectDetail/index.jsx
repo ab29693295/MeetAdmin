@@ -3,6 +3,7 @@ import {Card, Tabs} from "antd";
 import { LeftOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import BaseInfo from './BaseInfo'
+import MemberList from './MemberList'
 const {TabPane} = Tabs;
 export default class index extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class index extends Component {
                             <BaseInfo id={this.props.match.params.id}/>
                         </TabPane>
                         <TabPane tab="成员管理" key="2">
-                            {/*<AdvancedSetting id={this.props.match.params.id}/>*/}
+                            <MemberList id={this.props.match.params.id}/>
                         </TabPane>
                         {/*<TabPane tab="分类管理" key="3">*/}
                             {/*<JoinLog id={this.props.match.params.id}/>*/}

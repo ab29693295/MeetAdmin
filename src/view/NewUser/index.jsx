@@ -54,12 +54,13 @@ class NewUser extends Component {
         console.log(values)
         addOrUpdateUser(values).then(res=>{
             if(res.success){
-
                 message.success('用户添加成功！')
                 this.form.current.resetFields()
                 this.props.history.push({
                     pathname: '/user/userList',
                 })
+            }else{
+                message.error(res.msg)
             }
         })
     }
@@ -96,7 +97,9 @@ class NewUser extends Component {
                     <Form.Item
                         label="用户名："
                         name="userName"
-                        rules={[{ required: true, message: '用户名为必填信息',whitespace: true }]}
+                        rules={[{ required: true, message: '用户名为必填信息',whitespace: true },{ required: false,
+                            pattern: new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "g"),
+                            message: '长度至少为6的数字和字母组合，至少含有一个字母和一个数字',}]}
                         className={'formItem'}
                     >
                         <Input autoComplete='off' placeholder='请输入用户名' />
@@ -178,7 +181,7 @@ class NewUser extends Component {
                             {
                                 projectList.map((item)=>{
                                     return (
-                                        <Option value={item.id} key={item.id} data={item.appName}>{item.appName}</Option>
+                                        <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
                                     )
                                 })
                             }

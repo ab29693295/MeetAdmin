@@ -83,6 +83,8 @@ class UserManage extends Component {
                     }
                     else if (record.roleID == 2) {
                         return <span>主持人</span>
+                    }else if(record.roleID==8){
+                        return <span>机构管理员</span>
                     }
                     else {
                         return <span>普通用户</span>
@@ -115,7 +117,6 @@ class UserManage extends Component {
                     } else {
                         return <span>未关联</span>
                     }
-
                 }
             },
             {

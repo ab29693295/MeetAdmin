@@ -172,7 +172,7 @@ class NewMeet extends Component {
                     </Form.Item>
                     <Form.Item
                         label="会议机构"
-                        name="appID"
+                        name="proID"
                         className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
@@ -182,7 +182,7 @@ class NewMeet extends Component {
                             {
                                 projectList.map((item)=>{
                                     return (
-                                        <Option value={item.appID} key={item.id} data={item.appName}>{item.appName}</Option>
+                                        <Option value={item.id} key={item.id} data={item.appName}>{item.appName}</Option>
                                     )
                                 })
                             }

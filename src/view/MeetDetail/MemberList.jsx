@@ -83,6 +83,9 @@ class MemberList extends Component {
     }
     getData(){
         let {params}=this.state
+        this.setState({
+            loading:true
+        })
         axios.getAllUserList(params).then(res=>{
             if(res.success){
                 this.setState({
