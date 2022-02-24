@@ -60,7 +60,7 @@ const noPower=[
 ]
 export function setPower(){
     for(let i=0;i<routes.length;i++){
-         routes[i].routerPower=true
+         routes[i].routerPower=false
          for(let j=0;j<arr.length;j++){
              if(routes[i].path==arr[j].permissonUrl){
                  routes[i].routerPower=true
