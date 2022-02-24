@@ -7,6 +7,8 @@ import {formatDateTime} from '../../common/js/tools'
 import ExamineModal from '@/components/ExamineModal'
 import ShowModal from './ShowModal'
 import axios from '../../axios'
+import * as user from "../../redux/actions/user";
+import {connect} from "react-redux";
 
 const {Search} = Input;
 
@@ -143,6 +145,9 @@ class MeetList extends Component {
         this.setState({
             loading:true
         })
+        if(this.props.user.info.roleID!=1){
+            params.proID=this.props.user.info.proID
+        }
         axios.getMeetList(params).then((res) => {
             if(res.success){
                 let response=res.response
@@ -345,5 +350,14 @@ class MeetList extends Component {
         )
     }
 }
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        user: state.user
+    };
+};
 
-export default MeetList
+export default connect(//关联store和组件
+    mapStateToProps
+)(MeetList)
+
