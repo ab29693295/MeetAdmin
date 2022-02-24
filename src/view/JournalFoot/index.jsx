@@ -48,6 +48,11 @@ export default class JournalFoot extends Component {
                 align: 'center'
             },
             {
+                title: '真实姓名',
+                dataIndex: 'trueName',
+                align: 'center'
+            },
+            {
                 title: 'IP',
                 dataIndex: 'ip',
                 align: 'center'

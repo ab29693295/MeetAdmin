@@ -32,11 +32,12 @@ export default class JournalLogin extends Component {
                     return <span>{dateStr}</span>
                 }
             },
-            {
-                title: '终端类型',
-                width: '20%',
-                align: 'center'
-            },
+            // {
+            //     title: '终端类型',
+            //     width: '20%',
+            //     align: 'center',
+            //
+            // },
             {
                 title: '登录者',
                 dataIndex: 'userName',
