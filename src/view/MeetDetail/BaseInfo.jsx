@@ -6,6 +6,7 @@ import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import axios from '@/axios'
 import TimeSelect from "../../components/TimeSelect";
+import {connect} from "react-redux";
 const { RangePicker } = DatePicker;
 
 const { Option } = Select;
@@ -14,7 +15,6 @@ class BaseInfo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            projectList:[],
             hostList:[],
             hostKey:undefined,
             currentValue:'',
@@ -29,8 +29,6 @@ class BaseInfo extends Component {
             appName:'',
             isSecret:false
         }
-
-        this.getProject=this.getProject.bind(this)
         this.getHost=this.getHost.bind(this)
         this.handleChange=this.handleChange.bind(this)
         this.getHostData=this.getHostData.bind(this)
@@ -52,21 +50,10 @@ class BaseInfo extends Component {
 
             this.getRoomData(id)
         }
-        this.getProject()
     }
 
-    //获取岗位
-    getProject(){
-        //获取机构列表
-        axios.selectProject({key:''}).then(res=>{
-            this.setState({
-                projectList:res.response
-            })
-        })
-    }
     //获取主持人
     getHost(value){
-        console.log(value)
         //获取主持人列表
         if(value){
             if (this.timeout) {
@@ -167,7 +154,8 @@ class BaseInfo extends Component {
     }
 
     render() {
-        let {projectList,hostList,initialValues}=this.state
+        let {hostList,initialValues}=this.state
+        let {allProjects}=this.props
         return (
                 <Form
                     name="basic"
@@ -196,7 +184,7 @@ class BaseInfo extends Component {
                     >
                         <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
                             {
-                                projectList.map((item)=>{
+                                allProjects.map((item)=>{
                                     return (
                                         <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
                                     )
@@ -313,5 +301,10 @@ class BaseInfo extends Component {
         )
     }
 }
-
-export default BaseInfo
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        allProjects:state.set.allProjects
+    };
+};
+export default connect(mapStateToProps)(BaseInfo)

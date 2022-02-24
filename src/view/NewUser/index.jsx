@@ -3,7 +3,6 @@ import {Card, Form, Input, Button, Select, Radio, message} from 'antd';
 import Upload from '@/components/Upload'
 import 'moment/locale/zh-cn';
 import {addOrUpdateUser} from '@/axios/user'
-import axios from '@/axios'
 import {connect} from "react-redux";
 const { Option } = Select;
 
@@ -11,8 +10,6 @@ class NewUser extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            projectList:[],
-            roleList:[],
             initialValues:{
                 isBind: 0,
                 sex:0,
@@ -27,7 +24,6 @@ class NewUser extends Component {
                 roleID:null
             },
         }
-        this.getProject=this.getProject.bind(this)
         this.bindStatusChange=this.bindStatusChange.bind(this)
         this.uploadSuccess=this.uploadSuccess.bind(this)
         this.submitForm=this.submitForm.bind(this)
@@ -35,7 +31,7 @@ class NewUser extends Component {
         this.form=React.createRef()
     }
     componentDidMount() {
-        this.getProject()
+
     }
 
     //绑定状态修改
@@ -45,7 +41,6 @@ class NewUser extends Component {
         })
     };
     submitForm(values){
-        console.log(values)
         addOrUpdateUser(values).then(res=>{
             if(res.success){
                 message.success('用户添加成功！')
@@ -62,18 +57,10 @@ class NewUser extends Component {
         //上传图片成功
         this.form.current.setFieldsValue({photo})
     }
-    getProject(){
-        //获取机构列表
-        axios.selectProject({key:''}).then(res=>{
-            this.setState({
-                projectList:res.response
-            })
-        })
-    }
     render() {
 
-        let {initialValues,isBind,projectList}=this.state
-        let {allRoles}=this.props
+        let {initialValues,isBind}=this.state
+        let {allRoles,allProjects}=this.props
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -174,7 +161,7 @@ class NewUser extends Component {
                     >
                         <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
                             {
-                                projectList.map((item)=>{
+                                allProjects.map((item)=>{
                                     return (
                                         <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
                                     )
@@ -238,7 +225,8 @@ class NewUser extends Component {
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
-        allRoles:state.role.allRoles
+        allRoles:state.set.allRoles,
+        allProjects:state.set.allProjects
     };
 };
 export default connect(//关联store和组件

@@ -55,7 +55,7 @@ const {Option}=Select
             },
         };
         let {visible,initialValues}=this.props;
-        let roleList=this.props.role.allRoles
+        let {allRoles}=this.props
         let {isBind}=this.state
         return (
             <>
@@ -106,7 +106,7 @@ const {Option}=Select
                         >
                             <Select placeholder="请选择用户角色">
                                 {
-                                    roleList.map((item)=>{
+                                    allRoles.map((item)=>{
                                         return (
                                             <Option value={item.id} key={item.id} >{item.name}</Option>
                                         )
@@ -187,7 +187,7 @@ const {Option}=Select
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
-        role:state.role
+        allRoles:state.set.allRoles
     };
 };
 

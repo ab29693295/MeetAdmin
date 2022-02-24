@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import { Card, Form, Input, Button, DatePicker, Select, Radio,message } from 'antd';
-import styles from './css/index.module.css'
 import 'moment/locale/zh-cn';
 import moment from 'moment';
 import axios from '@/axios'
 import TimeSelect from "../../components/TimeSelect";
+import {connect} from "react-redux";
 
 const { Option } = Select;
 
@@ -12,7 +12,6 @@ class NewMeet extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            projectList:[],
             hostList:[],
             hostKey:undefined,
             currentValue:'',
@@ -28,7 +27,6 @@ class NewMeet extends Component {
             isSecret:false//控制会议显示隐藏
         }
 
-        this.getProject=this.getProject.bind(this)
         this.getHost=this.getHost.bind(this)
         this.handleChange=this.handleChange.bind(this)
         this.getHostData=this.getHostData.bind(this)
@@ -40,17 +38,8 @@ class NewMeet extends Component {
     }
 
     componentDidMount() {
-        this.getProject()
     }
 
-    getProject(){
-        //获取机构列表
-        axios.selectProject({key:''}).then(res=>{
-           this.setState({
-               projectList:res.response
-           })
-        })
-    }
 
     //选择主持人
     getHost(value){
@@ -147,7 +136,8 @@ class NewMeet extends Component {
 
 
     render() {
-        let {projectList,hostList,initialValues}=this.state
+        let {hostList,initialValues}=this.state
+        let {allProjects}=this.props
         return (
             <Card title="会议预定" bordered={false}>
                 <Form
@@ -177,7 +167,7 @@ class NewMeet extends Component {
                     >
                         <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
                             {
-                                projectList.map((item)=>{
+                                allProjects.map((item)=>{
                                     return (
                                         <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
                                     )
@@ -295,5 +285,10 @@ class NewMeet extends Component {
         )
     }
 }
-
-export default NewMeet
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        allProjects:state.set.allProjects
+    };
+};
+export default connect(mapStateToProps)(NewMeet)

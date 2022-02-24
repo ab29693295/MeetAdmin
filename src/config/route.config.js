@@ -20,19 +20,7 @@ import UserDetail from '@/view/UserDetail'//用户详情
 import JudgeRole from '@/view/JudgeRole'//角色权限
 import JudgeMenu from '@/view/JudgeMenu'//菜单权限
 import store from '@/redux/store.js'
-let siderList=store.getState().menu.siderList
-let siderListCopy=JSON.parse(JSON.stringify(siderList))
-function treeForeach (tree, func) {
-    let node, list = [...tree]
-    while (node = list.shift()) {
-        func(node)
-        node.permissionchildList && list.push(...node.permissionchildList)
-    }
-}
-let arr=[]
-treeForeach(siderListCopy, node => {
-   arr.push(node)
-})
+
 const routes=[
     { path: '/', component: Home},
     { path: '/home', component: Home},
@@ -58,7 +46,21 @@ const noPower=[
     { path: '/project/detail/:id', component: ProjectDetail,routerPower:true},
     { path: '/user/detail/:id', component: UserDetail,routerPower:true },
 ]
+
 export function setPower(){
+    let siderList=store.getState().menu.siderList
+    let siderListCopy=JSON.parse(JSON.stringify(siderList))
+    function treeForeach (tree, func) {
+        let node, list = [...tree]
+        while (node = list.shift()) {
+            func(node)
+            node.permissionchildList && list.push(...node.permissionchildList)
+        }
+    }
+    let arr=[]
+    treeForeach(siderListCopy, node => {
+        arr.push(node)
+    })
     for(let i=0;i<routes.length;i++){
          routes[i].routerPower=false
          for(let j=0;j<arr.length;j++){
@@ -67,6 +69,7 @@ export function setPower(){
              }
          }
      }
+    console.log(arr)
     console.log(routes)
     return routes.concat(noPower)
 }

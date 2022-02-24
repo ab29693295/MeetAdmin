@@ -6,10 +6,13 @@ import * as user from '@/redux/actions/user'
 import * as menu from '@/redux/actions/menu'
 import api from '@/path/index'
 import Tags from './Tags'
-import * as role from "@/redux/actions/role";
+import {setAllRoles,setAllProjects} from "@/redux/actions/set";
 import {
     getALlRole
 } from '@/axios/user'
+import {
+    selectProject
+} from '@/axios/project'
 const {Header} = Layout;
 
 class HeaderComponent extends Component {
@@ -21,7 +24,7 @@ class HeaderComponent extends Component {
 
     componentDidMount() {
         console.log('header')
-        let {setAllRoles,allRoles}=this.props
+        let {setAllRoles,allRoles,allProjects,setAllProjects}=this.props
         if(allRoles.length==0){
             getALlRole().then(res=>{
                 if(res.success){
@@ -29,7 +32,13 @@ class HeaderComponent extends Component {
                 }
             })
         }
-
+        if(allProjects.length==0){
+            selectProject({key:''}).then(res=>{
+                if(res.success){
+                    setAllProjects(res.response)
+                }
+            })
+        }
     }
 
     dropMenu(){
@@ -49,6 +58,7 @@ class HeaderComponent extends Component {
     }
     logout(){
         this.props.clearInfo();
+        window.location.href='/login'
     }
     render() {
         let {userInfo}=this.props
@@ -82,7 +92,8 @@ const mapStateToProps = (state) =>//将state转到props
 {
     return {
         userInfo: state.user.info,
-        allRoles:state.role.allRoles
+        allRoles:state.set.allRoles,
+        allProjects:state.set.allProjects
     };
 };
 
@@ -94,7 +105,10 @@ const mapDispatchToProps = dispatch => ({
         dispatch(menu.setAllMenus([]));
     },
     setAllRoles:(allRoles)=>{
-        dispatch(role.setAllRoles(allRoles));
+        dispatch(setAllRoles(allRoles));
+    },
+    setAllProjects:(allProjects)=>{
+        dispatch(setAllProjects(allProjects));
     }
 
 })

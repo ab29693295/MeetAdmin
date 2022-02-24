@@ -27,10 +27,7 @@ export default {
     checkRoom(params){
         return instance.get(api.cnkiDomain + "/api/MeetRoom/checkMeet", { params, withCredentials: false });
     },
-    //机构
-    selectProject(params){
-        return instance.get(api.cnkiDomain + "/api/ProjectMange/SelectProject", { params, withCredentials: false });
-    },
+
     //获取选择用户
     selectUserList(params){
         return instance.get(api.cnkiDomain + "/api/UserManage/GetSelectUserList", { params, withCredentials: false });

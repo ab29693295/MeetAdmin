@@ -1,12 +1,14 @@
 import React, {Component} from "react";
 import {Card, Table, Button, Col, Space, Row, Input, message, Tag} from "antd";
-import { PlusOutlined, CheckSquareOutlined, CloseCircleOutlined} from '@ant-design/icons';
+import { PlusOutlined} from '@ant-design/icons';
 import {
     getAllProject,
     setProjectStatus,
-    addProject
+    selectProject
 } from '@/axios/project'
+import {setAllProjects} from "@/redux/actions/set";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 const {Search} = Input;
 class ProjectList extends Component {
     constructor(props) {
@@ -92,6 +94,12 @@ class ProjectList extends Component {
                 loading:false
             })
         })
+        let {setAllProjects}=this.props
+        selectProject({key:''}).then(res=>{
+            if(res.success){
+                setAllProjects(res.response)
+            }
+        })
     }
     //搜索
     searchProject(val){
@@ -170,5 +178,16 @@ class ProjectList extends Component {
             </>)
     }
 }
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        allProjects:state.set.allProjects
+    };
+};
+const mapDispatchToProps = dispatch => ({
+    setAllProjects:(allProjects)=>{
+        dispatch(setAllProjects(allProjects));
+    }
 
-export default ProjectList
+})
+export default connect(mapStateToProps,mapDispatchToProps)(ProjectList)

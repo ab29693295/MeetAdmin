@@ -12,7 +12,7 @@ const loggerMiddleware = createLogger()
 const persistConfig = {
     key: 'root',
     storage: storage,
-    whitelist:['user','menu','role'],
+    whitelist:['user','menu','set'],
     stateReconciler: autoMergeLevel2 // 查看 'Merge Process' 部分的具体情况
 };
 const myPersistReducer = persistReducer(persistConfig, reducers)

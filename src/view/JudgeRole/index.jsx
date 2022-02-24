@@ -10,7 +10,7 @@ import {
 } from '@/axios/judge'
 import RoleNewModal from './RoleNewModal'
 import  * as menu from "@/redux/actions/menu";
-import * as role from "@/redux/actions/role";
+import * as set from "@/redux/actions/set";
 const {Search} = Input;
 const { confirm } = Modal;
 class JudgeRole extends Component {
@@ -199,7 +199,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(menu.setAllMenus(allMenus));
         },
         setAllRoles:(allRoles)=>{
-            dispatch(role.setAllRoles(allRoles));
+            dispatch(set.setAllRoles(allRoles));
         }
     };
 };

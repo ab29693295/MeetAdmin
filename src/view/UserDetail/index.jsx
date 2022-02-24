@@ -122,7 +122,7 @@ class UserDetail extends Component {
 
     render() {
         let {data,editModal,userInfo,studyList,useLoginList,totalRoomList}=this.state;
-        let {allRoles}=this.props.role
+        let {allRoles}=this.props
         return (
             <>
                 <Card title="用户详情" className='content-card'>
@@ -246,7 +246,7 @@ class UserDetail extends Component {
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
-        role:state.role
+        allRoles:state.set.allRoles
     };
 };
 

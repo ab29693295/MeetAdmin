@@ -20,3 +20,7 @@ export function getAllProUser(params){
 export function getProDetail(params){
     return instance.get(api.cnkiDomain + "/api/ProjectMange/GetProDetail", { params, withCredentials: false })
 }
+//获取选择的机构
+export function selectProject(params){
+    return instance.get(api.cnkiDomain + "/api/ProjectMange/SelectProject", { params, withCredentials: false });
+}

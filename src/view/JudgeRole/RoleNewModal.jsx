@@ -19,11 +19,12 @@ function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess
                 }
          })
          }, [type,initialValues])
-     let onCheck=useCallback((val)=>{
-         //数据提交
-         let data=val.checked.slice(1)
+     let onCheck=(val)=>{
+         //数据提交、
+         let data=val.checked
+         console.log(data)
          formRef.current.setFieldsValue({permissonIDs:data.toString()})
-     }, [])
+     }
     useEffect(() => {
         if(initialValues.permissonIDs){
             let arr=initialValues.permissonIDs.split(',').map(Number)

@@ -256,7 +256,7 @@ class UserManage extends Component {
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
-        allRoles:state.role.allRoles
+        allRoles:state.set.allRoles
     };
 };
 export default connect(//关联store和组件
