@@ -121,7 +121,7 @@ class BaseInfo extends Component {
         if(!this.state.isSecret){
             values.roomSecret=''
         }
-        values={...values,appName:this.state.appName}
+        values={...values,proName:this.state.proName}
         axios.addMeetRoom(values).then(res=>{
             if(res.success){
                 if(this.state.id!=0){
@@ -142,7 +142,7 @@ class BaseInfo extends Component {
             initialValues.timeRange=[startTime,endTime]
             this.form.current.setFieldsValue({...initialValues,...res.response})
             this.setState({
-                appName:res.response.appName,
+                proName:res.response.proName,
                 isSecret:res.response.isSecret==1
             })
         })
@@ -150,7 +150,7 @@ class BaseInfo extends Component {
 
     handleAppName(e,option){
         this.setState({
-            appName:option.data
+            proName:option.data
         })
     }
 
@@ -188,7 +188,7 @@ class BaseInfo extends Component {
                     </Form.Item>
                     <Form.Item
                         label="会议机构"
-                        name="appID"
+                        name="proID"
                         className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
@@ -198,7 +198,7 @@ class BaseInfo extends Component {
                             {
                                 projectList.map((item)=>{
                                     return (
-                                        <Option value={item.appID} key={item.appID} data={item.appName}>{item.appName}</Option>
+                                        <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
                                     )
                                 })
                             }

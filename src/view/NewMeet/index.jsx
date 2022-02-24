@@ -24,7 +24,7 @@ class NewMeet extends Component {
                 isSecret: 0
             },
             id:0,
-            appName:'',
+            proName:'',
             isSecret:false//控制会议显示隐藏
         }
 
@@ -110,7 +110,7 @@ class NewMeet extends Component {
         if(!this.state.isSecret){
             values.roomSecret=''
         }
-        values={...values,appName:this.state.appName}
+        values={...values,proName:this.state.proName}
         axios.addMeetRoom(values).then(res=>{
             if(res.success){
                 if(this.state.id!=0){
@@ -130,7 +130,7 @@ class NewMeet extends Component {
 
     handleAppName(e,option){
         this.setState({
-            appName:option.data
+            proName:option.data
         })
     }
 
@@ -182,7 +182,7 @@ class NewMeet extends Component {
                             {
                                 projectList.map((item)=>{
                                     return (
-                                        <Option value={item.id} key={item.id} data={item.appName}>{item.appName}</Option>
+                                        <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
                                     )
                                 })
                             }

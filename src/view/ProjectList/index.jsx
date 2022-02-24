@@ -25,18 +25,18 @@ class ProjectList extends Component {
         this.columns=[
             {
                 title: '机构名称',
-                dataIndex: 'appName',
+                dataIndex: 'proName',
                 width: '20%',
                 align: 'center'
             },
             {
                 title: '机构KEY',
-                dataIndex: 'appKey',
+                dataIndex: 'proKey',
                 align: 'center'
             },
             {
                 title: '机构链接',
-                dataIndex: 'appUrl',
+                dataIndex: 'proUrl',
                 align: 'center'
             },
             {
