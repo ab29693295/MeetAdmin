@@ -40,10 +40,9 @@ class NewMeet extends Component {
     }
 
     componentDidMount() {
-
         this.getProject()
     }
-    //获取岗位
+
     getProject(){
         //获取机构列表
         axios.selectProject({key:''}).then(res=>{
@@ -52,10 +51,9 @@ class NewMeet extends Component {
            })
         })
     }
-    //获取主持人
+
+    //选择主持人
     getHost(value){
-        console.log(value)
-        //获取主持人列表
         if(value){
             if (this.timeout) {
                 clearTimeout(this.timeout);
@@ -74,6 +72,7 @@ class NewMeet extends Component {
     }
 
     getHostData(){
+        //获取主持人列表
         axios.selectUserList({key:this.state.currentValue}).then(res=>{
             this.setState({
                 hostList:res.response
@@ -144,8 +143,6 @@ class NewMeet extends Component {
                 isSecret:false
             })
         }
-
-
     }
 
 

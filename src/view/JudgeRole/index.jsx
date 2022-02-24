@@ -43,6 +43,11 @@ class JudgeRole extends Component {
                 align:'center'
             },
             {
+                title: '角色人数',
+                dataIndex: 'roleCount',
+                align:'center'
+            },
+            {
                 title: '状态',
                 dataIndex: 'status',
                 align:'center',
@@ -54,7 +59,6 @@ class JudgeRole extends Component {
                     }
                 }
             },
-
             {
                 title: '操作',
                 align:'center',
@@ -140,7 +144,6 @@ class JudgeRole extends Component {
                     roleList
                 })
             }
-
         })
     }
     closeAddModal(){

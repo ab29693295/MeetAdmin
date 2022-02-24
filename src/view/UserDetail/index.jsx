@@ -11,8 +11,10 @@ import {
     getTotalRoom} from '../../axios/user'
 import api from '../../path/index'
 import {timestampToTime} from '@/utils'
+import {connect} from "react-redux";
+import {formatDateTime} from "../../common/js/tools";
 const { TabPane } = Tabs;
-export default class index extends Component {
+class UserDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +24,6 @@ export default class index extends Component {
             },
             userId:this.props.match.params.id,
             userInfo:{},
-            roleList:[],
             studyList:{dataCount:0,data:[]},
             useLoginList:{dataCount:0,data:[]},
             totalRoomList:{dataCount:0,data:[]}
@@ -63,13 +64,6 @@ export default class index extends Component {
 
     }
     async componentDidMount() {
-        getALlRole().then(res=>{
-            if(res.success){
-                this.setState({
-                    roleList:res.response
-                })
-            }
-        })
         let {response}= await getUserDetail({uID:this.state.userId})
         this.setState({
             userInfo:response
@@ -128,7 +122,8 @@ export default class index extends Component {
     }
 
     render() {
-        let {data,editModal,userInfo,roleList,studyList,useLoginList,totalRoomList}=this.state;
+        let {data,editModal,userInfo,studyList,useLoginList,totalRoomList}=this.state;
+        let {allRoles}=this.props.role
         return (
             <>
                 <Card title="用户详情" className='content-card'>
@@ -145,23 +140,25 @@ export default class index extends Component {
                                 <Row gutter={24}>
                                     <Col span={6} className={styles.basicInfoList}>
                                         <p>用户姓名：{userInfo.trueName}</p>
-                                        {/*<p>用户年龄：23</p>*/}
-                                        <p>来源方式：APP</p>
-                                        <p>最近登录时间：{userInfo.lastModyDate}</p>
+                                        <p>角色：{
+                                            allRoles.map((item)=>{
+                                                if(item.id==userInfo.roleID){
+                                                    return item.name
+                                                }
+                                            })
+                                        }</p>
                                     </Col>
                                     <Col span={6} className={styles.basicInfoList}>
                                         <p>手机号码：{userInfo.phone}</p>
-                                        {/*<p>用户职业：产品经理</p>*/}
-                                        <p>角色：机构1管理员</p>
+                                        <p>备注：{userInfo.des}</p>
                                     </Col>
                                     <Col span={6} className={styles.basicInfoList}>
                                         <p>邮箱：{userInfo.email}</p>
-                                        <p>备注：{userInfo.des}</p>
-
+                                        <p>注册时间：{formatDateTime(new Date(userInfo.createDate))}</p>
                                     </Col>
                                     <Col span={6 } className={styles.basicInfoList}>
                                         <p>用户性别：{userInfo.sex==0?'男':'女'}</p>
-                                        <p>注册时间：{userInfo.createDate}</p>
+                                        <p>地址：{userInfo.address}</p>
                                     </Col>
                                 </Row>
                             </Col>
@@ -242,8 +239,18 @@ export default class index extends Component {
                         </Tabs>
                     </div>
                 </Card>
-                <EditUser {...editModal} hideEditModal={this.setEditModal.bind(this,false)} submitEdit={()=>{this.getData()}} initialValues={userInfo} roleList={roleList}/>
+                <EditUser {...editModal} hideEditModal={this.setEditModal.bind(this,false)} submitEdit={()=>{this.getData()}} initialValues={userInfo}/>
             </>
         )
     }
 }
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        role:state.role
+    };
+};
+
+export default connect(//关联store和组件
+    mapStateToProps
+)(UserDetail)

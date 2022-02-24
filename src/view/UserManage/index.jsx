@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import {Modal, Input, Table, Card, Button, notification, Row, Col, Space, message} from 'antd';
-import { SearchOutlined, PlusOutlined, CheckSquareOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import {Modal, Input, Table, Card, Button, Row, Col, Space, message} from 'antd';
+import {  PlusOutlined } from '@ant-design/icons';
 import styles from './css/index.module.css'
 import { Link } from 'react-router-dom'
 import { formatDateTime } from '../../common/js/tools'
 import {
     getUserList,
     setForbiddenUser,
-    deleteUser
-} from '../../axios/user'
+    deleteUser,
+    getALlRole
+} from '@/axios/user'
+import * as role from "../../redux/actions/role";
+import {connect} from "react-redux";
 
 const { Search } = Input;
 
@@ -26,31 +29,22 @@ class UserManage extends Component {
                 page: 1,
                 pageSize:10,
                 key:''
-            }
+            },
+            roleList:[]
         }
 
         this.columns = [
-            {
-                title: '真实姓名',
-                dataIndex: 'trueName',
-                width: '10%',
-                align: 'center'
-            },
-            {
-                title: '注册时间',
-                dataIndex: 'createDate',
-                width: '10%',
-                align: 'center',
-                render: (text, record) => {
-                    let dateStr = formatDateTime(new Date(record.createDate))
-                    return <span>{dateStr}</span>
-                }
-            },
             {
                 title: '用户名',
                 dataIndex: 'userName',
                 width: '10%',
                 align:'center'
+            },
+            {
+                title: '真实姓名',
+                dataIndex: 'trueName',
+                width: '10%',
+                align: 'center'
             },
 
             {
@@ -78,18 +72,24 @@ class UserManage extends Component {
                 width: '10%',
                 align: 'center',
                 render: (text, record, index) => {
-                    if (record.roleID == 1) {
-                        return <span>超级管理员</span>
+                    let {roleList}=this.state
+                    {
+                        return roleList.map((item)=>{
+                            if(item.id==record.roleID){
+                                return <span key={item.id}>{item.name}</span>
+                            }
+                        })
                     }
-                    else if (record.roleID == 2) {
-                        return <span>主持人</span>
-                    }else if(record.roleID==8){
-                        return <span>机构管理员</span>
-                    }
-                    else {
-                        return <span>普通用户</span>
-                    }
-
+                }
+            },
+            {
+                title: '注册时间',
+                dataIndex: 'createDate',
+                width: '10%',
+                align: 'center',
+                render: (text, record) => {
+                    let dateStr = formatDateTime(new Date(record.createDate))
+                    return <span>{dateStr}</span>
                 }
             },
             {
@@ -143,22 +143,30 @@ class UserManage extends Component {
         this.changPage=this.changPage.bind(this)
     }
     componentDidMount() {
-        this.getData();
-    }
-
-    //检索用户
-    SearchUser(textValue) {
-        this.setState({
-            params:{...this.state.params,key: textValue}
-        },function () {
-            this.getData();
+        let {setAllRoles}=this.props
+        getALlRole().then(res=>{
+            if(res.success){
+                this.setState({
+                    roleList:res.response
+                })
+                setAllRoles(res.response)
+            }
         })
+        this.getData();
     }
     //获取用户信息
     getData() {
         let {params}=this.state
         getUserList(params).then((res) => {
             this.setState({ userData: res.response.data,loading:false,pageData:{total:res.response.dataCount} });
+        })
+    }
+    //检索用户
+    SearchUser(textValue) {
+        this.setState({
+            params:{...this.state.params,key: textValue}
+        },function () {
+            this.getData();
         })
     }
     changPage(page){
@@ -254,6 +262,22 @@ class UserManage extends Component {
             </Card>
         )
     }
-
 }
-export default UserManage
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setAllRoles:(info)=>{
+            dispatch(role.setAllRoles(info));
+        }
+    };
+};
+export default connect(//关联store和组件
+    mapStateToProps,
+    mapDispatchToProps
+)(UserManage)
+

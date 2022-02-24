@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {Modal, Button, Form, Input, Radio, Select, message} from 'antd';
 import Upload from '@/components/Upload'
 import {addOrUpdateUser} from '@/axios/user'
+import {connect} from "react-redux";
 const {Option}=Select
-export default class EditUser extends Component {
+ class EditUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -53,7 +54,8 @@ export default class EditUser extends Component {
                 sm: { span: 24 },
             },
         };
-        let {visible,initialValues,roleList}=this.props;
+        let {visible,initialValues}=this.props;
+        let roleList=this.props.role.allRoles
         let {isBind}=this.state
         return (
             <>
@@ -64,13 +66,6 @@ export default class EditUser extends Component {
                            initialValues={initialValues}
                            onFinish={this.submitForm}
                     >
-                        {/*<Form.Item*/}
-                        {/*    label="用户姓名"*/}
-                        {/*    name="userName"*/}
-                        {/*    rules={[{ required: true, message: '请输入用户名!' }]}*/}
-                        {/*>*/}
-                        {/*    <Input autoComplete='new-password' />*/}
-                        {/*</Form.Item>*/}
                         <Form.Item
                             label="真实姓名："
                             name="trueName"
@@ -189,3 +184,13 @@ export default class EditUser extends Component {
         )
     }
 }
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        role:state.role
+    };
+};
+
+export default connect(//关联store和组件
+    mapStateToProps
+)(EditUser)
