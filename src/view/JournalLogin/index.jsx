@@ -1,9 +1,7 @@
 
 import React, {Component} from 'react';
-import {Modal, Input, Table, Card, Button, message, Row, Col, Space} from 'antd';
-import {SearchOutlined, PlusOutlined, CheckSquareOutlined, CloseCircleOutlined} from '@ant-design/icons';
-import styles from "../MeetList/css/index.module.css";
-import {Link} from "react-router-dom";
+import { Input, Table, Card, Row, Col, Space} from 'antd';
+
 import {formatDateTime} from "../../common/js/tools";
 import {getUserLoginLog} from '@/axios/tj'
 const {Search} = Input;

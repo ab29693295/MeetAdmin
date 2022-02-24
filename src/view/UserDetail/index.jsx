@@ -4,7 +4,6 @@ import EditUser from './EditUser'
 import styles from './css/index.module.css'
 import {
     getUserDetail,
-    getALlRole,
     getPersonStatics,
     getLiveFootLog,
     getUserLoginLog,

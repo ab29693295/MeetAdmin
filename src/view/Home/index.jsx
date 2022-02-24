@@ -154,6 +154,7 @@ class Home extends PureComponent {
         getTimeVisitCount().then(res=>{
 
         })
+
     }
 
 

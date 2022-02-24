@@ -8,9 +8,7 @@ import {
     getUserList,
     setForbiddenUser,
     deleteUser,
-    getALlRole
 } from '@/axios/user'
-import * as role from "../../redux/actions/role";
 import {connect} from "react-redux";
 
 const { Search } = Input;
@@ -72,9 +70,9 @@ class UserManage extends Component {
                 width: '10%',
                 align: 'center',
                 render: (text, record, index) => {
-                    let {roleList}=this.state
+                    let {allRoles}=this.props
                     {
-                        return roleList.map((item)=>{
+                        return allRoles.map((item)=>{
                             if(item.id==record.roleID){
                                 return <span key={item.id}>{item.name}</span>
                             }
@@ -143,15 +141,7 @@ class UserManage extends Component {
         this.changPage=this.changPage.bind(this)
     }
     componentDidMount() {
-        let {setAllRoles}=this.props
-        getALlRole().then(res=>{
-            if(res.success){
-                this.setState({
-                    roleList:res.response
-                })
-                setAllRoles(res.response)
-            }
-        })
+
         this.getData();
     }
     //获取用户信息
@@ -266,18 +256,10 @@ class UserManage extends Component {
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
-
-    };
-};
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setAllRoles:(info)=>{
-            dispatch(role.setAllRoles(info));
-        }
+        allRoles:state.role.allRoles
     };
 };
 export default connect(//关联store和组件
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(UserManage)
 

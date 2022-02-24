@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import {Card, Form, Input, Button, Select, Radio, message} from 'antd';
 import Upload from '@/components/Upload'
 import 'moment/locale/zh-cn';
-import {getALlRole,addOrUpdateUser} from '@/axios/user'
+import {addOrUpdateUser} from '@/axios/user'
 import axios from '@/axios'
+import {connect} from "react-redux";
 const { Option } = Select;
 
 class NewUser extends Component {
@@ -34,13 +35,6 @@ class NewUser extends Component {
         this.form=React.createRef()
     }
     componentDidMount() {
-        getALlRole().then(res=>{
-            if(res.success){
-                this.setState({
-                    roleList:res.response
-                })
-            }
-        })
         this.getProject()
     }
 
@@ -78,7 +72,8 @@ class NewUser extends Component {
     }
     render() {
 
-        let {roleList,initialValues,isBind,projectList}=this.state
+        let {initialValues,isBind,projectList}=this.state
+        let {allRoles}=this.props
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -160,7 +155,7 @@ class NewUser extends Component {
                     >
                         <Select placeholder="请选择用户角色">
                             {
-                                roleList.map((item)=>{
+                                allRoles.map((item)=>{
                                     return (
                                         <Option value={item.id} key={item.id} >{item.name}</Option>
                                     )
@@ -240,5 +235,12 @@ class NewUser extends Component {
         )
     }
 }
-
-export default NewUser
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        allRoles:state.role.allRoles
+    };
+};
+export default connect(//关联store和组件
+    mapStateToProps
+)(NewUser)

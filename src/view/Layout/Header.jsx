@@ -6,6 +6,10 @@ import * as user from '@/redux/actions/user'
 import * as menu from '@/redux/actions/menu'
 import api from '@/path/index'
 import Tags from './Tags'
+import * as role from "@/redux/actions/role";
+import {
+    getALlRole
+} from '@/axios/user'
 const {Header} = Layout;
 
 class HeaderComponent extends Component {
@@ -16,7 +20,16 @@ class HeaderComponent extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props)
+        console.log('header')
+        let {setAllRoles,allRoles}=this.props
+        if(allRoles.length==0){
+            getALlRole().then(res=>{
+                if(res.success){
+                    setAllRoles(res.response)
+                }
+            })
+        }
+
     }
 
     dropMenu(){
@@ -65,15 +78,23 @@ class HeaderComponent extends Component {
         )
     }
 }
-const mapStateToProps = state => (
-    {userInfo: state.user.info}
-)
+const mapStateToProps = (state) =>//将state转到props
+{
+    return {
+        userInfo: state.user.info,
+        allRoles:state.role.allRoles
+    };
+};
+
 const mapDispatchToProps = dispatch => ({
     clearInfo:()=>{
         dispatch(user.clearToken());
         dispatch(user.setUserInfo({}))
         dispatch(menu.setSiderMenu([]))
         dispatch(menu.setAllMenus([]));
+    },
+    setAllRoles:(allRoles)=>{
+        dispatch(role.setAllRoles(allRoles));
     }
 
 })
