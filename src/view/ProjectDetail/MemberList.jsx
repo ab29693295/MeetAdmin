@@ -102,7 +102,7 @@ class MemberList extends Component {
                             <Button size="small"
                                     className={` ${record.states == 1 ? styles.infoBtn : styles.infoBtn1}`}
                                     onClick={this.setForbiddenUser.bind(this,record,index)}>{delTxt}</Button>
-                            <Button size="small" type="primary">权限</Button>
+                            {/*<Button size="small" type="primary">权限</Button>*/}
                             <Button size="small" onClick={ this.deleteUser.bind(this,record)} type="primary" danger>删除</Button>
                         </Space>
                     )

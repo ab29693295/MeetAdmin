@@ -41,7 +41,6 @@ instance.interceptors.response.use(
 
     },
     error => {
-        console.log(error)
         message.error('接口错误，请联系管理员！')
         return Promise.reject(error);
     }
