@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Modal, Input, Table, Card, Button, Row, Col, Space, message} from 'antd';
+import {Modal, Input, Table, Card, Button, Row, Col, Space, message, Tag} from 'antd';
 import {  PlusOutlined } from '@ant-design/icons';
 import styles from './css/index.module.css'
 import { Link } from 'react-router-dom'
@@ -97,9 +97,9 @@ class UserManage extends Component {
                 align: 'center',
                 render: (text, record, index) => {
                     if (record.states == 1) {
-                        return <span> 启用</span>
+                        return  <Tag color="#87d068">启用</Tag>
                     } else {
-                        return <span>禁用</span>
+                        return <Tag color="#f50">停用</Tag>
                     }
 
                 }
@@ -122,7 +122,7 @@ class UserManage extends Component {
                 dataIndex: 'id',
                 align: 'center',
                 render: (text, record,index) => {
-                    let delTxt = record.states == 1 ? '禁用' : '启用';
+                    let delTxt = record.states == 1 ? '停用' : '启用';
                     return (
                         <Space size={5}>
                             <Button size="small" type="primary" >

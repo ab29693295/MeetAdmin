@@ -34,7 +34,7 @@ class ShowModal extends Component {
         return (<>
             <Modal title="查看" visible={visible} footer={null} onCancel={this.handleCancel} >
                 <div className={styles.showModal}>
-                    <p className={styles.showText}>会议链接：{this.state.path}/{id}</p>
+                    <p className={styles.showText}>会议链接：{this.state.path}/join/{id}</p>
                     <Button type="primary" onClick={this.copyText}>一键复制</Button>
                 </div>
 
