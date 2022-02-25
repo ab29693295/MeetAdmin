@@ -26,7 +26,7 @@ class BaseInfo extends Component {
                 timeRange:[]
             },
             id:0,
-            appName:'',
+            proName:'',
             isSecret:false
         }
         this.getHost=this.getHost.bind(this)
@@ -108,6 +108,10 @@ class BaseInfo extends Component {
         if(!this.state.isSecret){
             values.roomSecret=''
         }
+        let {info}=this.props
+        if(info.roleID!=1){
+            values.proID=info.proID
+        }
         values={...values,proName:this.state.proName}
         axios.addMeetRoom(values).then(res=>{
             if(res.success){
@@ -155,7 +159,7 @@ class BaseInfo extends Component {
 
     render() {
         let {hostList,initialValues}=this.state
-        let {allProjects}=this.props
+        let {allProjects,info}=this.props
         return (
                 <Form
                     name="basic"
@@ -174,24 +178,27 @@ class BaseInfo extends Component {
                     >
                         <Input autoComplete='off' placeholder='请输入会议主题'/>
                     </Form.Item>
-                    <Form.Item
-                        label="会议机构"
-                        name="proID"
-                        className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true,message:'请选择会议机构！'  }]}
-                    >
-                        <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
-                            {
-                                allProjects.map((item)=>{
-                                    return (
-                                        <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
+                    {
+                        info.roleID==1&&<Form.Item
+                            label="会议机构"
+                            name="proID"
+                            className={'formItem'}
+                            labelCol={{ span: 6 }}
+                            wrapperCol={{ span: 16 }}
+                            rules={[{ required: true,message:'请选择会议机构！'  }]}
+                        >
+                            <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
+                                {
+                                    allProjects.map((item)=>{
+                                        return (
+                                            <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </Form.Item>
+                    }
+
                     <Form.Item
                         label="会议时间"
                         name="timeRange"
@@ -304,7 +311,8 @@ class BaseInfo extends Component {
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
-        allProjects:state.set.allProjects
+        allProjects:state.set.allProjects,
+        info:state.user.info
     };
 };
 export default connect(mapStateToProps)(BaseInfo)

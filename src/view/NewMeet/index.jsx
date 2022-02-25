@@ -33,11 +33,24 @@ class NewMeet extends Component {
         this.submitForm=this.submitForm.bind(this)
         this.handleAppName=this.handleAppName.bind(this)
         this.handleSecret=this.handleSecret.bind(this)
+        this.timeChange=this.timeChange.bind(this)
         this.timeout=null
         this.form=React.createRef()
     }
 
     componentDidMount() {
+        let {allProjects,info}=this.props
+        if(info.roleID!=1){
+           for(let item of allProjects){
+               if(item.id==info.proID){
+                   console.log(item)
+                   this.setState({
+                       proName:item.proName
+                   })
+                   break
+               }
+           }
+        }
     }
 
 
@@ -98,14 +111,14 @@ class NewMeet extends Component {
         if(!this.state.isSecret){
             values.roomSecret=''
         }
+        let {info}=this.props
+        if(info.roleID!=1){
+            values.proID=info.proID
+        }
         values={...values,proName:this.state.proName}
         axios.addMeetRoom(values).then(res=>{
             if(res.success){
-                if(this.state.id!=0){
-                    message.success('会议修改成功！')
-                }else{
-                    message.success('会议创建成功！')
-                }
+                message.success('会议创建成功！')
                 this.form.current.setFieldsValue({timeRange:[]})
                 this.form.current.resetFields()
                 this.props.history.push({
@@ -137,7 +150,7 @@ class NewMeet extends Component {
 
     render() {
         let {hostList,initialValues}=this.state
-        let {allProjects}=this.props
+        let {allProjects,info}=this.props
         return (
             <Card title="会议预定" bordered={false}>
                 <Form
@@ -157,24 +170,27 @@ class NewMeet extends Component {
                     >
                         <Input autoComplete='off' placeholder='请输入会议主题'/>
                     </Form.Item>
-                    <Form.Item
-                        label="会议机构"
-                        name="proID"
-                        className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
-                        rules={[{ required: true,message:'请选择会议机构！'  }]}
-                    >
-                        <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
-                            {
-                                allProjects.map((item)=>{
-                                    return (
-                                        <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </Form.Item>
+                    {
+                        info.roleID==1&& <Form.Item
+                            label="会议机构"
+                            name="proID"
+                            className={'formItem'}
+                            labelCol={{ span: 6 }}
+                            wrapperCol={{ span: 16 }}
+                            rules={[{ required: true,message:'请选择会议机构！'  }]}
+                        >
+                            <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
+                                {
+                                    allProjects.map((item)=>{
+                                        return (
+                                            <Option value={item.id} key={item.id} data={item.proName}>{item.proName}</Option>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </Form.Item>
+                    }
+
                     <Form.Item
                         label="会议时间"
                         name="timeRange"
@@ -288,7 +304,8 @@ class NewMeet extends Component {
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
-        allProjects:state.set.allProjects
+        allProjects:state.set.allProjects,
+        info:state.user.info
     };
 };
 export default connect(mapStateToProps)(NewMeet)

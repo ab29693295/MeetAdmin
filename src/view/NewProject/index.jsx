@@ -36,7 +36,7 @@ class name extends Component {
                 >
                     <Form.Item
                         label="机构名称"
-                        name="appName"
+                        name="proName"
                         rules={[{required: true, message: '请填写机构名称！'}]}
                         className={'formItem'}
                         labelCol={{ span: 6 }}
@@ -46,7 +46,7 @@ class name extends Component {
                     </Form.Item>
                     {/*<Form.Item*/}
                     {/*    label="机构KEY"*/}
-                    {/*    name="appKey"*/}
+                    {/*    name="proKey"*/}
                     {/*    rules={[{required: true, message: '请填写机构KEY！'}]}*/}
                     {/*    className={'formItem'}*/}
                     {/*    labelCol={{ span: 6 }}*/}
@@ -56,7 +56,7 @@ class name extends Component {
                     {/*</Form.Item>*/}
                     <Form.Item
                         label="机构秘钥"
-                        name="appValue"
+                        name="proValue"
                         rules={[{required: true, message: '请填写机构秘钥！'}]}
                         className={'formItem'}
                         labelCol={{ span: 6 }}
@@ -66,7 +66,7 @@ class name extends Component {
                     </Form.Item>
                     <Form.Item
                         label="机构链接"
-                        name="appUrl"
+                        name="proUrl"
                         rules={[{required: true, message: '请填写机构链接！'}]}
                         className={'formItem'}
                         labelCol={{ span: 6 }}
