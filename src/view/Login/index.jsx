@@ -16,6 +16,7 @@ class Login extends Component {
     }
 
     componentDidMount() {
+        this.props.clearInfo();
     }
     componentWillUnmount(){
         this.setState = (state,callback) => {
@@ -135,7 +136,14 @@ const mapDispatchToProps = (dispatch) => {
         setSiderMenu : (list) =>//设置房间id
         {
             dispatch(menu.setSiderMenu(list));
-        }
+        },
+        clearInfo:()=>{
+            dispatch(user.clearToken());
+            dispatch(user.setUserInfo({}))
+            dispatch(menu.setSiderMenu([]))
+            dispatch(menu.setAllMenus([]));
+        },
+
     };
 };
 export default connect(//关联store和组件
