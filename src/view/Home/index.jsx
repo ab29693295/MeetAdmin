@@ -30,7 +30,8 @@ class Home extends PureComponent {
                 xAxis:{},
                 series:[
                     {
-                    name: "发起会议数量",
+                    name: "会议数量",
+                        showBackground: true,
                     itemStyle: {
                         normal: {
                             color: "#FF005A",
@@ -45,26 +46,10 @@ class Home extends PureComponent {
                     data: [],
                     animationDuration: 2800,
                     animationEasing: "cubicInOut",
-                },{
-                    name: "参与会议数量",
-                    itemStyle: {
-                        normal: {
-                            color: "#3888fa",
-                            lineStyle: {
-                                color: "#3888fa",
-                                width: 2,
-                            },
-                        },
-                    },
-                    smooth: true,
-                    type: "bar",
-                    data: [],
-                    animationDuration: 2800,
-                    animationEasing: "cubicInOut",
                 }],
                 legend: {
                     left:'left',
-                    data: ['发起会议数量', '参与会议数量']
+                    data: ['会议数量']
                 },
             },
             homeData:[
@@ -204,7 +189,6 @@ class Home extends PureComponent {
         getTimeRoomCount().then(res=>{
             if(res.success){
                 let {series,xAxis}=this.state.barChartData
-                series[0].data=res.response.ownCountArry;
                 series[0].data=res.response.countArry;
                 xAxis={...xAxis,data:res.response.timeArry}
                 this.setState({
@@ -248,7 +232,6 @@ class Home extends PureComponent {
         getTimeVisitCount().then(res=>{
             if(res.success){
                 let {series,xAxis}=this.state.lineChartData
-                series[0].data=res.response.ownCountArry;
                 series[0].data=res.response.countArry;
                 xAxis={...xAxis,data:res.response.timeArry}
 
@@ -262,7 +245,6 @@ class Home extends PureComponent {
         getTimeLoginCount().then(res=>{
             if(res.success){
                 let {series,xAxis}=this.state.lineChartData1
-                series[0].data=res.response.ownCountArry;
                 series[0].data=res.response.countArry;
                 xAxis={...xAxis,data:res.response.timeArry}
 

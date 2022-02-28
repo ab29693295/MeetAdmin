@@ -68,8 +68,11 @@ class BarChart extends Component {
             },
             xAxis,
             yAxis: [
+
                 {
-                    type: "value",
+
+                    type:'value',
+                    minInterval: 1,
                     axisTick: {
                         show: false,
                     },
