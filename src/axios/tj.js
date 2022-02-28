@@ -20,3 +20,7 @@ export function getMeetHomeDetail(params){
 export function getTimeVisitCount(params){
     return instance.get(api.cnkiDomain  + "/api/AdminHome/GetTimeVisitCount", { params, withCredentials: false })
 }
+//访问登陆人数
+export function getTimeLoginCount(params){
+    return instance.get(api.cnkiDomain  + "/api/AdminHome/GetTimeLoginCount", { params, withCredentials: false })
+}

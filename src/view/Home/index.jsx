@@ -8,7 +8,9 @@ import {
     ArrowUpOutlined
 } from '@ant-design/icons';
 import BarChart from '@/components/Charts/BarChart'
+import LineChart from '@/components/Charts/LineChart.jsx'
 import {
+    getTimeLoginCount,
     getTimeRoomCount,
     getMeetHomeDetail,
     getTimeVisitCount} from '@/axios/tj'
@@ -23,9 +25,9 @@ class Home extends PureComponent {
                 title:{
                     left: 'center',
                     padding: 0,
-                    text:'会议数量图'
+                    text:'会议数量统计图'
                 },
-                xAxisData:[],
+                xAxis:{},
                 series:[
                     {
                     name: "发起会议数量",
@@ -102,8 +104,98 @@ class Home extends PureComponent {
                     upNum:0,
                     id:4
                 }
-            ]
+            ],
+            lineChartData:{
+                title:{
+                    left: 'center',
+                    padding: 0,
+                    text:'访问量统计图'
+                },
+                xAxis:{
+
+                    data:[]
+                },
+                yAxis:{
+                    type:'value',
+                    minInterval: 1,
+                    show:true,
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLine:{
+                        show:true
+                    }
+                },
+                series:[
+                    {
+                        name: "访问量",
+                        itemStyle: {
+                            normal: {
+                                color: "#3888fa",
+                                lineStyle: {
+                                    color: "#3888fa",
+                                    width: 2,
+                                },
+                            },
+                        },
+                        smooth: true,
+                        type: "line",
+                        data: [],
+                        animationDuration: 2800,
+                        animationEasing: "cubicInOut",
+                    }],
+                legend: {
+                    left:'left',
+                    data: ['访问量']
+                },
+            },
+            lineChartData1:{
+                title:{
+                    left: 'center',
+                    padding: 0,
+                    text:'登录人数统计图'
+                },
+                xAxis:{
+                    data:[]
+                },
+                yAxis:{
+                    type:'value',
+                    minInterval: 1,
+                    show:true,
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLine:{
+                        show:true
+                    }
+                },
+                series:[
+                    {
+                        name: "登录人数",
+                        itemStyle: {
+                            normal: {
+                                color: "#FF005A",
+                                lineStyle: {
+                                    color: "#FF005A",
+                                    width: 2,
+                                },
+                            },
+                        },
+                        smooth: true,
+                        type: "line",
+                        data: [],
+                        animationDuration: 2800,
+                        animationEasing: "cubicInOut",
+                    }],
+                legend: {
+                    left:'left',
+                    data: ['登录人数']
+                },
+            }
         }
+        this.barRef=React.createRef()
+        this.lineRef=React.createRef()
+        this.lineLoginRef=React.createRef()
     }
 
     componentDidMount() {
@@ -111,12 +203,14 @@ class Home extends PureComponent {
         let {homeData} =this.state
         getTimeRoomCount().then(res=>{
             if(res.success){
-                let {series}=this.state.barChartData
+                let {series,xAxis}=this.state.barChartData
                 series[0].data=res.response.ownCountArry;
                 series[0].data=res.response.countArry;
+                xAxis={...xAxis,data:res.response.timeArry}
                 this.setState({
-                    barChartData:{...this.state.barChartData,series},
-                    xAxisData:res.response.timeArry
+                    barChartData:{...this.state.barChartData,series,xAxis},
+                },()=>{
+                    this.barRef.current.initChart()
                 })
             }
         })
@@ -152,14 +246,39 @@ class Home extends PureComponent {
             }
         })
         getTimeVisitCount().then(res=>{
+            if(res.success){
+                let {series,xAxis}=this.state.lineChartData
+                series[0].data=res.response.ownCountArry;
+                series[0].data=res.response.countArry;
+                xAxis={...xAxis,data:res.response.timeArry}
 
+                this.setState({
+                    lineChartData:{...this.state.lineChartData,series,xAxis},
+                },()=>{
+                    this.lineRef.current.initChart()
+                })
+            }
+        })
+        getTimeLoginCount().then(res=>{
+            if(res.success){
+                let {series,xAxis}=this.state.lineChartData1
+                series[0].data=res.response.ownCountArry;
+                series[0].data=res.response.countArry;
+                xAxis={...xAxis,data:res.response.timeArry}
+
+                this.setState({
+                    lineChartData1:{...this.state.lineChartData1,series,xAxis},
+                },()=>{
+                    this.lineLoginRef.current.initChart()
+                })
+            }
         })
 
     }
 
 
     render() {
-        let {homeData,barChartData}=this.state
+        let {homeData,barChartData,lineChartData,lineChartData1}=this.state
         return (
             <Card title="首页"  >
                 <Row gutter={40} align='middle'>
@@ -192,7 +311,17 @@ class Home extends PureComponent {
 
                 </Row>
                 <BarChart  chartData={barChartData} styles={{
-                    padding: 12,
+                    // padding: 12,
+                    backgroundColor: "#fff",
+                    margin: "30px 0",
+                }} ref={ this.barRef} className='section'/>
+                <LineChart  chartData={lineChartData} ref={this.lineRef} className='section' styles={{
+                    // padding: 12,
+                    backgroundColor: "#fff",
+                    margin: "30px 0",
+                }}/>
+                <LineChart  chartData={lineChartData1} ref={this.lineLoginRef} className='section' styles={{
+                    // padding: 12,
                     backgroundColor: "#fff",
                     margin: "30px 0",
                 }}/>

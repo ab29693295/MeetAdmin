@@ -14,7 +14,9 @@ class BarChart extends Component {
     };
 
     componentDidMount() {
-        debounce(this.initChart.bind(this), 300)();
+        this.setState({ chart: echarts.init(this.el) }, () => {
+            this.state.chart.showLoading();
+        });
         window.addEventListener("resize", () => this.resize());
     }
     componentWillReceiveProps(nextProps) {
@@ -45,7 +47,7 @@ class BarChart extends Component {
         this.setState({ chart: null });
     }
 
-    setOptions({ xAxisData,series,title,legend}) {
+    setOptions({ xAxis,series,title,legend}) {
         const animationDuration = 3000;
         this.state.chart.setOption({
             title,
@@ -64,15 +66,7 @@ class BarChart extends Component {
                 top: 100,
                 containLabel: true,
             },
-            xAxis: [
-                {
-                    type: "category",
-                    data: xAxisData,
-                    axisTick: {
-                        alignWithLabel: true,
-                    },
-                },
-            ],
+            xAxis,
             yAxis: [
                 {
                     type: "value",
@@ -87,9 +81,8 @@ class BarChart extends Component {
 
     initChart() {
         if (!this.el) return;
-        this.setState({ chart: echarts.init(this.el, "macarons") }, () => {
-            this.setOptions(this.props.chartData);
-        });
+        this.state.chart.hideLoading();
+        this.setOptions(this.props.chartData);
     }
 
     render() {

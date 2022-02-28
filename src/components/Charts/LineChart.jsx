@@ -15,7 +15,9 @@ class LineChart extends Component {
         className: "",
     };
     componentDidMount() {
-        debounce(this.initChart.bind(this), 300)();
+        this.setState({ chart: echarts.init(this.el) }, () => {
+            this.state.chart.showLoading();
+        });
         window.addEventListener("resize", () => this.resize());
     }
     componentWillUnmount() {
@@ -35,18 +37,12 @@ class LineChart extends Component {
         this.setState({ chart: null });
     }
 
-    setOptions({ xAxisData,series,title,legend } = {}) {
+    setOptions({ xAxis,series,title,legend ,yAxis} = {}) {
         this.state.chart.setOption({
             title,
             backgroundColor: "#fff",
             legend,
-            xAxis: {
-                data:xAxisData ,
-                boundaryGap: false,
-                axisTick: {
-                    show: false,
-                },
-            },
+            xAxis,
             grid: {
                 left: 10,
                 right: 50,
@@ -61,20 +57,17 @@ class LineChart extends Component {
                 },
                 padding: [5, 10],
             },
-            yAxis: {
-                axisTick: {
-                    show: false,
-                },
-            },
+            yAxis,
             series:series
         });
     }
 
     initChart() {
         if (!this.el) return;
-        this.setState({ chart: echarts.init(this.el) }, () => {
-            this.setOptions(this.props.chartData);
-        });
+        this.state.chart.hideLoading();
+        this.setOptions(this.props.chartData);
+
+
     }
 
     render() {
