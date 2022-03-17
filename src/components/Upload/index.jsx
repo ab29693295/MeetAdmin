@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import ImgCrop from 'antd-img-crop';
 import axios from '@/axios/upload'
 import api from '@/path/index'
-export default class index extends Component {
+export default class UploadImg extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,6 +42,7 @@ export default class index extends Component {
             this.setState({
                 fileList:[this.state.fileList,file]
             })
+            return true
         }
     }
     customRequest(options){
@@ -51,7 +53,6 @@ export default class index extends Component {
             loading:true
         })
         axios.uploadFile(formData).then(res=>{
-            console.log(res)
             //图片回显
             if(res.success){
                 message.success('图片上传成功！');
@@ -69,6 +70,7 @@ export default class index extends Component {
     }
     render() {
         let {imageUrl,loading}=this.state
+        let {aspect}=this.props
         const uploadButton = (
             <div>
                 {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -76,17 +78,23 @@ export default class index extends Component {
             </div>
         );
         return (
-            <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                beforeUpload={this.beforeUpload}
-                onChange={this.handleChange}
-                customRequest={this.customRequest}
-            >
-                {imageUrl ? <img src={api.tuDomain+imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-            </Upload>
+            <ImgCrop aspect={aspect} rotate>
+                <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    beforeUpload={this.beforeUpload}
+                    onChange={this.handleChange}
+                    customRequest={this.customRequest}
+                >
+                    {imageUrl ? <img src={api.tuDomain+imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                </Upload>
+            </ImgCrop>
+
         )
     }
+}
+UploadImg.defaultProps ={
+    aspect:1
 }

@@ -5,6 +5,7 @@ import 'moment/locale/zh-cn';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import axios from '@/axios'
+import Upload from '@/components/Upload'
 import TimeSelect from "../../components/TimeSelect";
 import {connect} from "react-redux";
 const { RangePicker } = DatePicker;
@@ -37,6 +38,7 @@ class BaseInfo extends Component {
         this.handleAppName=this.handleAppName.bind(this)
         this.handleSecret=this.handleSecret.bind(this)
         this.timeChange=this.timeChange.bind(this)
+        this.uploadSuccess=this.uploadSuccess.bind(this)
         this.timeout=null
         this.form=React.createRef()
     }
@@ -156,6 +158,10 @@ class BaseInfo extends Component {
             })
         }
     }
+    uploadSuccess(iamgePath){
+        //上传图片成功
+        this.form.current.setFieldsValue({iamgePath})
+    }
 
     render() {
         let {hostList,initialValues}=this.state
@@ -227,7 +233,11 @@ class BaseInfo extends Component {
                         className={'formItem'}
                         labelCol={{ span: 6 }}
                         wrapperCol={{ span: 16 }}
-                        rules={[{ required: true  }]}
+                        rules={[{ required: true,  message: '请输入会议密码！' },{
+                            required: false,
+                            pattern: new RegExp(/^\d{4,6}$/, "g"),
+                            message: '请输入4到6位数字密码',
+                        }]}
                     >
                         <Input placeholder='请输入4到6位数字密码' autoComplete='off'/>
                     </Form.Item>}
@@ -300,6 +310,16 @@ class BaseInfo extends Component {
                                 })
                             }
                         </Select>
+                    </Form.Item>
+                    <Form.Item
+                        label="会议封面"
+                        name="iamgePath"
+                        className={'formItem'}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
+                        rules={[{ required: true  }]}
+                    >
+                        <Upload uploadSuccess={this.uploadSuccess} uploadError={this.uploadError} aspect={1.65}/>
                     </Form.Item>
                     <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>确认修改</Button>

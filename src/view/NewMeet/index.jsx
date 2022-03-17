@@ -3,7 +3,8 @@ import { Card, Form, Input, Button, DatePicker, Select, Radio,message } from 'an
 import 'moment/locale/zh-cn';
 import moment from 'moment';
 import axios from '@/axios'
-import TimeSelect from "../../components/TimeSelect";
+import TimeSelect from "@/components/TimeSelect";
+import Upload from '@/components/Upload'
 import {connect} from "react-redux";
 
 const { Option } = Select;
@@ -34,6 +35,7 @@ class NewMeet extends Component {
         this.handleAppName=this.handleAppName.bind(this)
         this.handleSecret=this.handleSecret.bind(this)
         this.timeChange=this.timeChange.bind(this)
+        this.uploadSuccess=this.uploadSuccess.bind(this)
         this.timeout=null
         this.form=React.createRef()
     }
@@ -53,7 +55,10 @@ class NewMeet extends Component {
         }
     }
 
-
+    uploadSuccess(iamgePath){
+        //上传图片成功
+        this.form.current.setFieldsValue({iamgePath})
+    }
     //选择主持人
     getHost(value){
         if(value){
@@ -292,6 +297,16 @@ class NewMeet extends Component {
                                 })
                             }
                         </Select>
+                    </Form.Item>
+                    <Form.Item
+                        label="会议封面"
+                        name="iamgePath"
+                        className={'formItem'}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 16 }}
+                        rules={[{ required: true  }]}
+                    >
+                        <Upload uploadSuccess={this.uploadSuccess} uploadError={this.uploadError} aspect={1.65}/>
                     </Form.Item>
                     <Form.Item  className={'formBtn'}>
                         <Button type="primary" htmlType='submit'>预定会议</Button>
