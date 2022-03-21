@@ -11,7 +11,6 @@ import {
 import RoleNewModal from './RoleNewModal'
 import  * as menu from "@/redux/actions/menu";
 import * as set from "@/redux/actions/set";
-const {Search} = Input;
 const { confirm } = Modal;
 class JudgeRole extends Component {
     constructor(props) {
@@ -53,7 +52,7 @@ class JudgeRole extends Component {
                 dataIndex: 'status',
                 align:'center',
                 render:(text,record)=>{
-                    if(record.status==1){
+                    if(record.status===1){
                         return <Tag color="#87d068">启用</Tag>
                     }else{
                         return <Tag color="#f50">停用</Tag>
@@ -65,7 +64,7 @@ class JudgeRole extends Component {
                 align:'center',
                 render: (text, record,index) => {
                     let tip='启用'
-                    if(record.status==1){
+                    if(record.status===1){
                         tip='停用'
                     }else{
                         tip='启用'
@@ -131,13 +130,13 @@ class JudgeRole extends Component {
     }
     changeStatus({id,status,index}){
         let status1=1
-        if(status==1){
+        if(status===1){
             status1=0
         }
         checkRoleStatus({id,status:status1}).then(res=>{
             let {roleList}=this.state;
             if(res.success){
-                if(status==1){
+                if(status===1){
                     roleList[index].status=0
                 }else{
                     roleList[index].status=1

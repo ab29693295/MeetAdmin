@@ -80,18 +80,20 @@ export default class JournalFoot extends Component {
         })
         let {params}=this.state;
         getRoomFootLog(params).then(res=>{
-            if(res.success){
+            if(res.success&&res.response.data&&res.response.data.length>0){
               let data= res.response.data.map((item,index)=>{
                   item.key=index
                     return item
                 })
-                console.log(data)
                 this.setState({
                     data,
                     pageData:{total:res.response.dataCount},
                     loading:false
                     })
             }
+            this.setState({
+                loading:false
+            })
         })
     }
     changPage(page){

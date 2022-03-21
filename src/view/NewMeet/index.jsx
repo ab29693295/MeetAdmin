@@ -120,7 +120,7 @@ class NewMeet extends Component {
         if(info.roleID!=1){
             values.proID=info.proID
         }
-        values={...values,proName:this.state.proName}
+        values={...values,proName:this.state.proName,userName:info.userName,userID:info.id}
         axios.addMeetRoom(values).then(res=>{
             if(res.success){
                 message.success('会议创建成功！')

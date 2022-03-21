@@ -7,7 +7,7 @@ function RoleNewModal ({title='',initialValues={},visible,type,onClose,onSuccess
     const treeData = useSelector(state => state.menu.allMenus)
     const [checkIds,setCheckIds] = useState([])
      let onFinish=useCallback((val)=>{
-         if(type=='up'){
+         if(type==='up'){
              val.id=initialValues.id
          }
          //数据提交

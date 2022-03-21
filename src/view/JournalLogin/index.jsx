@@ -72,16 +72,20 @@ export default class JournalLogin extends Component {
         })
         let {params}=this.state;
         getUserLoginLog(params).then(res=>{
-            let data= res.response.data.map((item,index)=>{
-                item.key=index
-                return item
-            })
-            console.log(data)
+            if(res.success&& res.response.data&& res.response.data.length>0){
+                let data= res.response.data.map((item,index)=>{
+                    item.key=index
+                    return item
+                })
+                this.setState({
+                    data,
+                    pageData:{total:res.response.dataCount},
+                })
+            }
             this.setState({
-                data,
-                pageData:{total:res.response.dataCount},
                 loading:false
             })
+
         })
     }
     changPage(page){
