@@ -126,7 +126,7 @@ class MeetList extends Component {
                                     className={` ${record.lockStatus == 1?styles.infoBtn:styles.infoBtn1}`}
                                     onClick={this.changeLock.bind(this,record,index)}>{delTxt}</Button>
                             <Button size="small" data-record={record} onClick={ this.del.bind(this,record) } type="primary" danger>删除</Button>
-                            <Button size="small" type="primary" onClick={this.lookMeet.bind(this,record.id)}> 查看</Button>
+                            <Button size="small" type="primary" onClick={this.lookMeet.bind(this,record)}> 查看</Button>
                             <Button size="small" type="primary" onClick={this.handleModify.bind(this,record)}> 管理</Button>
                         </Space>
                     )
@@ -258,10 +258,15 @@ class MeetList extends Component {
             examineInfo:{...this.state.examineInfo,visible:false,data:''}
         })
     }
-    lookMeet(id){
-        this.setState({
-            showInfo:{...this.state.showInfo,visible:true,id:id}
-        })
+    lookMeet(record){
+        if(record.status === 1){
+            this.setState({
+                showInfo:{...this.state.showInfo,visible:true,id:record.id}
+            })
+        }else{
+            message.info('会议还未审核通过，不能查看！')
+        }
+
     }
     setShowModal(){
         this.setState({
