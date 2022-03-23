@@ -48,3 +48,7 @@ export function updateUserMessage(data){
 export function resetUserPwd(params){
     return instance.get(api.cnkiDomain + "/api/UserManage/ResetUserPwd", {params})
 }
+//前台跳转登录
+export function actToAdmin(params){
+    return instance.get(api.cnkiDomain + "/api/Login/ActToAdmin", {params})
+}

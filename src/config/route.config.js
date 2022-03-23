@@ -69,8 +69,8 @@ export function setPower(){
              }
          }
      }
-    console.log(arr)
-    console.log(routes)
+    // console.log(arr)
+    // console.log(routes)
     return routes.concat(noPower)
 }
 
