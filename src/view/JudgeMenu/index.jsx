@@ -74,7 +74,7 @@ export default class index extends Component {
             },
             {
                 title:'操作',
-                align:'right',
+                align:'center',
                 render:(text,record,index)=>{
                     let tip='启用'
                     if(record.status==1){

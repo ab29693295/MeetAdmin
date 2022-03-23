@@ -77,7 +77,7 @@ class HeaderComponent extends Component {
                                             src={api.tuDomain+userInfo.photo}
                                         />
                                         <span>{userInfo.trueName}</span>
-                                        <DownOutlined style={{ fontSize: '14px',color:'#999' }}/>
+                                        <DownOutlined style={{ fontSize: '12px',color:'#999' }}/>
                                     </Space>
 
                                     {/*</Badge>*/}
