@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Layout,Avatar,Dropdown,Menu,Space} from 'antd'
+import { DownOutlined } from '@ant-design/icons';
 import styles from './css/index.module.css'
 import {connect} from "react-redux";
 import * as user from '@/redux/actions/user'
@@ -23,7 +24,6 @@ class HeaderComponent extends Component {
     }
 
     componentDidMount() {
-        console.log('header')
         let {setAllRoles,allRoles,allProjects,setAllProjects}=this.props
         if(allRoles.length==0){
             getALlRole().then(res=>{
@@ -43,7 +43,7 @@ class HeaderComponent extends Component {
 
     dropMenu(){
         return (
-            <Menu>
+            <Menu style={{textAlign:'center'}}>
                 {/*<Menu.Item key="0">*/}
                 {/*    <a href="http://www.alipay.com/">个人信息</a>*/}
                 {/*</Menu.Item>*/}
@@ -67,15 +67,19 @@ class HeaderComponent extends Component {
                     <Tags/>
                     <div className={styles.user}>
                         <Space>
-                            <span>欢迎您，{userInfo.trueName}</span>
-                            <Dropdown overlay={this.dropMenu} trigger={['click']} placement='bottomCenter'>
+
+                            <Dropdown overlay={this.dropMenu} trigger={['click']} placement='bottomCenter' arrow>
                                 <div className={styles.userImg}>
                                     {/*<Badge dot>*/}
+                                    <Space>
+                                        <Avatar
+                                            size='large'
+                                            src={api.tuDomain+userInfo.photo}
+                                        />
+                                        <span>{userInfo.trueName}</span>
+                                        <DownOutlined style={{ fontSize: '14px',color:'#999' }}/>
+                                    </Space>
 
-                                    <Avatar
-                                        size='large'
-                                        src={api.tuDomain+userInfo.photo}
-                                    />
                                     {/*</Badge>*/}
                                 </div>
                             </Dropdown>
