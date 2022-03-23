@@ -42,7 +42,18 @@ export default class JournalLogin extends Component {
                 width: '20%',
                 align: 'center'
             },
-
+            {
+                title: '真实姓名',
+                dataIndex: 'trueName',
+                width: '10%',
+                align: 'center'
+            },
+            {
+                title: '手机号',
+                dataIndex: 'phone',
+                width: '10%',
+                align: 'center'
+            },
             {
                 title: 'IP地址',
                 dataIndex: 'ip',

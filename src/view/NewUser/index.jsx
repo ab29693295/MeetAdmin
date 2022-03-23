@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Card, Form, Input, Button, Select, Radio, message} from 'antd';
+import {Card, Form, Input, Button, Select, Radio, message,Tooltip} from 'antd';
 import Upload from '@/components/Upload'
 import 'moment/locale/zh-cn';
 import {addOrUpdateUser} from '@/axios/user'
@@ -83,6 +83,7 @@ class NewUser extends Component {
                             pattern: new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "g"),
                             message: '长度至少为6的数字和字母组合，至少含有一个字母和一个数字',}]}
                         className={'formItem'}
+                        tooltip='长度至少为6的数字和字母组合，至少含有一个字母和一个数字'
                     >
                         <Input autoComplete='off' placeholder='请输入用户名' />
                     </Form.Item>

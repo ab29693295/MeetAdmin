@@ -102,6 +102,18 @@ class userInfo extends Component {
                     >
                         <Upload uploadSuccess={this.uploadSuccess} uploadError={this.uploadError}/>
                     </Form.Item>
+                    <Form.Item
+                        label="地址："
+                        name="address"
+                    >
+                        <Input.TextArea placeholder="请输入地址"/>
+                    </Form.Item>
+                    <Form.Item
+                        label="备注："
+                        name="des"
+                    >
+                        <Input.TextArea placeholder="请输入备注" />
+                    </Form.Item>
                     <Form.Item wrapperCol={{ offset: 10, span: 14 }}>
                         <Button type="primary" htmlType="submit">
                             提交

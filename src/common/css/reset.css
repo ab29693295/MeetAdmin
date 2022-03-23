@@ -171,3 +171,6 @@ textarea:disabled {
 .content-card{
     min-height: 500px;
 }
+.ant-table-thead > tr > th{
+    background: #e6e6e6;
+}
