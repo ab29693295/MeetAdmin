@@ -41,11 +41,12 @@ const TagList = (props) => {
             {(router) => {
                 return (
                     <Tag
+                        style={{padding:'5px 10px',borderRadius:'8px',cursor:'pointer'}}
                         onClose={() => {
                            return handleClose(path, router)
                         }}
                         closable
-                        color={router.location.pathname === path ? 'geekblue' : 'gold'}
+                        color={router.location.pathname === path ? '#108ee9' : '#2db7f5'}
                         onClick={e => handleClick(path, router, e)}
                     >{title}</Tag>
                 )
