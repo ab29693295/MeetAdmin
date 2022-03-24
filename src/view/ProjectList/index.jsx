@@ -95,7 +95,7 @@ class ProjectList extends Component {
             })
         })
         let {setAllProjects}=this.props
-        selectProject({key:''}).then(res=>{
+        selectProject({key:'',liveType:0}).then(res=>{
             if(res.success){
                 setAllProjects(res.response)
             }

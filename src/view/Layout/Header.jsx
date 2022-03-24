@@ -33,7 +33,7 @@ class HeaderComponent extends Component {
             })
         }
         if(allProjects.length==0){
-            selectProject({key:''}).then(res=>{
+            selectProject({key:'',liveType:0}).then(res=>{
                 if(res.success){
                     setAllProjects(res.response)
                 }
