@@ -21,7 +21,7 @@ export default class JournalFoot extends Component {
         };
         this.columns = [
             {
-                title: '房间名称',
+                title: '会议名称',
                 dataIndex: 'courseName',
                 width: '20%',
                 align: 'center'
@@ -29,7 +29,7 @@ export default class JournalFoot extends Component {
             {
                 title: '访问时间',
                 dataIndex: 'createDate',
-                width: '20%',
+                width: '10%',
                 align: 'center',
                 render: (text, record) => {
                     let dateStr = formatDateTime(new Date(record.createDate))
@@ -39,7 +39,7 @@ export default class JournalFoot extends Component {
             {
                 title: '停留时长',
                 dataIndex: 'duration',
-                width: '20%',
+                width: '10%',
                 align: 'center'
             },
             {
@@ -59,7 +59,6 @@ export default class JournalFoot extends Component {
             },
             {
                 title: '地区',
-
                 align: 'center',
                 render: (text, record) => {
                     return  <Space>{record.country}{record.province}{record.city}</Space>
