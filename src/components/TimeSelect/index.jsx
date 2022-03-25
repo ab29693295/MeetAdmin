@@ -51,7 +51,7 @@ export default class TimeSelect extends Component {
         this.props.onChange(date)
     }
     render() {
-        console.log(this.props.value)
+        // console.log(this.props.value)
         return (
             <>
                 <RangePicker

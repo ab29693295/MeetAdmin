@@ -34,7 +34,7 @@ export default {
     },
     //获取会议详情
     getRoomDetail(params){
-        return instance.get(api.cnkiDomain + "/api/MeetRoom/GetRoomDetail", { params, withCredentials: false });
+        return instance.get(api.cnkiDomain + "/api/PersonMeetRoom/GetRoomDetail", { params, withCredentials: false });
     },
 
     //获取会议成员
