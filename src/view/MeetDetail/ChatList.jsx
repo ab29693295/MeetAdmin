@@ -40,14 +40,18 @@ export default class ChatList extends Component {
                 dataIndex: 'time',
                 align: 'center',
                 render: (text, record) => {
-                    let dateStr = formatDateTime(new Date(record.time))
+                    let dateStr = formatDateTime(record.time)
                     return <span>{dateStr}</span>
                 }
             },
             {
                 title: '创建时间',
                 dataIndex: 'createDate',
-                align: 'center'
+                align: 'center',
+                render: (text, record) => {
+                    let dateStr = formatDateTime(new Date(record.createDate))
+                    return <span>{dateStr}</span>
+                }
             }
         ];
         this.changePage=this.changePage.bind(this)

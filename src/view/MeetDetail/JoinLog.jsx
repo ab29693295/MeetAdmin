@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Col, Input, Row, Table} from 'antd';
 import axios from '@/axios/index'
+import {formatDateTime} from "@/common/js/tools";
 const {Search} = Input;
 export default class JoinLog extends Component {
     constructor(props) {
@@ -32,7 +33,11 @@ export default class JoinLog extends Component {
             {
                 title: '创建时间',
                 dataIndex: 'createDate',
-                align: 'center'
+                align: 'center',
+                render: (text, record) => {
+                    let dateStr = formatDateTime(new Date(record.createDate))
+                    return <span>{dateStr}</span>
+                }
             }
         ];
         this.changePage=this.changePage.bind(this)
