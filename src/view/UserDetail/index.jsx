@@ -11,7 +11,7 @@ import {
 import api from '../../path/index'
 import {timestampToTime} from '@/utils'
 import {connect} from "react-redux";
-import {formatDateTime} from "../../common/js/tools";
+import {formatDateTime,s_to_hs} from "../../common/js/tools";
 const { TabPane } = Tabs;
 class UserDetail extends Component {
     constructor(props) {
@@ -184,8 +184,8 @@ class UserDetail extends Component {
                                         <List.Item>
                                                 <List.Item.Meta
                                                     avatar={<Avatar shape="square" size={64} />}
-                                                    title={<p>{item.userName}</p>}
-                                                    description={'IP'+item.ip}
+                                                    title={<p>{item.roomName}</p>}
+                                                    description={'参会时长'+s_to_hs(item.totalSecond)}
                                                 />
                                         </List.Item>
                                     )}
