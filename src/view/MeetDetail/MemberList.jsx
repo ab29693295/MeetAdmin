@@ -25,7 +25,7 @@ class MemberList extends Component {
         }
         this.columns = [
             {
-                title: '昵称',
+                title: '用户名',
                 dataIndex: 'userName',
                 align: 'center'
             },
@@ -35,7 +35,7 @@ class MemberList extends Component {
                 align: 'center'
             },
             {
-                title: '参会ID',
+                title: 'peerID',
                 dataIndex: 'peerID',
                 align: 'center'
             },

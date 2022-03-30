@@ -21,14 +21,16 @@ export default class ChatList extends Component {
         };
         this.columns=[
             {
-                title: '昵称',
+                title: '用户名',
                 dataIndex: 'name',
-                align: 'center'
+                align: 'center',
+                width:'10%'
             },
             {
-                title: '用户ID',
+                title: 'peerID',
                 dataIndex: 'id',
-                align: 'center'
+                align: 'center',
+                width:'10%'
             },
             {
                 title: '聊天内容',
@@ -39,8 +41,9 @@ export default class ChatList extends Component {
                 title: '发送时间',
                 dataIndex: 'time',
                 align: 'center',
+                width:'15%',
                 render: (text, record) => {
-                    let dateStr = formatDateTime(record.time)
+                    let dateStr = formatDateTime(Number(record.time))
                     return <span>{dateStr}</span>
                 }
             },
@@ -48,6 +51,7 @@ export default class ChatList extends Component {
                 title: '创建时间',
                 dataIndex: 'createDate',
                 align: 'center',
+                width:'15%',
                 render: (text, record) => {
                     let dateStr = formatDateTime(new Date(record.createDate))
                     return <span>{dateStr}</span>

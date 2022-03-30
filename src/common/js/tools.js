@@ -20,16 +20,39 @@ export function removeStorage(key){
     }
 }
 
-export function formatDateTime(date){
-    let y = date.getFullYear();
-    let m = date.getMonth() + 1;
-    m = m < 10 ? ('0' + m) : m;
-    let d = date.getDate();
-    d = d < 10 ? ('0' + d) : d;
-    let h = date.getHours();
-    let minute = date.getMinutes();
-    minute = minute < 10 ? ('0' + minute) : minute;
-    return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
+export function formatDateTime(timestamp,formats='Y/m/d H:i:s'){
+    if (typeof (timestamp) == 'undefined') {
+        return ''
+    } else {
+
+        let zero = function (value) {
+            if (value < 10) {
+                return '0' + value;
+            }
+            return value;
+        };
+
+        let myDate = timestamp ? new Date(timestamp) : new Date();
+
+        let year = myDate.getFullYear();
+        let month = zero(myDate.getMonth() + 1);
+        let day = zero(myDate.getDate());
+
+        let hour = zero(myDate.getHours());
+        let minite = zero(myDate.getMinutes());
+        let second = zero(myDate.getSeconds());
+
+        return formats.replace(/Y|m|d|H|i|s/ig, function (matches) {
+            return ({
+                Y: year,
+                m: month,
+                d: day,
+                H: hour,
+                i: minite,
+                s: second
+            })[matches];
+        });
+    }
 }
 /**
  *  获取url参数

@@ -184,8 +184,8 @@ class UserDetail extends Component {
                                         <List.Item>
                                                 <List.Item.Meta
                                                     avatar={<Avatar shape="square" size={64} />}
-                                                    title={<p>{item.userInfo}</p>}
-                                                    description={'累计参会'+item.duration}
+                                                    title={<p>{item.userName}</p>}
+                                                    description={'IP'+item.ip}
                                                 />
                                         </List.Item>
                                     )}
@@ -205,8 +205,8 @@ class UserDetail extends Component {
                                     renderItem={item => (
                                         <List.Item>
                                             <List.Item.Meta
-                                                title={<p>{timestampToTime(item.roomName)}</p>}
-                                                description={<Space><span>{'开始时间：'+item.startTime}</span><span>{"结束时间："+item.endTime}</span></Space>}
+                                                title={<p>{item.roomName}</p>}
+                                                description={<Space><span>{'开始时间：'+formatDateTime(item.startTime)}</span><span>{"结束时间："+formatDateTime(item.endTime)}</span></Space>}
                                             />
                                             {/*<div>操作成功</div>*/}
                                         </List.Item>
