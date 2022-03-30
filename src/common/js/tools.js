@@ -20,7 +20,7 @@ export function removeStorage(key){
     }
 }
 
-export function formatDateTime(timestamp,formats='Y/m/d H:i:s'){
+export function formatDateTime(timestamp,formats='Y/m/d H:i'){
     if (typeof (timestamp) == 'undefined') {
         return ''
     } else {
