@@ -5,6 +5,7 @@ import styles from './css/index.module.css'
 import {connect} from "react-redux";
 import * as user from '@/redux/actions/user'
 import * as menu from '@/redux/actions/menu'
+import * as set from '@/redux/actions/set'
 import api from '@/path/index'
 import Tags from './Tags'
 import {setAllRoles,setAllProjects} from "@/redux/actions/set";
@@ -107,12 +108,15 @@ const mapDispatchToProps = dispatch => ({
         dispatch(user.setUserInfo({}))
         dispatch(menu.setSiderMenu([]))
         dispatch(menu.setAllMenus([]));
+        dispatch(set.setAllProjects([]));
+        dispatch(set.setAllRoles([]));
+
     },
     setAllRoles:(allRoles)=>{
-        dispatch(setAllRoles(allRoles));
+        dispatch(set.setAllRoles(allRoles));
     },
     setAllProjects:(allProjects)=>{
-        dispatch(setAllProjects(allProjects));
+        dispatch(set.setAllProjects(allProjects));
     }
 
 })
