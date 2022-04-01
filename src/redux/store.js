@@ -7,7 +7,11 @@ import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import reducers from './reducers/index'
 const loggerMiddleware = createLogger()
-
+const middlewares = [thunk];
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV === `development`) {
+    middlewares.push(loggerMiddleware);
+}
 
 const persistConfig = {
     key: 'root',
@@ -19,7 +23,7 @@ const myPersistReducer = persistReducer(persistConfig, reducers)
 
 const store = createStore(
     myPersistReducer,
-    applyMiddleware(thunk, loggerMiddleware)
+    applyMiddleware( ...middlewares)
 )
 export default store
 export const persistor = persistStore(store)

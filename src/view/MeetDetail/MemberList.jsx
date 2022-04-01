@@ -57,20 +57,20 @@ class MemberList extends Component {
                 dataIndex: 'totalMinutes',
                 align: 'center'
             },
-            {
-                title: '操作',
-                dataIndex: 'option',
-                align: 'center',
-                render:(text, record, index)=>{
-                    return (
-                        <Space size={5}>
-                            <Button size="small" data-record={record}  type="primary" danger>删除</Button>
-                            <Button size="small" type="primary" > 修改</Button>
-                        </Space>
-                    )
-
-                }
-            },
+            // {
+            //     title: '操作',
+            //     dataIndex: 'option',
+            //     align: 'center',
+            //     render:(text, record, index)=>{
+            //         return (
+            //             <Space size={5}>
+            //                 <Button size="small" data-record={record}  type="primary" danger>删除</Button>
+            //                 {/*<Button size="small" type="primary" > 修改</Button>*/}
+            //             </Space>
+            //         )
+            //
+            //     }
+            // },
         ]
         this.getData=this.getData.bind(this)
         this.changPage=this.changPage.bind(this)
@@ -131,9 +131,9 @@ class MemberList extends Component {
                             <Button type="primary"  size="large" onClick={this.showAddModal}>
                                 添加成员
                             </Button>
-                        <Button type="primary"  size="large" >
-                            导入数据
-                        </Button>
+                        {/*<Button type="primary"  size="large" >*/}
+                        {/*    导入数据*/}
+                        {/*</Button>*/}
                     </Space>
                 </Col>
             </Row>

@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {Button, Form, Input, Modal, message} from "antd";
-import styles from "../../MeetList/css/index.module.css";
 import axios from '@/axios'
 class AddUserModal extends Component {
     constructor(props) {
@@ -18,6 +17,8 @@ class AddUserModal extends Component {
             if(res.success){
                 message.success('添加成功')
                 this.props.addModalCallback(true)
+            }else{
+                message.error(res.msg)
             }
         })
     }

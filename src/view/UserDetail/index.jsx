@@ -183,7 +183,7 @@ class UserDetail extends Component {
                                     renderItem={item => (
                                         <List.Item>
                                                 <List.Item.Meta
-                                                    avatar={<Avatar shape="square" size={64} />}
+                                                    // avatar={<Avatar shape="square" size={64} />}
                                                     title={<p>{item.roomName}</p>}
                                                     description={'参会时长'+s_to_hs(item.totalSecond)}
                                                 />
