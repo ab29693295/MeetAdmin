@@ -51,8 +51,8 @@ class HeaderComponent extends Component {
                 {/*<Menu.Item key="1">*/}
                 {/*    <a href="http://www.taobao.com/">系统消息</a>*/}
                 {/*</Menu.Item>*/}
-                <Menu.Item key="2">
-                    <span onClick={this.logout.bind(this)}>退出系统</span>
+                <Menu.Item key="2" onClick={this.logout.bind(this)}>
+                    <span >退出系统</span>
                 </Menu.Item>
             </Menu>
         )
