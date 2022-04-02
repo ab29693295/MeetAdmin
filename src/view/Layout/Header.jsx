@@ -5,7 +5,7 @@ import styles from './css/index.module.css'
 import {connect} from "react-redux";
 import * as user from '@/redux/actions/user'
 import * as menu from '@/redux/actions/menu'
-import * as set from '@/redux/actions/set'
+// import * as set from '@/redux/actions/set'
 import api from '@/path/index'
 import Tags from './Tags'
 import {setAllRoles,setAllProjects} from "@/redux/actions/set";
@@ -59,7 +59,13 @@ class HeaderComponent extends Component {
     }
     logout(){
         this.props.clearInfo();
-        window.location.href='/login'
+        // window.location.href='/login'
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.user.token!=this.props.user.token&&this.props.user.token==''){
+            ///退出后刷新页面重新获取数据
+            window.location.href='/login'
+        }
     }
     render() {
         let {userInfo}=this.props
@@ -96,6 +102,7 @@ class HeaderComponent extends Component {
 const mapStateToProps = (state) =>//将state转到props
 {
     return {
+        user:state.user,
         userInfo: state.user.info,
         allRoles:state.set.allRoles,
         allProjects:state.set.allProjects
@@ -104,19 +111,19 @@ const mapStateToProps = (state) =>//将state转到props
 
 const mapDispatchToProps = dispatch => ({
     clearInfo:()=>{
-        dispatch(user.clearToken());
         dispatch(user.setUserInfo({}))
         dispatch(menu.setSiderMenu([]))
         dispatch(menu.setAllMenus([]));
-        dispatch(set.setAllProjects([]));
-        dispatch(set.setAllRoles([]));
+        dispatch(setAllProjects([]));
+        dispatch(setAllRoles([]));
+        dispatch(user.clearToken());
 
     },
     setAllRoles:(allRoles)=>{
-        dispatch(set.setAllRoles(allRoles));
+        dispatch(setAllRoles(allRoles));
     },
     setAllProjects:(allProjects)=>{
-        dispatch(set.setAllProjects(allProjects));
+        dispatch(setAllProjects(allProjects));
     }
 
 })

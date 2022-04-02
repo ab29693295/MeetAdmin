@@ -8,7 +8,6 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import reducers from './reducers/index'
 const loggerMiddleware = createLogger()
 const middlewares = [thunk];
-console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV === `development`) {
     middlewares.push(loggerMiddleware);
 }
