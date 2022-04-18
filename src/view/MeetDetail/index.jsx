@@ -8,6 +8,7 @@ import ChatList from './ChatList'
 import JoinLog from "./JoinLog";
 import OperateLog from "./OperateLog";
 import RecordVideo from "./RecordVideo";
+import MeetMinutes from "./MeetMinutes";
 const {TabPane} = Tabs;
 
 class name extends Component {
@@ -44,6 +45,9 @@ class name extends Component {
                     </TabPane>
                     <TabPane tab="录制视频列表" key="6">
                         <RecordVideo id={this.props.match.params.id}/>
+                    </TabPane>
+                    <TabPane tab="会议纪要" key="7">
+                        <MeetMinutes id={this.props.match.params.id}/>
                     </TabPane>
                 </Tabs>
             </Card>
