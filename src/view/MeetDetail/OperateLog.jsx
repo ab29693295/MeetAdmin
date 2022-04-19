@@ -50,10 +50,16 @@ export default class OperateLog extends Component {
         let {params}=this.state
         axios.getRoomOperateLog(params).then(res=>{
             if(res.success){
-                this.setState({
-                    data:res.response.data==null?[]:res.response.data,
-                    pageData:{...this.state.pageData,total:res.response.dataCount}
-                })
+                if(res.response.data!=null&&res.response.data.length>0){
+                    let data=res.response.data.map((item,index)=>{
+                        return {...item,key:index}
+                    })
+                    this.setState({
+                        data,
+                        pageData:{...this.state.pageData,total:res.response.dataCount}
+                    })
+                }
+
             }
             this.setState({
                 loading:false
@@ -94,7 +100,6 @@ export default class OperateLog extends Component {
                     </Col>
                 </Row>
                 <Table bordered
-                       rowKey='id'
                        dataSource={data}
                        columns={this.columns}
                        pagination={{position: ['none', 'bottomRight'],total:pageData.total,onChange:this.changePage}}

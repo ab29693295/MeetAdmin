@@ -65,6 +65,11 @@ export default {
     getRoomVideo(params){
         return instance.get(api.cnkiDomain  + "/api/RoomManage/getRoomVideo", { params, withCredentials: false })
     },
+    //获取房间会议纪要
+    getRoomAudioChat(params){
+        return instance.get(api.cnkiDomain  + "/api/RoomManage/GetRoomAudioChat", { params, withCredentials: false })
+    },
+
 
 
 
