@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Card, Form, Input, Button, DatePicker, Select, Radio,message } from 'antd';
+import { Card, Form, Input, Button, InputNumber, Select, Radio,message } from 'antd';
 import 'moment/locale/zh-cn';
 import moment from 'moment';
 import axios from '@/axios'
@@ -21,7 +21,9 @@ class NewMeet extends Component {
                 lockStatus: 0,
                 roomSecret:'',
                 timeRange:[],
-                isSecret: 0
+                isSecret: 0,
+                maxVideoCount:6,
+                isForbidenAudio:0
             },
             id:0,
             proName:'',
@@ -164,14 +166,15 @@ class NewMeet extends Component {
                     className={'form'}
                     initialValues={initialValues}
                     onFinish={this.submitForm}
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
                 >
                     <Form.Item
                         label="会议主题"
                         name="roomName"
                         rules={[{required: true, message: '请填写会议主题！'}]}
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
+
                     >
                         <Input autoComplete='off' placeholder='请输入会议主题'/>
                     </Form.Item>
@@ -180,8 +183,6 @@ class NewMeet extends Component {
                             label="会议机构"
                             name="proID"
                             className={'formItem'}
-                            labelCol={{ span: 6 }}
-                            wrapperCol={{ span: 16 }}
                             rules={[{ required: true,message:'请选择会议机构！'  }]}
                         >
                             <Select placeholder="请选择所在机构" onChange={this.handleAppName}>
@@ -201,18 +202,15 @@ class NewMeet extends Component {
                         name="timeRange"
                         rules={[{required: true, message: '请选择会议时间！'}]}
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
                     >
                         <TimeSelect onChange={this.timeChange}/>
                     </Form.Item>
-                    <Form.Item  label="是否需要密码"
-                                name="isSecret"
-                                className={'formItem'}
-                                labelCol={{ span: 6 }}
-                                wrapperCol={{ span: 16 }}
-                                rules={[{ required: true  }]}
-                                value={0}>
+                    <Form.Item
+                        label="是否需要密码"
+                        name="isSecret"
+                        className={'formItem'}
+                        rules={[{ required: true  }]}
+                        value={0}>
                         <Radio.Group onChange={this.handleSecret} >
                             <Radio value={1}>是</Radio>
                             <Radio value={0}>否</Radio>
@@ -222,8 +220,6 @@ class NewMeet extends Component {
                         label="会议密码"
                         name="roomSecret"
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
                         <Input placeholder='请输入4到6位数字密码' autoComplete='off'/>
@@ -232,8 +228,6 @@ class NewMeet extends Component {
                         label="是否公开"
                         name="isPublic"
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
                         <Radio.Group onChange={this.onChange} value={1}>
@@ -242,11 +236,20 @@ class NewMeet extends Component {
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
+                        label="进入会议自动静音"
+                        name="isForbidenAudio"
+                        className={'formItem'}
+                        rules={[{ required: true  }]}
+                    >
+                        <Radio.Group onChange={this.onChange} >
+                            <Radio value={1}>是</Radio>
+                            <Radio value={0}>否</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item
                         label="锁定状态"
                         name="lockStatus"
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
                         <Radio.Group onChange={this.onChange} >
@@ -258,8 +261,6 @@ class NewMeet extends Component {
                         label="最大参会人数"
                         name="maxCount"
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
                         <Select placeholder="请选择参会人数">
@@ -272,11 +273,23 @@ class NewMeet extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item
+                        label="最多开启视频个数"
+                        name="maxVideoCount"
+                        className={'formItem'}
+                        rules={[{
+                            required: true},{
+                            required: false,
+                            type: 'number',
+                            min: 1,
+                            max: 20
+                        }]}
+                    >
+                        <InputNumber precision={0}/>
+                    </Form.Item>
+                    <Form.Item
                         label="会议主持人"
                         name="hostID"
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
 
                     >
@@ -302,8 +315,6 @@ class NewMeet extends Component {
                         label="会议封面"
                         name="iamgePath"
                         className={'formItem'}
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 16 }}
                         rules={[{ required: true  }]}
                     >
                         <Upload uploadSuccess={this.uploadSuccess} uploadError={this.uploadError} aspect={1.65}/>

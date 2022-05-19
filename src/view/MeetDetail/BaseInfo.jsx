@@ -1,9 +1,9 @@
 import React, {Component} from "react";
-import { Card, Form, Input, Button, DatePicker, Select, Radio,message } from 'antd';
-import styles from '@/view/NewMeet/css/index.module.css'
+import { Form, Input, Button, DatePicker, Select, Radio, message, InputNumber} from 'antd';
+// import styles from '@/view/NewMeet/css/index.module.css'
 import 'moment/locale/zh-cn';
 import moment from 'moment';
-import locale from 'antd/es/date-picker/locale/zh_CN';
+// import locale from 'antd/es/date-picker/locale/zh_CN';
 import axios from '@/axios'
 import Upload from '@/components/Upload'
 import TimeSelect from "../../components/TimeSelect";
@@ -255,6 +255,17 @@ class BaseInfo extends Component {
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
+                        label="进入会议自动静音"
+                        name="isForbidenAudio"
+                        className={'formItem'}
+                        rules={[{ required: true  }]}
+                    >
+                        <Radio.Group onChange={this.onChange} >
+                            <Radio value={1}>是</Radio>
+                            <Radio value={0}>否</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item
                         label="锁定状态"
                         name="lockStatus"
                         className={'formItem'}
@@ -283,6 +294,20 @@ class BaseInfo extends Component {
                             <Option value={50}>50</Option>
                             <Option value={60}>60</Option>
                         </Select>
+                    </Form.Item>
+                    <Form.Item
+                        label="最多开启视频个数"
+                        name="maxVideoCount"
+                        className={'formItem'}
+                        rules={[{
+                            required: true},{
+                            required: false,
+                            type: 'number',
+                            min: 1,
+                            max: 20
+                        }]}
+                    >
+                        <InputNumber precision={0}/>
                     </Form.Item>
                     <Form.Item
                         label="会议主持人"
