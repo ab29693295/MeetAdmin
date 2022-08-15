@@ -23,7 +23,7 @@ class ShowModal extends Component {
     copyText() {
         let {path}=this.state;
         let {id}=this.props
-        copy(path+'/join/'+id)
+        copy(path+'/selectMedia/'+id)
         message.success({
             content: '复制成功！'
         });
